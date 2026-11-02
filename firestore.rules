@@ -1,0 +1,60 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isEditor() { return signedIn() && (request.auth.token.role == 'editor' || request.auth.token.role == 'admin'); }
+    function isAdmin() { return signedIn() && request.auth.token.role == 'admin'; }
+    function isOwner(uid) { return signedIn() && request.auth.uid == uid; }
+
+    // ---- Content: public read, no client writes (service account via n8n / Cloud Functions only) ----
+    match /countries/{id}        { allow read: if true; allow write: if false; }
+    match /corridors/{id}        { allow read: if true; allow write: if false; }
+    match /pathways/{id}         { allow read: if true; allow write: if false; }
+    match /requirements/{id}     { allow read: if true; allow write: if false; }
+    match /residencePermits/{id} { allow read: if true; allow write: if false; }
+    match /funding/{id}          { allow read: if true; allow write: if false; }
+    match /occupations/{id}      { allow read: if true; allow write: if false; }
+    match /jobs/{id}             { allow read: if true; allow write: if false; }
+    match /trustAlerts/{id}      { allow read: if true; allow write: if false; }
+    match /providers/{id}        { allow read: if true; allow write: if false; }
+
+    // history of every applied change (subcollection on content docs)
+    match /{collection}/{id}/history/{changeId} { allow read: if isEditor(); allow write: if false; }
+
+    // ---- Editorial ----
+    match /sources/{id} {
+      allow read: if isEditor();
+      allow update: if isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['active', 'cadenceDays', 'ownerUid', 'selector']);
+      allow create, delete: if false;
+    }
+    match /changeRequests/{id} {
+      allow read: if isEditor();
+      // A reviewer may only move pending -> approved/rejected and add the reviewer block. Applying is done by the service account.
+      allow update: if isEditor()
+        && resource.data.status == 'pending'
+        && request.resource.data.status in ['approved', 'rejected']
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'reviewer'])
+        && request.resource.data.reviewer.uid == request.auth.uid;
+      allow create, delete: if false;
+    }
+    match /refreshRuns/{id} { allow read: if isEditor(); allow write: if false; }
+
+    // ---- Users: owner only ----
+    match /users/{uid} {
+      allow read: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && !('roles' in request.resource.data);
+      allow update: if isOwner(uid) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['roles']);
+      allow delete: if isOwner(uid);
+
+      match /goals/{goalId}     { allow read, write: if isOwner(uid); }
+      match /documents/{docId}  { allow read, write: if isOwner(uid); }
+      match /outcomes/{id}      { allow read, write: if isOwner(uid); }
+      // plans are computed server-side
+      match /plans/{goalId}     { allow read: if isOwner(uid); allow write: if false; }
+    }
+
+    // provider self-service (phase 2): providers edit their own listing via a Cloud Function, not directly
+    match /{document=**} { allow read, write: if false; }
+  }
+}

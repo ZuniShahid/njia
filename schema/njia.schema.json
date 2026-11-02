@@ -1,0 +1,1652 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://njia.app/schema/v1",
+  "title": "Njia data model v1",
+  "description": "Firestore document shapes. Every content document carries `provenance`. Content collections are written only by the service account (n8n / Cloud Functions); clients read.",
+  "$defs": {
+    "provenance": {
+      "type": "object",
+      "description": "Where a fact comes from and how far it can be trusted. Shown in the UI as 'Stand <verifiedAt> · Quelle <source>'.",
+      "required": [
+        "sourceId",
+        "trust",
+        "fetchedAt"
+      ],
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "description": "sources/{id}"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "quote": {
+          "type": "string",
+          "description": "Verbatim text from the source that supports the value (max 400 chars)."
+        },
+        "trust": {
+          "enum": [
+            "official",
+            "api",
+            "partner",
+            "editorial",
+            "community",
+            "estimate"
+          ]
+        },
+        "fetchedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verifiedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "description": "Last human approval. null = never approved by a human."
+        },
+        "verifiedBy": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "users/{uid} of the reviewer"
+        },
+        "validUntil": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date",
+          "description": "Date after which the value must be re-checked (e.g. end of scholarship round)."
+        },
+        "changeRequestId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "money": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217"
+        },
+        "period": {
+          "enum": [
+            "once",
+            "month",
+            "semester",
+            "year"
+          ]
+        }
+      }
+    },
+    "moneyRange": {
+      "type": "object",
+      "required": [
+        "min",
+        "max",
+        "currency"
+      ],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "period": {
+          "enum": [
+            "once",
+            "month",
+            "semester",
+            "year"
+          ]
+        }
+      }
+    },
+    "localized": {
+      "type": "object",
+      "description": "Short text keyed by BCP-47 language. 'en' is required; other languages optional.",
+      "required": [
+        "en"
+      ],
+      "properties": {
+        "en": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "cefr": {
+      "enum": [
+        "A1",
+        "A2",
+        "B1",
+        "B2",
+        "C1",
+        "C2"
+      ]
+    },
+    "isced": {
+      "enum": [
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "description": "ISCED 2011 level: 3 upper secondary, 4 post-secondary non-tertiary, 5 short-cycle, 6 bachelor, 7 master, 8 doctorate"
+    },
+    "pathwayType": {
+      "enum": [
+        "bachelor",
+        "master",
+        "phd",
+        "vocational",
+        "course",
+        "language_course",
+        "test",
+        "internship",
+        "trainee",
+        "job"
+      ]
+    },
+    "requirementType": {
+      "enum": [
+        "language_test",
+        "degree",
+        "grade",
+        "recognition",
+        "funds",
+        "experience",
+        "document",
+        "age",
+        "insurance",
+        "admission",
+        "exam",
+        "other"
+      ]
+    },
+    "permitType": {
+      "enum": [
+        "student",
+        "language_course",
+        "job_seeker",
+        "work",
+        "blue_card",
+        "trainee",
+        "researcher",
+        "family"
+      ]
+    },
+    "fundingType": {
+      "enum": [
+        "scholarship",
+        "grant",
+        "loan",
+        "blocked_account",
+        "tuition_waiver",
+        "work_study",
+        "insurance"
+      ]
+    },
+    "providerType": {
+      "enum": [
+        "tutor",
+        "language_school",
+        "test_centre",
+        "coach",
+        "agency",
+        "university_office",
+        "ngo"
+      ]
+    },
+    "sourceType": {
+      "enum": [
+        "official",
+        "api",
+        "partner",
+        "editorial",
+        "community"
+      ]
+    },
+    "difficulty": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1 easy … 5 very hard. Editorial estimate until calibrated with user outcomes."
+    }
+  },
+  "collections": {
+    "countries": {
+      "docId": "ISO 3166-1 alpha-2 (e.g. DE)",
+      "type": "object",
+      "required": [
+        "name",
+        "currency",
+        "languages",
+        "region",
+        "provenance"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/localized"
+        },
+        "region": {
+          "enum": [
+            "europe",
+            "africa",
+            "americas",
+            "asia",
+            "oceania"
+          ]
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Main languages of instruction/daily life, BCP-47"
+        },
+        "livingCostMonthly": {
+          "$ref": "#/$defs/moneyRange"
+        },
+        "tuitionNonEu": {
+          "$ref": "#/$defs/moneyRange",
+          "description": "Typical public-university tuition for third-country students"
+        },
+        "englishTaughtOffer": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "postStudyWork": {
+          "type": "object",
+          "properties": {
+            "months": {
+              "type": "integer"
+            },
+            "permitId": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "recognitionBody": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Destination offered in the app"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "corridors": {
+      "docId": "<origin>-<destination> (e.g. SL-DE)",
+      "type": "object",
+      "required": [
+        "origin",
+        "destination",
+        "visaApplication",
+        "provenance"
+      ],
+      "properties": {
+        "origin": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "summary": {
+          "$ref": "#/$defs/localized"
+        },
+        "visaApplication": {
+          "type": "object",
+          "description": "Where a resident of origin applies for destination's long-stay visa",
+          "required": [
+            "city",
+            "country"
+          ],
+          "properties": {
+            "authority": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "provider": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "External service provider, e.g. VFS, TLScontact, CAPAGO"
+            },
+            "decidedIn": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Where the decision is taken if different"
+            },
+            "url": {
+              "type": "string"
+            },
+            "travelRequired": {
+              "type": "boolean"
+            }
+          }
+        },
+        "schoolLeavingRecognition": {
+          "type": "object",
+          "properties": {
+            "originQualification": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string"
+            },
+            "note": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "scoreBase": {
+          "type": "object",
+          "description": "Editorial priors used by realism/difficulty until calibrated",
+          "properties": {
+            "difficulty": {
+              "$ref": "#/$defs/difficulty"
+            },
+            "visaApprovalRate": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          }
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "pathways": {
+      "docId": "slug",
+      "type": "object",
+      "required": [
+        "type",
+        "title",
+        "countryId",
+        "requirementIds",
+        "provenance"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/pathwayType"
+        },
+        "title": {
+          "type": "string"
+        },
+        "institution": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "institutionId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "countryId": {
+          "type": "string"
+        },
+        "city": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "isced": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/isced"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "field": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "ISCED-F 2013 broad field code, e.g. 041 business"
+        },
+        "languageOfInstruction": {
+          "type": "string"
+        },
+        "durationMonths": {
+          "type": "integer"
+        },
+        "mode": {
+          "enum": [
+            "on_site",
+            "online",
+            "hybrid"
+          ]
+        },
+        "tuition": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/moneyRange"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "intakes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "YYYY-MM"
+          }
+        },
+        "applicationDeadline": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "requirementIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fundingIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "leadsToOccupationIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "unlocksPermitIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "published",
+            "withdrawn"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "requirements": {
+      "docId": "slug (e.g. ielts-6-5, de-blocked-account-2026)",
+      "type": "object",
+      "required": [
+        "type",
+        "label",
+        "provenance"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/requirementType"
+        },
+        "label": {
+          "$ref": "#/$defs/localized"
+        },
+        "key": {
+          "type": "string",
+          "description": "Machine key matched against profile facts, e.g. language.en.ielts"
+        },
+        "operator": {
+          "enum": [
+            ">=",
+            "<=",
+            "==",
+            "in",
+            "exists"
+          ]
+        },
+        "value": {},
+        "cefr": {
+          "$ref": "#/$defs/cefr"
+        },
+        "money": {
+          "$ref": "#/$defs/money"
+        },
+        "evidenceDocType": {
+          "type": "string",
+          "description": "documents/{type} that proves it, e.g. ielts_certificate"
+        },
+        "validityMonths": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "howToMeet": {
+          "$ref": "#/$defs/localized"
+        },
+        "providerTypes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/providerType"
+          },
+          "description": "Which provider types can help meet it"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "residencePermits": {
+      "docId": "<country>-<type> (e.g. DE-student)",
+      "type": "object",
+      "required": [
+        "countryId",
+        "type",
+        "name",
+        "requirementIds",
+        "provenance"
+      ],
+      "properties": {
+        "countryId": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/permitType"
+        },
+        "name": {
+          "$ref": "#/$defs/localized"
+        },
+        "legalBasis": {
+          "type": "string"
+        },
+        "fee": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "processingWeeks": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            }
+          }
+        },
+        "fundsProof": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "workRights": {
+          "type": "object",
+          "properties": {
+            "allowed": {
+              "type": "boolean"
+            },
+            "limit": {
+              "type": "string"
+            }
+          }
+        },
+        "durationMonths": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "requirementIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "followOnPermitIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checklist": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "docType": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "url": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "funding": {
+      "docId": "slug",
+      "type": "object",
+      "required": [
+        "type",
+        "name",
+        "funder",
+        "countryIds",
+        "eligibility",
+        "provenance"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/fundingType"
+        },
+        "name": {
+          "type": "string"
+        },
+        "funder": {
+          "type": "string"
+        },
+        "countryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Destination countries"
+        },
+        "amount": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/moneyRange"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "covers": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "tuition",
+              "living",
+              "travel",
+              "insurance",
+              "visa",
+              "language_course"
+            ]
+          }
+        },
+        "eligibility": {
+          "type": "object",
+          "properties": {
+            "nationalities": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "ISO alpha-2 or 'any'"
+            },
+            "isced": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/isced"
+              }
+            },
+            "fields": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "maxAge": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "minExperienceMonths": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "applicationWindow": {
+          "type": "object",
+          "properties": {
+            "opens": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "closes": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "difficulty": {
+          "$ref": "#/$defs/difficulty"
+        },
+        "requirementIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "howToApply": {
+          "$ref": "#/$defs/localized"
+        },
+        "url": {
+          "type": "string"
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "occupations": {
+      "docId": "ESCO URI tail or ISCO-08 code (e.g. isco-2413)",
+      "type": "object",
+      "required": [
+        "title",
+        "provenance"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/localized"
+        },
+        "iscoCode": {
+          "type": "string"
+        },
+        "escoUri": {
+          "type": "string"
+        },
+        "salaryBands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "countryId",
+              "currency"
+            ],
+            "properties": {
+              "countryId": {
+                "type": "string"
+              },
+              "region": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "level": {
+                "enum": [
+                  "entry",
+                  "mid",
+                  "senior"
+                ]
+              },
+              "p25": {
+                "type": "number"
+              },
+              "median": {
+                "type": "number"
+              },
+              "p75": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "period": {
+                "enum": [
+                  "month",
+                  "year"
+                ]
+              },
+              "provenance": {
+                "$ref": "#/$defs/provenance"
+              }
+            }
+          }
+        },
+        "shortage": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "countryId": {
+                "type": "string"
+              },
+              "listed": {
+                "type": "boolean"
+              },
+              "listName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "jobs": {
+      "docId": "<source>-<externalId>",
+      "description": "High-churn. Imported from APIs/feeds; no human approval, but trust=api and a TTL.",
+      "type": "object",
+      "required": [
+        "title",
+        "countryId",
+        "source",
+        "expireAt"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "employer": {
+          "type": "string"
+        },
+        "countryId": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "occupationId": {
+          "type": "string"
+        },
+        "level": {
+          "enum": [
+            "internship",
+            "entry",
+            "mid",
+            "senior"
+          ]
+        },
+        "salary": {
+          "$ref": "#/$defs/moneyRange"
+        },
+        "salaryIsEstimate": {
+          "type": "boolean"
+        },
+        "languageRequired": {
+          "type": "string"
+        },
+        "visaSponsorship": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "url": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "postedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expireAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Firestore TTL field"
+        }
+      }
+    },
+    "providers": {
+      "docId": "slug",
+      "type": "object",
+      "required": [
+        "type",
+        "name",
+        "verification",
+        "provenance"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/providerType"
+        },
+        "name": {
+          "type": "string"
+        },
+        "services": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "requirement ids they help with, e.g. ielts-6-5"
+        },
+        "countryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "online": {
+          "type": "boolean"
+        },
+        "priceFrom": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/money"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "verification": {
+          "enum": [
+            "unverified",
+            "documents_checked",
+            "verified",
+            "suspended"
+          ]
+        },
+        "rating": {
+          "type": "object",
+          "properties": {
+            "avg": {
+              "type": "number"
+            },
+            "count": {
+              "type": "integer"
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          }
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "sources": {
+      "docId": "slug",
+      "type": "object",
+      "required": [
+        "name",
+        "url",
+        "type",
+        "cadenceDays",
+        "targets"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/$defs/sourceType"
+        },
+        "license": {
+          "type": "string"
+        },
+        "cadenceDays": {
+          "type": "integer"
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "collection": {
+                "type": "string"
+              },
+              "docId": {
+                "type": "string"
+              },
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "description": "Which documents/fields this source feeds; the extractor only proposes changes to these."
+        },
+        "extractor": {
+          "enum": [
+            "none",
+            "html_diff",
+            "claude_schema",
+            "api"
+          ]
+        },
+        "selector": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "CSS selector to limit the fetched region"
+        },
+        "ownerUid": {
+          "type": "string"
+        },
+        "lastFetchedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastCheckedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastHash": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastStatus": {
+          "enum": [
+            "ok",
+            "changed",
+            "error",
+            "never"
+          ]
+        },
+        "active": {
+          "type": "boolean"
+        }
+      }
+    },
+    "trustAlerts": {
+      "docId": "slug",
+      "type": "object",
+      "required": [
+        "title",
+        "pattern",
+        "severity",
+        "provenance"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/localized"
+        },
+        "pattern": {
+          "$ref": "#/$defs/localized",
+          "description": "How the scam looks"
+        },
+        "advice": {
+          "$ref": "#/$defs/localized"
+        },
+        "countryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "critical"
+          ]
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provenance": {
+          "$ref": "#/$defs/provenance"
+        }
+      }
+    },
+    "changeRequests": {
+      "docId": "auto",
+      "description": "Approval queue. Created by n8n/extractor, decided by a human, applied by n8n.",
+      "type": "object",
+      "required": [
+        "targetCollection",
+        "targetId",
+        "op",
+        "after",
+        "status",
+        "createdAt",
+        "sourceId"
+      ],
+      "properties": {
+        "runId": {
+          "type": "string"
+        },
+        "targetCollection": {
+          "type": "string"
+        },
+        "targetId": {
+          "type": "string"
+        },
+        "op": {
+          "enum": [
+            "create",
+            "update",
+            "delete"
+          ]
+        },
+        "before": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "after": {
+          "type": "object"
+        },
+        "diff": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "from": {},
+              "to": {}
+            }
+          }
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string"
+            },
+            "quote": {
+              "type": "string"
+            },
+            "fetchedAt": {
+              "type": "string"
+            }
+          }
+        },
+        "extractedBy": {
+          "type": "string",
+          "description": "model id or 'manual'"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "approved",
+            "rejected",
+            "applied",
+            "failed"
+          ]
+        },
+        "reviewer": {
+          "type": "object",
+          "properties": {
+            "uid": {
+              "type": "string"
+            },
+            "channel": {
+              "enum": [
+                "email",
+                "whatsapp",
+                "admin_ui"
+              ]
+            },
+            "note": {
+              "type": "string"
+            },
+            "decidedAt": {
+              "type": "string"
+            }
+          }
+        },
+        "approvalToken": {
+          "type": "string",
+          "description": "HMAC token embedded in approve/reject links"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "appliedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "error": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "refreshRuns": {
+      "docId": "auto",
+      "type": "object",
+      "properties": {
+        "startedAt": {
+          "type": "string"
+        },
+        "finishedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sourcesChecked": {
+          "type": "integer"
+        },
+        "sourcesChanged": {
+          "type": "integer"
+        },
+        "sourcesFailed": {
+          "type": "integer"
+        },
+        "changeRequestIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "running",
+            "done",
+            "failed"
+          ]
+        },
+        "notifiedAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "users": {
+      "docId": "Firebase Auth uid",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "residenceCountry": {
+          "type": "string"
+        },
+        "birthYear": {
+          "type": "integer"
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "isced": {
+                "$ref": "#/$defs/isced"
+              },
+              "field": {
+                "type": "string"
+              },
+              "institution": {
+                "type": "string"
+              },
+              "country": {
+                "type": "string"
+              },
+              "gradeScale": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "string"
+              },
+              "year": {
+                "type": "integer"
+              },
+              "status": {
+                "enum": [
+                  "in_progress",
+                  "completed"
+                ]
+              }
+            }
+          }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "lang": {
+                "type": "string"
+              },
+              "cefr": {
+                "$ref": "#/$defs/cefr"
+              },
+              "test": {
+                "type": "string"
+              },
+              "score": {
+                "type": "string"
+              },
+              "testDate": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "experienceMonths": {
+          "type": "integer"
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "savings": {
+          "$ref": "#/$defs/money"
+        },
+        "monthlySupport": {
+          "$ref": "#/$defs/money"
+        },
+        "facts": {
+          "type": "object",
+          "description": "Flattened key→value map matched against requirements.key, e.g. {\"language.en.ielts\": 6.5, \"funds.eur\": 3000}"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "editor",
+              "admin"
+            ]
+          },
+          "description": "Mirrored from custom claims; editors approve change requests"
+        },
+        "consents": {
+          "type": "object",
+          "properties": {
+            "analytics": {
+              "type": "boolean"
+            },
+            "outcomeSharing": {
+              "type": "boolean"
+            }
+          }
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "subcollections": {
+        "goals": {
+          "docId": "auto",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "occupationId": {
+              "type": "string"
+            },
+            "countryId": {
+              "type": "string"
+            },
+            "targetYear": {
+              "type": "integer"
+            },
+            "salaryTarget": {
+              "$ref": "#/$defs/money"
+            },
+            "priority": {
+              "type": "integer"
+            },
+            "pathwayIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "createdAt": {
+              "type": "string"
+            }
+          }
+        },
+        "plans": {
+          "docId": "goalId",
+          "description": "Computed roadmap: phases, steps, costs, scores. Rebuilt by Cloud Function when goal/profile/content changes.",
+          "properties": {
+            "phases": {
+              "type": "array"
+            },
+            "steps": {
+              "type": "array"
+            },
+            "costs": {
+              "type": "array"
+            },
+            "scores": {
+              "type": "object",
+              "properties": {
+                "readiness": {
+                  "type": "number"
+                },
+                "difficulty": {
+                  "type": "number"
+                },
+                "realism": {
+                  "type": "number"
+                }
+              }
+            },
+            "contentVersion": {
+              "type": "string"
+            },
+            "computedAt": {
+              "type": "string"
+            }
+          }
+        },
+        "documents": {
+          "docId": "auto",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "storagePath": {
+              "type": "string"
+            },
+            "issuedAt": {
+              "type": "string"
+            },
+            "expiresAt": {
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "uploaded",
+                "checked",
+                "expired"
+              ]
+            }
+          }
+        },
+        "outcomes": {
+          "docId": "auto",
+          "description": "What actually happened (admission, visa, job). Feeds score calibration, only with consent.",
+          "properties": {
+            "goalId": {
+              "type": "string"
+            },
+            "pathwayId": {
+              "type": "string"
+            },
+            "kind": {
+              "enum": [
+                "admission",
+                "visa",
+                "scholarship",
+                "job"
+              ]
+            },
+            "result": {
+              "enum": [
+                "granted",
+                "refused",
+                "withdrawn"
+              ]
+            },
+            "date": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

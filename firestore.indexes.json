@@ -1,0 +1,29 @@
+{
+  "indexes": [
+    { "collectionGroup": "pathways", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "countryId", "order": "ASCENDING" }, { "fieldPath": "type", "order": "ASCENDING" }, { "fieldPath": "status", "order": "ASCENDING" } ] },
+    { "collectionGroup": "pathways", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "leadsToOccupationIds", "arrayConfig": "CONTAINS" }, { "fieldPath": "countryId", "order": "ASCENDING" } ] },
+    { "collectionGroup": "funding", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "countryIds", "arrayConfig": "CONTAINS" }, { "fieldPath": "difficulty", "order": "ASCENDING" } ] },
+    { "collectionGroup": "funding", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "eligibility.nationalities", "arrayConfig": "CONTAINS" }, { "fieldPath": "applicationWindow.closes", "order": "ASCENDING" } ] },
+    { "collectionGroup": "residencePermits", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "countryId", "order": "ASCENDING" }, { "fieldPath": "type", "order": "ASCENDING" } ] },
+    { "collectionGroup": "jobs", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "countryId", "order": "ASCENDING" }, { "fieldPath": "occupationId", "order": "ASCENDING" }, { "fieldPath": "postedAt", "order": "DESCENDING" } ] },
+    { "collectionGroup": "jobs", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "countryId", "order": "ASCENDING" }, { "fieldPath": "level", "order": "ASCENDING" }, { "fieldPath": "salary.min", "order": "DESCENDING" } ] },
+    { "collectionGroup": "changeRequests", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "status", "order": "ASCENDING" }, { "fieldPath": "createdAt", "order": "DESCENDING" } ] },
+    { "collectionGroup": "changeRequests", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "runId", "order": "ASCENDING" }, { "fieldPath": "status", "order": "ASCENDING" } ] },
+    { "collectionGroup": "sources", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "active", "order": "ASCENDING" }, { "fieldPath": "lastCheckedAt", "order": "ASCENDING" } ] },
+    { "collectionGroup": "providers", "queryScope": "COLLECTION", "fields": [
+      { "fieldPath": "services", "arrayConfig": "CONTAINS" }, { "fieldPath": "verification", "order": "ASCENDING" } ] }
+  ],
+  "fieldOverrides": [
+    { "collectionGroup": "jobs", "fieldPath": "expireAt", "ttl": true, "indexes": [] }
+  ]
+}
