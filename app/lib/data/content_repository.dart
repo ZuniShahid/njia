@@ -6,31 +6,51 @@ import '../core/engine/content_bundle.dart';
 import '../core/models/models.dart';
 import 'firestore_codec.dart';
 
-class ContentRepository {
-  ContentRepository(this._db);
+abstract class ContentRepository {
+  Future<String?> contentVersion();
+  Future<List<Country>> countries();
+  Future<Country?> country(String id);
+  Future<List<Occupation>> occupations();
+  Future<List<TrustAlert>> trustAlerts(String countryId);
+  Future<List<ContentSource>> sources();
+
+  /// Everything the engine needs for one corridor (origin → destination), ≈ < 200 KB.
+  Future<ContentBundle> corridorBundle({String origin = 'SL', required String destination});
+}
+
+class FirestoreContentRepository implements ContentRepository {
+  FirestoreContentRepository(this._db);
 
   final FirebaseFirestore _db;
 
   CollectionReference<Map<String, dynamic>> _c(String name) => _db.collection(name);
 
+  @override
   Future<String?> contentVersion() async {
     final doc = await _db.doc('meta/content').get();
     return doc.data()?['version'] as String?;
   }
 
+  @override
   Future<List<Country>> countries() async => (await _c('countries').where('active', isEqualTo: true).get()).parse(Country.fromJson);
 
+  @override
   Future<Country?> country(String id) async {
     final doc = await _c('countries').doc(id).get();
     return doc.exists ? Country.fromJson(docToJson(doc)) : null;
   }
 
+  @override
+  Future<List<Occupation>> occupations() async => (await _c('occupations').get()).parse(Occupation.fromJson);
+
+  @override
   Future<List<TrustAlert>> trustAlerts(String countryId) async =>
       (await _c('trustAlerts').where('countryIds', arrayContains: countryId).get()).parse(TrustAlert.fromJson);
 
+  @override
   Future<List<ContentSource>> sources() async => (await _c('sources').get()).parse(ContentSource.fromJson);
 
-  /// Everything the engine needs for one corridor (origin → destination), ≈ < 200 KB.
+  @override
   Future<ContentBundle> corridorBundle({String origin = 'SL', required String destination}) async {
     final results = await Future.wait([
       _c('countries').where(FieldPath.documentId, whereIn: [origin, destination]).get(),

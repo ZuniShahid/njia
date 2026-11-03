@@ -1473,6 +1473,9 @@
               },
               "testDate": {
                 "type": "string"
+              },
+              "native": {
+                "type": "boolean"
               }
             }
           }
@@ -1519,6 +1522,97 @@
         },
         "createdAt": {
           "type": "string"
+        },
+        "phone": {
+          "type": "string",
+          "description": "E.164, for SMS / WhatsApp reminders"
+        },
+        "city": {
+          "type": "string"
+        },
+        "strengths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "customInterests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "User-added interest chips (removable)"
+        },
+        "customStrengths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "User-added strength chips (removable)"
+        },
+        "supportSource": {
+          "type": "string",
+          "description": "Who supports the student financially (never shown to employers)"
+        },
+        "earliestMoveYear": {
+          "type": "integer"
+        },
+        "graduationYear": {
+          "type": "integer"
+        },
+        "passportValidUntil": {
+          "type": "string",
+          "description": "YYYY-MM"
+        },
+        "preferredCountryIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "string",
+          "description": "Things the plan must respect (family duties, work, health, religion)"
+        },
+        "notifications": {
+          "type": "object",
+          "properties": {
+            "whatsapp": {
+              "type": "boolean"
+            },
+            "sms": {
+              "type": "boolean"
+            },
+            "email": {
+              "type": "boolean"
+            },
+            "weekly": {
+              "type": "boolean"
+            }
+          }
+        },
+        "activeGoalId": {
+          "type": "string",
+          "description": "users/{uid}/goals/{id} shown in the cockpit"
+        },
+        "experience": {
+          "type": "array",
+          "description": "Work experience entries; experienceMonths is kept in sync (sum)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "role": {
+                "type": "string"
+              },
+              "where": {
+                "type": "string",
+                "description": "Organisation · place · when"
+              },
+              "months": {
+                "type": "integer"
+              }
+            }
+          }
         }
       },
       "subcollections": {
@@ -1550,6 +1644,49 @@
               }
             },
             "createdAt": {
+              "type": "string"
+            },
+            "employer": {
+              "type": "string"
+            },
+            "area": {
+              "type": "string"
+            },
+            "city": {
+              "type": "string"
+            },
+            "field": {
+              "enum": [
+                "finance",
+                "tech",
+                "health",
+                "engineering",
+                "business"
+              ],
+              "description": "Broad field, used for alternatives and copy"
+            },
+            "priorities": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "What matters most, e.g. Salary, Stability"
+            },
+            "alternatives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Open to alternatives, e.g. Other EU countries"
+            },
+            "relocate": {
+              "type": "boolean",
+              "description": "Willing to move abroad"
+            },
+            "why": {
+              "type": "string"
+            },
+            "updatedAt": {
               "type": "string"
             }
           }

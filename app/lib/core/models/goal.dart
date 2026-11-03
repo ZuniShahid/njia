@@ -9,6 +9,31 @@ part 'goal.freezed.dart';
 part 'goal.g.dart';
 
 
+/// Broad field, used for alternatives and copy
+enum GoalField {
+  @JsonValue('finance')
+  finance,
+  @JsonValue('tech')
+  tech,
+  @JsonValue('health')
+  health,
+  @JsonValue('engineering')
+  engineering,
+  @JsonValue('business')
+  business,
+}
+
+extension GoalFieldJson on GoalField {
+  /// The wire value as stored in Firestore / the schema.
+  String get value => switch (this) {
+        GoalField.finance => 'finance',
+        GoalField.tech => 'tech',
+        GoalField.health => 'health',
+        GoalField.engineering => 'engineering',
+        GoalField.business => 'business',
+      };
+}
+
 /// Doc id: auto
 @freezed
 abstract class Goal with _$Goal {
@@ -23,6 +48,20 @@ abstract class Goal with _$Goal {
     int? priority,
     @Default([]) List<String> pathwayIds,
     String? createdAt,
+    String? employer,
+    String? area,
+    String? city,
+    /// Broad field, used for alternatives and copy
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    GoalField? field,
+    /// What matters most, e.g. Salary, Stability
+    @Default([]) List<String> priorities,
+    /// Open to alternatives, e.g. Other EU countries
+    @Default([]) List<String> alternatives,
+    /// Willing to move abroad
+    bool? relocate,
+    String? why,
+    String? updatedAt,
   }) = _Goal;
 
   factory Goal.fromJson(Map<String, dynamic> json) => _$GoalFromJson(json);

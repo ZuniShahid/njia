@@ -7,7 +7,8 @@ UI reference: `prototype/njia.html` (v8) and `docs/prototype-notes.md` – port 
 flutter pub get
 flutter test                      # engine port (4 cases + parity with engine.mjs), seed round-trips, app smoke test
 flutter analyze
-flutter run -d chrome             # runs without Firebase until firebase_options.dart is real (see below)
+flutter run -d chrome                         # real Firebase (web config is in firebase_options.dart)
+flutter run -d chrome -t lib/main_preview.dart   # sample data, no Firebase – look at screens without signing in
 ```
 
 ## Layout (docs/architecture.md)
@@ -22,11 +23,12 @@ lib/
   core/models/                GENERATED from ../schema/njia.schema.json – see below. plan.dart is hand-written (engine shape).
   core/engine/                Dart port of ../functions/src/engine.mjs (engine.dart) + ContentBundle. Keep in sync!
   data/                       content_repository · user_repository · jobs_repository · firestore_codec (Timestamp → ISO, id in/out)
-  features/<view>/            one folder per screen; currently placeholders (handover task 5)
-  shared/                     format.dart (dates, money) · widgets/provenance_chip.dart · widgets/skeleton_view.dart
+  features/<view>/            one folder per screen. Built: auth, profile, goal (form, drawer, page). Placeholders: the rest (task 5)
+  preview/                    sample_data.dart (Aminata Kamara, 2 goals) · fakes.dart (in-memory auth/user/content) – used by main_preview.dart and tests
+  shared/                     format.dart (dates, money) · widgets/ui.dart (PageHead, badges, accordion, chips, fields…) · provenance_chip · view_scaffold
 assets/fonts/                 Plus Jakarta Sans (OFL), the prototype font
 test/                         engine_test (the 4 cases from functions/test) · engine_parity_test (fixture from the JS engine)
-                              models_test (every seed doc round-trips) · app_test (routing + shell smoke test)
+                              models_test (every seed doc round-trips) · app_test (routing + shell) · auth_test · profile_test · goal_test
 ```
 
 ## Models
@@ -49,6 +51,13 @@ Dates stay ISO strings (`firestore_codec.dart` converts Firestore Timestamps on 
 `buildPlan`, `evaluateRequirement`, `readinessScore`, `selectPathways`, `factsFromProfile` – same names and semantics as
 `engine.mjs`. The server plan is canonical; the port is for instant previews (tick a requirement, change money/move year).
 After changing `engine.mjs`: port the change, then `npm run engine:fixture` and `flutter test`.
+
+## Screens
+
+Each screen mirrors its prototype view (`docs/prototype-notes.md`). Data comes through the repository interfaces in `data/`
+(`AuthService`, `UserRepository`, `ContentRepository`); `preview/fakes.dart` implements them in memory so screens can be
+developed and tested without Firebase. Profile sections save partial updates (`updateProfile(uid, patch)`); goals are
+written to `users/{uid}/goals` and the server computes the plan (`onGoalWritten`). The active goal is `users/{uid}.activeGoalId`.
 
 ## Firebase
 

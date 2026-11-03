@@ -23,6 +23,7 @@ const ID_OPTIONAL = new Set(["users", "goals", "documents", "outcomes"]);
 // Nicer names for nested objects / arrays of objects / inline enums (default: Parent + Field).
 const NESTED_NAMES = {
   "UserProfile.education": "UserEducation", "UserProfile.languages": "UserLanguage", "UserProfile.consents": "UserConsents",
+  "UserProfile.experience": "UserExperience", "UserProfile.notifications": "UserNotifications",
   "UserProfile.roles": "UserRole", "ResidencePermit.checklist": "PermitChecklistItem", "Occupation.salaryBands": "SalaryBand",
   "Occupation.shortage": "ShortageEntry", "ContentSource.targets": "SourceTarget", "ChangeRequest.diff": "DiffEntry",
   "ChangeRequest.reviewer": "ReviewDecision", "ChangeRequest.evidence": "Evidence", "Funding.covers": "FundingCover",

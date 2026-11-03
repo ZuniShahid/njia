@@ -18,7 +18,7 @@ Full field definitions: `schema/njia.schema.json`. Validation: `npm run validate
 | changeRequests | `cr-…` | approval queue: before/after/diff/quote/token/status | n8n 1 → human → function |
 | refreshRuns | auto | one per 14-day run | n8n 1 |
 | meta/content | fixed | `version` = last applied change id (clients cache by it) | function |
-| users/{uid} | uid | profile, flattened `facts`; subcollections goals, plans (computed), documents, outcomes | user / function |
+| users/{uid} | uid | profile (contact, education, languages, experience, interests/strengths incl. custom chips, money, mobility, notifications, `activeGoalId`), flattened `facts`; subcollections goals (title/employer/area/city/country/occupation/field/targetYear/salaryTarget/priorities/alternatives/relocate/why), plans (computed), documents, outcomes | user / function |
 
 Provenance (on every content doc and on salary bands):
 `{ sourceId, sourceUrl, quote, trust: official|api|partner|editorial|community|estimate, fetchedAt, verifiedAt, verifiedBy, validUntil, changeRequestId }`

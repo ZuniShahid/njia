@@ -307,7 +307,7 @@ as UserEducationStatus?,
 /// @nodoc
 mixin _$UserLanguage {
 
- String? get lang;@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? get cefr; String? get test; String? get score; String? get testDate;
+ String? get lang;@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? get cefr; String? get test; String? get score; String? get testDate; bool? get native;
 /// Create a copy of UserLanguage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -321,20 +321,20 @@ $UserLanguageCopyWith<UserLanguage> get copyWith => _$UserLanguageCopyWithImpl<U
 @override
 bool operator ==(Object other) {
   final _this = this as UserLanguage;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserLanguage&&(identical(other.lang, _this.lang) || other.lang == _this.lang)&&(identical(other.cefr, _this.cefr) || other.cefr == _this.cefr)&&(identical(other.test, _this.test) || other.test == _this.test)&&(identical(other.score, _this.score) || other.score == _this.score)&&(identical(other.testDate, _this.testDate) || other.testDate == _this.testDate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserLanguage&&(identical(other.lang, _this.lang) || other.lang == _this.lang)&&(identical(other.cefr, _this.cefr) || other.cefr == _this.cefr)&&(identical(other.test, _this.test) || other.test == _this.test)&&(identical(other.score, _this.score) || other.score == _this.score)&&(identical(other.testDate, _this.testDate) || other.testDate == _this.testDate)&&(identical(other.native, _this.native) || other.native == _this.native));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserLanguage;
-  return Object.hash(runtimeType,_this.lang,_this.cefr,_this.test,_this.score,_this.testDate);
+  return Object.hash(runtimeType,_this.lang,_this.cefr,_this.test,_this.score,_this.testDate,_this.native);
 }
 
 @override
 String toString() {
   final _this = this as UserLanguage;
-  return 'UserLanguage(lang: ${_this.lang}, cefr: ${_this.cefr}, test: ${_this.test}, score: ${_this.score}, testDate: ${_this.testDate})';
+  return 'UserLanguage(lang: ${_this.lang}, cefr: ${_this.cefr}, test: ${_this.test}, score: ${_this.score}, testDate: ${_this.testDate}, native: ${_this.native})';
 }
 
 
@@ -345,7 +345,7 @@ abstract mixin class $UserLanguageCopyWith<$Res>  {
   factory $UserLanguageCopyWith(UserLanguage value, $Res Function(UserLanguage) _then) = _$UserLanguageCopyWithImpl;
 @useResult
 $Res call({
- String? lang,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? cefr, String? test, String? score, String? testDate
+ String? lang,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? cefr, String? test, String? score, String? testDate, bool? native
 });
 
 
@@ -362,14 +362,15 @@ class _$UserLanguageCopyWithImpl<$Res>
 
 /// Create a copy of UserLanguage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? lang = freezed,Object? cefr = freezed,Object? test = freezed,Object? score = freezed,Object? testDate = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? lang = freezed,Object? cefr = freezed,Object? test = freezed,Object? score = freezed,Object? testDate = freezed,Object? native = freezed,}) {
   return _then(UserLanguage(
 lang: freezed == lang ? _self.lang : lang // ignore: cast_nullable_to_non_nullable
 as String?,cefr: freezed == cefr ? _self.cefr : cefr // ignore: cast_nullable_to_non_nullable
 as Cefr?,test: freezed == test ? _self.test : test // ignore: cast_nullable_to_non_nullable
 as String?,score: freezed == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
 as String?,testDate: freezed == testDate ? _self.testDate : testDate // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,native: freezed == native ? _self.native : native // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -454,10 +455,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate,  bool? native)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserLanguage() when $default != null:
-return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);case _:
+return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate,_that.native);case _:
   return orElse();
 
 }
@@ -475,10 +476,10 @@ return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate,  bool? native)  $default,) {final _that = this;
 switch (_that) {
 case _UserLanguage():
-return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);case _:
+return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate,_that.native);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -495,10 +496,10 @@ return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);cas
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  Cefr? cefr,  String? test,  String? score,  String? testDate,  bool? native)?  $default,) {final _that = this;
 switch (_that) {
 case _UserLanguage() when $default != null:
-return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);case _:
+return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate,_that.native);case _:
   return null;
 
 }
@@ -510,7 +511,7 @@ return $default(_that.lang,_that.cefr,_that.test,_that.score,_that.testDate);cas
 @JsonSerializable()
 
 class _UserLanguage implements UserLanguage {
-  const _UserLanguage({this.lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.cefr, this.test, this.score, this.testDate});
+  const _UserLanguage({this.lang, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.cefr, this.test, this.score, this.testDate, this.native});
   factory _UserLanguage.fromJson(Map<String, dynamic> json) => _$UserLanguageFromJson(json);
 
 @override final  String? lang;
@@ -518,6 +519,7 @@ class _UserLanguage implements UserLanguage {
 @override final  String? test;
 @override final  String? score;
 @override final  String? testDate;
+@override final  bool? native;
 
 /// Create a copy of UserLanguage
 /// with the given fields replaced by the non-null parameter values.
@@ -532,18 +534,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserLanguage&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.cefr, cefr) || other.cefr == cefr)&&(identical(other.test, test) || other.test == test)&&(identical(other.score, score) || other.score == score)&&(identical(other.testDate, testDate) || other.testDate == testDate));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserLanguage&&(identical(other.lang, lang) || other.lang == lang)&&(identical(other.cefr, cefr) || other.cefr == cefr)&&(identical(other.test, test) || other.test == test)&&(identical(other.score, score) || other.score == score)&&(identical(other.testDate, testDate) || other.testDate == testDate)&&(identical(other.native, native) || other.native == native));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,lang,cefr,test,score,testDate);
+    return Object.hash(runtimeType,lang,cefr,test,score,testDate,native);
 }
 
 @override
 String toString() {
-    return 'UserLanguage(lang: $lang, cefr: $cefr, test: $test, score: $score, testDate: $testDate)';
+    return 'UserLanguage(lang: $lang, cefr: $cefr, test: $test, score: $score, testDate: $testDate, native: $native)';
 }
 
 
@@ -554,7 +556,7 @@ abstract mixin class _$UserLanguageCopyWith<$Res> implements $UserLanguageCopyWi
   factory _$UserLanguageCopyWith(_UserLanguage value, $Res Function(_UserLanguage) _then) = __$UserLanguageCopyWithImpl;
 @override @useResult
 $Res call({
- String? lang,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? cefr, String? test, String? score, String? testDate
+ String? lang,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) Cefr? cefr, String? test, String? score, String? testDate, bool? native
 });
 
 
@@ -571,14 +573,15 @@ class __$UserLanguageCopyWithImpl<$Res>
 
 /// Create a copy of UserLanguage
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? lang = freezed,Object? cefr = freezed,Object? test = freezed,Object? score = freezed,Object? testDate = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? lang = freezed,Object? cefr = freezed,Object? test = freezed,Object? score = freezed,Object? testDate = freezed,Object? native = freezed,}) {
   return _then(_UserLanguage(
 lang: freezed == lang ? _self.lang : lang // ignore: cast_nullable_to_non_nullable
 as String?,cefr: freezed == cefr ? _self.cefr : cefr // ignore: cast_nullable_to_non_nullable
 as Cefr?,test: freezed == test ? _self.test : test // ignore: cast_nullable_to_non_nullable
 as String?,score: freezed == score ? _self.score : score // ignore: cast_nullable_to_non_nullable
 as String?,testDate: freezed == testDate ? _self.testDate : testDate // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,native: freezed == native ? _self.native : native // ignore: cast_nullable_to_non_nullable
+as bool?,
   ));
 }
 
@@ -860,12 +863,577 @@ as bool?,
 
 
 /// @nodoc
+mixin _$UserNotifications {
+
+ bool? get whatsapp; bool? get sms; bool? get email; bool? get weekly;
+/// Create a copy of UserNotifications
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UserNotificationsCopyWith<UserNotifications> get copyWith => _$UserNotificationsCopyWithImpl<UserNotifications>(this as UserNotifications, _$identity);
+
+  /// Serializes this UserNotifications to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as UserNotifications;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserNotifications&&(identical(other.whatsapp, _this.whatsapp) || other.whatsapp == _this.whatsapp)&&(identical(other.sms, _this.sms) || other.sms == _this.sms)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.weekly, _this.weekly) || other.weekly == _this.weekly));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as UserNotifications;
+  return Object.hash(runtimeType,_this.whatsapp,_this.sms,_this.email,_this.weekly);
+}
+
+@override
+String toString() {
+  final _this = this as UserNotifications;
+  return 'UserNotifications(whatsapp: ${_this.whatsapp}, sms: ${_this.sms}, email: ${_this.email}, weekly: ${_this.weekly})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UserNotificationsCopyWith<$Res>  {
+  factory $UserNotificationsCopyWith(UserNotifications value, $Res Function(UserNotifications) _then) = _$UserNotificationsCopyWithImpl;
+@useResult
+$Res call({
+ bool? whatsapp, bool? sms, bool? email, bool? weekly
+});
+
+
+
+
+}
+/// @nodoc
+class _$UserNotificationsCopyWithImpl<$Res>
+    implements $UserNotificationsCopyWith<$Res> {
+  _$UserNotificationsCopyWithImpl(this._self, this._then);
+
+  final UserNotifications _self;
+  final $Res Function(UserNotifications) _then;
+
+/// Create a copy of UserNotifications
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? whatsapp = freezed,Object? sms = freezed,Object? email = freezed,Object? weekly = freezed,}) {
+  return _then(UserNotifications(
+whatsapp: freezed == whatsapp ? _self.whatsapp : whatsapp // ignore: cast_nullable_to_non_nullable
+as bool?,sms: freezed == sms ? _self.sms : sms // ignore: cast_nullable_to_non_nullable
+as bool?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as bool?,weekly: freezed == weekly ? _self.weekly : weekly // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UserNotifications].
+extension UserNotificationsPatterns on UserNotifications {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UserNotifications value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UserNotifications() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UserNotifications value)  $default,){
+final _that = this;
+switch (_that) {
+case _UserNotifications():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UserNotifications value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UserNotifications() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? whatsapp,  bool? sms,  bool? email,  bool? weekly)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UserNotifications() when $default != null:
+return $default(_that.whatsapp,_that.sms,_that.email,_that.weekly);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? whatsapp,  bool? sms,  bool? email,  bool? weekly)  $default,) {final _that = this;
+switch (_that) {
+case _UserNotifications():
+return $default(_that.whatsapp,_that.sms,_that.email,_that.weekly);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? whatsapp,  bool? sms,  bool? email,  bool? weekly)?  $default,) {final _that = this;
+switch (_that) {
+case _UserNotifications() when $default != null:
+return $default(_that.whatsapp,_that.sms,_that.email,_that.weekly);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UserNotifications implements UserNotifications {
+  const _UserNotifications({this.whatsapp, this.sms, this.email, this.weekly});
+  factory _UserNotifications.fromJson(Map<String, dynamic> json) => _$UserNotificationsFromJson(json);
+
+@override final  bool? whatsapp;
+@override final  bool? sms;
+@override final  bool? email;
+@override final  bool? weekly;
+
+/// Create a copy of UserNotifications
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UserNotificationsCopyWith<_UserNotifications> get copyWith => __$UserNotificationsCopyWithImpl<_UserNotifications>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UserNotificationsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserNotifications&&(identical(other.whatsapp, whatsapp) || other.whatsapp == whatsapp)&&(identical(other.sms, sms) || other.sms == sms)&&(identical(other.email, email) || other.email == email)&&(identical(other.weekly, weekly) || other.weekly == weekly));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,whatsapp,sms,email,weekly);
+}
+
+@override
+String toString() {
+    return 'UserNotifications(whatsapp: $whatsapp, sms: $sms, email: $email, weekly: $weekly)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UserNotificationsCopyWith<$Res> implements $UserNotificationsCopyWith<$Res> {
+  factory _$UserNotificationsCopyWith(_UserNotifications value, $Res Function(_UserNotifications) _then) = __$UserNotificationsCopyWithImpl;
+@override @useResult
+$Res call({
+ bool? whatsapp, bool? sms, bool? email, bool? weekly
+});
+
+
+
+
+}
+/// @nodoc
+class __$UserNotificationsCopyWithImpl<$Res>
+    implements _$UserNotificationsCopyWith<$Res> {
+  __$UserNotificationsCopyWithImpl(this._self, this._then);
+
+  final _UserNotifications _self;
+  final $Res Function(_UserNotifications) _then;
+
+/// Create a copy of UserNotifications
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? whatsapp = freezed,Object? sms = freezed,Object? email = freezed,Object? weekly = freezed,}) {
+  return _then(_UserNotifications(
+whatsapp: freezed == whatsapp ? _self.whatsapp : whatsapp // ignore: cast_nullable_to_non_nullable
+as bool?,sms: freezed == sms ? _self.sms : sms // ignore: cast_nullable_to_non_nullable
+as bool?,email: freezed == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as bool?,weekly: freezed == weekly ? _self.weekly : weekly // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$UserExperience {
+
+ String? get role;/// Organisation · place · when
+ String? get where; int? get months;
+/// Create a copy of UserExperience
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$UserExperienceCopyWith<UserExperience> get copyWith => _$UserExperienceCopyWithImpl<UserExperience>(this as UserExperience, _$identity);
+
+  /// Serializes this UserExperience to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as UserExperience;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserExperience&&(identical(other.role, _this.role) || other.role == _this.role)&&(identical(other.where, _this.where) || other.where == _this.where)&&(identical(other.months, _this.months) || other.months == _this.months));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as UserExperience;
+  return Object.hash(runtimeType,_this.role,_this.where,_this.months);
+}
+
+@override
+String toString() {
+  final _this = this as UserExperience;
+  return 'UserExperience(role: ${_this.role}, where: ${_this.where}, months: ${_this.months})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $UserExperienceCopyWith<$Res>  {
+  factory $UserExperienceCopyWith(UserExperience value, $Res Function(UserExperience) _then) = _$UserExperienceCopyWithImpl;
+@useResult
+$Res call({
+ String? role, String? where, int? months
+});
+
+
+
+
+}
+/// @nodoc
+class _$UserExperienceCopyWithImpl<$Res>
+    implements $UserExperienceCopyWith<$Res> {
+  _$UserExperienceCopyWithImpl(this._self, this._then);
+
+  final UserExperience _self;
+  final $Res Function(UserExperience) _then;
+
+/// Create a copy of UserExperience
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? role = freezed,Object? where = freezed,Object? months = freezed,}) {
+  return _then(UserExperience(
+role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String?,where: freezed == where ? _self.where : where // ignore: cast_nullable_to_non_nullable
+as String?,months: freezed == months ? _self.months : months // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [UserExperience].
+extension UserExperiencePatterns on UserExperience {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _UserExperience value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _UserExperience() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _UserExperience value)  $default,){
+final _that = this;
+switch (_that) {
+case _UserExperience():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _UserExperience value)?  $default,){
+final _that = this;
+switch (_that) {
+case _UserExperience() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? role,  String? where,  int? months)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _UserExperience() when $default != null:
+return $default(_that.role,_that.where,_that.months);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? role,  String? where,  int? months)  $default,) {final _that = this;
+switch (_that) {
+case _UserExperience():
+return $default(_that.role,_that.where,_that.months);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? role,  String? where,  int? months)?  $default,) {final _that = this;
+switch (_that) {
+case _UserExperience() when $default != null:
+return $default(_that.role,_that.where,_that.months);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _UserExperience implements UserExperience {
+  const _UserExperience({this.role, this.where, this.months});
+  factory _UserExperience.fromJson(Map<String, dynamic> json) => _$UserExperienceFromJson(json);
+
+@override final  String? role;
+/// Organisation · place · when
+@override final  String? where;
+@override final  int? months;
+
+/// Create a copy of UserExperience
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$UserExperienceCopyWith<_UserExperience> get copyWith => __$UserExperienceCopyWithImpl<_UserExperience>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$UserExperienceToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserExperience&&(identical(other.role, role) || other.role == role)&&(identical(other.where, where) || other.where == where)&&(identical(other.months, months) || other.months == months));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,role,where,months);
+}
+
+@override
+String toString() {
+    return 'UserExperience(role: $role, where: $where, months: $months)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$UserExperienceCopyWith<$Res> implements $UserExperienceCopyWith<$Res> {
+  factory _$UserExperienceCopyWith(_UserExperience value, $Res Function(_UserExperience) _then) = __$UserExperienceCopyWithImpl;
+@override @useResult
+$Res call({
+ String? role, String? where, int? months
+});
+
+
+
+
+}
+/// @nodoc
+class __$UserExperienceCopyWithImpl<$Res>
+    implements _$UserExperienceCopyWith<$Res> {
+  __$UserExperienceCopyWithImpl(this._self, this._then);
+
+  final _UserExperience _self;
+  final $Res Function(_UserExperience) _then;
+
+/// Create a copy of UserExperience
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? role = freezed,Object? where = freezed,Object? months = freezed,}) {
+  return _then(_UserExperience(
+role: freezed == role ? _self.role : role // ignore: cast_nullable_to_non_nullable
+as String?,where: freezed == where ? _self.where : where // ignore: cast_nullable_to_non_nullable
+as String?,months: freezed == months ? _self.months : months // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$UserProfile {
 
 /// Firestore document id (null before the doc is created).
  String? get id; String? get displayName; String? get email; String? get nationality; String? get residenceCountry; int? get birthYear; List<UserEducation> get education; List<UserLanguage> get languages; int? get experienceMonths; List<String> get interests; Money? get savings; Money? get monthlySupport;/// Flattened key→value map matched against requirements.key, e.g. {"language.en.ielts": 6.5, "funds.eur": 3000}
  Map<String, dynamic>? get facts;/// Mirrored from custom claims; editors approve change requests
- List<UserRole> get roles; UserConsents? get consents; String? get createdAt;
+ List<UserRole> get roles; UserConsents? get consents; String? get createdAt;/// E.164, for SMS / WhatsApp reminders
+ String? get phone; String? get city; List<String> get strengths;/// User-added interest chips (removable)
+ List<String> get customInterests;/// User-added strength chips (removable)
+ List<String> get customStrengths;/// Who supports the student financially (never shown to employers)
+ String? get supportSource; int? get earliestMoveYear; int? get graduationYear;/// YYYY-MM
+ String? get passportValidUntil; List<String> get preferredCountryIds;/// Things the plan must respect (family duties, work, health, religion)
+ String? get constraints; UserNotifications? get notifications;/// users/{uid}/goals/{id} shown in the cockpit
+ String? get activeGoalId;/// Work experience entries; experienceMonths is kept in sync (sum)
+ List<UserExperience> get experience;
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -879,20 +1447,20 @@ $UserProfileCopyWith<UserProfile> get copyWith => _$UserProfileCopyWithImpl<User
 @override
 bool operator ==(Object other) {
   final _this = this as UserProfile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.nationality, _this.nationality) || other.nationality == _this.nationality)&&(identical(other.residenceCountry, _this.residenceCountry) || other.residenceCountry == _this.residenceCountry)&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&const DeepCollectionEquality().equals(other.education, _this.education)&&const DeepCollectionEquality().equals(other.languages, _this.languages)&&(identical(other.experienceMonths, _this.experienceMonths) || other.experienceMonths == _this.experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _this.interests)&&(identical(other.savings, _this.savings) || other.savings == _this.savings)&&(identical(other.monthlySupport, _this.monthlySupport) || other.monthlySupport == _this.monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _this.facts)&&const DeepCollectionEquality().equals(other.roles, _this.roles)&&(identical(other.consents, _this.consents) || other.consents == _this.consents)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.nationality, _this.nationality) || other.nationality == _this.nationality)&&(identical(other.residenceCountry, _this.residenceCountry) || other.residenceCountry == _this.residenceCountry)&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&const DeepCollectionEquality().equals(other.education, _this.education)&&const DeepCollectionEquality().equals(other.languages, _this.languages)&&(identical(other.experienceMonths, _this.experienceMonths) || other.experienceMonths == _this.experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _this.interests)&&(identical(other.savings, _this.savings) || other.savings == _this.savings)&&(identical(other.monthlySupport, _this.monthlySupport) || other.monthlySupport == _this.monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _this.facts)&&const DeepCollectionEquality().equals(other.roles, _this.roles)&&(identical(other.consents, _this.consents) || other.consents == _this.consents)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.city, _this.city) || other.city == _this.city)&&const DeepCollectionEquality().equals(other.strengths, _this.strengths)&&const DeepCollectionEquality().equals(other.customInterests, _this.customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _this.customStrengths)&&(identical(other.supportSource, _this.supportSource) || other.supportSource == _this.supportSource)&&(identical(other.earliestMoveYear, _this.earliestMoveYear) || other.earliestMoveYear == _this.earliestMoveYear)&&(identical(other.graduationYear, _this.graduationYear) || other.graduationYear == _this.graduationYear)&&(identical(other.passportValidUntil, _this.passportValidUntil) || other.passportValidUntil == _this.passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _this.preferredCountryIds)&&(identical(other.constraints, _this.constraints) || other.constraints == _this.constraints)&&(identical(other.notifications, _this.notifications) || other.notifications == _this.notifications)&&(identical(other.activeGoalId, _this.activeGoalId) || other.activeGoalId == _this.activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _this.experience));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserProfile;
-  return Object.hash(runtimeType,_this.id,_this.displayName,_this.email,_this.nationality,_this.residenceCountry,_this.birthYear,const DeepCollectionEquality().hash(_this.education),const DeepCollectionEquality().hash(_this.languages),_this.experienceMonths,const DeepCollectionEquality().hash(_this.interests),_this.savings,_this.monthlySupport,const DeepCollectionEquality().hash(_this.facts),const DeepCollectionEquality().hash(_this.roles),_this.consents,_this.createdAt);
+  return Object.hashAll([runtimeType,_this.id,_this.displayName,_this.email,_this.nationality,_this.residenceCountry,_this.birthYear,const DeepCollectionEquality().hash(_this.education),const DeepCollectionEquality().hash(_this.languages),_this.experienceMonths,const DeepCollectionEquality().hash(_this.interests),_this.savings,_this.monthlySupport,const DeepCollectionEquality().hash(_this.facts),const DeepCollectionEquality().hash(_this.roles),_this.consents,_this.createdAt,_this.phone,_this.city,const DeepCollectionEquality().hash(_this.strengths),const DeepCollectionEquality().hash(_this.customInterests),const DeepCollectionEquality().hash(_this.customStrengths),_this.supportSource,_this.earliestMoveYear,_this.graduationYear,_this.passportValidUntil,const DeepCollectionEquality().hash(_this.preferredCountryIds),_this.constraints,_this.notifications,_this.activeGoalId,const DeepCollectionEquality().hash(_this.experience)]);
 }
 
 @override
 String toString() {
   final _this = this as UserProfile;
-  return 'UserProfile(id: ${_this.id}, displayName: ${_this.displayName}, email: ${_this.email}, nationality: ${_this.nationality}, residenceCountry: ${_this.residenceCountry}, birthYear: ${_this.birthYear}, education: ${_this.education}, languages: ${_this.languages}, experienceMonths: ${_this.experienceMonths}, interests: ${_this.interests}, savings: ${_this.savings}, monthlySupport: ${_this.monthlySupport}, facts: ${_this.facts}, roles: ${_this.roles}, consents: ${_this.consents}, createdAt: ${_this.createdAt})';
+  return 'UserProfile(id: ${_this.id}, displayName: ${_this.displayName}, email: ${_this.email}, nationality: ${_this.nationality}, residenceCountry: ${_this.residenceCountry}, birthYear: ${_this.birthYear}, education: ${_this.education}, languages: ${_this.languages}, experienceMonths: ${_this.experienceMonths}, interests: ${_this.interests}, savings: ${_this.savings}, monthlySupport: ${_this.monthlySupport}, facts: ${_this.facts}, roles: ${_this.roles}, consents: ${_this.consents}, createdAt: ${_this.createdAt}, phone: ${_this.phone}, city: ${_this.city}, strengths: ${_this.strengths}, customInterests: ${_this.customInterests}, customStrengths: ${_this.customStrengths}, supportSource: ${_this.supportSource}, earliestMoveYear: ${_this.earliestMoveYear}, graduationYear: ${_this.graduationYear}, passportValidUntil: ${_this.passportValidUntil}, preferredCountryIds: ${_this.preferredCountryIds}, constraints: ${_this.constraints}, notifications: ${_this.notifications}, activeGoalId: ${_this.activeGoalId}, experience: ${_this.experience})';
 }
 
 
@@ -903,11 +1471,11 @@ abstract mixin class $UserProfileCopyWith<$Res>  {
   factory $UserProfileCopyWith(UserProfile value, $Res Function(UserProfile) _then) = _$UserProfileCopyWithImpl;
 @useResult
 $Res call({
- String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt
+ String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience
 });
 
 
-$MoneyCopyWith<$Res>? get savings;$MoneyCopyWith<$Res>? get monthlySupport;$UserConsentsCopyWith<$Res>? get consents;
+$MoneyCopyWith<$Res>? get savings;$MoneyCopyWith<$Res>? get monthlySupport;$UserConsentsCopyWith<$Res>? get consents;$UserNotificationsCopyWith<$Res>? get notifications;
 
 }
 /// @nodoc
@@ -920,7 +1488,7 @@ class _$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,}) {
   return _then(UserProfile(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -938,7 +1506,21 @@ as Money?,facts: freezed == facts ? _self.facts : facts // ignore: cast_nullable
 as Map<String, dynamic>?,roles: null == roles ? _self.roles : roles // ignore: cast_nullable_to_non_nullable
 as List<UserRole>,consents: freezed == consents ? _self.consents : consents // ignore: cast_nullable_to_non_nullable
 as UserConsents?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
+as String?,strengths: null == strengths ? _self.strengths : strengths // ignore: cast_nullable_to_non_nullable
+as List<String>,customInterests: null == customInterests ? _self.customInterests : customInterests // ignore: cast_nullable_to_non_nullable
+as List<String>,customStrengths: null == customStrengths ? _self.customStrengths : customStrengths // ignore: cast_nullable_to_non_nullable
+as List<String>,supportSource: freezed == supportSource ? _self.supportSource : supportSource // ignore: cast_nullable_to_non_nullable
+as String?,earliestMoveYear: freezed == earliestMoveYear ? _self.earliestMoveYear : earliestMoveYear // ignore: cast_nullable_to_non_nullable
+as int?,graduationYear: freezed == graduationYear ? _self.graduationYear : graduationYear // ignore: cast_nullable_to_non_nullable
+as int?,passportValidUntil: freezed == passportValidUntil ? _self.passportValidUntil : passportValidUntil // ignore: cast_nullable_to_non_nullable
+as String?,preferredCountryIds: null == preferredCountryIds ? _self.preferredCountryIds : preferredCountryIds // ignore: cast_nullable_to_non_nullable
+as List<String>,constraints: freezed == constraints ? _self.constraints : constraints // ignore: cast_nullable_to_non_nullable
+as String?,notifications: freezed == notifications ? _self.notifications : notifications // ignore: cast_nullable_to_non_nullable
+as UserNotifications?,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
+as String?,experience: null == experience ? _self.experience : experience // ignore: cast_nullable_to_non_nullable
+as List<UserExperience>,
   ));
 }
 /// Create a copy of UserProfile
@@ -976,6 +1558,18 @@ $UserConsentsCopyWith<$Res>? get consents {
 
   return $UserConsentsCopyWith<$Res>(_self.consents!, (value) {
     return _then(_self.copyWith(consents: value));
+  });
+}/// Create a copy of UserProfile
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserNotificationsCopyWith<$Res>? get notifications {
+    if (_self.notifications == null) {
+    return null;
+  }
+
+  return $UserNotificationsCopyWith<$Res>(_self.notifications!, (value) {
+    return _then(_self.copyWith(notifications: value));
   });
 }
 }
@@ -1059,10 +1653,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience);case _:
   return orElse();
 
 }
@@ -1080,10 +1674,10 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience)  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile():
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1100,10 +1694,10 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience)?  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience);case _:
   return null;
 
 }
@@ -1115,7 +1709,7 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 @JsonSerializable()
 
 class _UserProfile implements UserProfile {
-  const _UserProfile({this.id, this.displayName, this.email, this.nationality, this.residenceCountry, this.birthYear,  List<UserEducation> education = const [],  List<UserLanguage> languages = const [], this.experienceMonths,  List<String> interests = const [], this.savings, this.monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles = const [], this.consents, this.createdAt}): _education = education,_languages = languages,_interests = interests,_facts = facts,_roles = roles;
+  const _UserProfile({this.id, this.displayName, this.email, this.nationality, this.residenceCountry, this.birthYear,  List<UserEducation> education = const [],  List<UserLanguage> languages = const [], this.experienceMonths,  List<String> interests = const [], this.savings, this.monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles = const [], this.consents, this.createdAt, this.phone, this.city,  List<String> strengths = const [],  List<String> customInterests = const [],  List<String> customStrengths = const [], this.supportSource, this.earliestMoveYear, this.graduationYear, this.passportValidUntil,  List<String> preferredCountryIds = const [], this.constraints, this.notifications, this.activeGoalId,  List<UserExperience> experience = const []}): _education = education,_languages = languages,_interests = interests,_facts = facts,_roles = roles,_strengths = strengths,_customInterests = customInterests,_customStrengths = customStrengths,_preferredCountryIds = preferredCountryIds,_experience = experience;
   factory _UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
 
 /// Firestore document id (null before the doc is created).
@@ -1171,6 +1765,61 @@ class _UserProfile implements UserProfile {
 
 @override final  UserConsents? consents;
 @override final  String? createdAt;
+/// E.164, for SMS / WhatsApp reminders
+@override final  String? phone;
+@override final  String? city;
+ final  List<String> _strengths;
+@override@JsonKey() List<String> get strengths {
+  if (_strengths is EqualUnmodifiableListView) return _strengths;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_strengths);
+}
+
+/// User-added interest chips (removable)
+ final  List<String> _customInterests;
+/// User-added interest chips (removable)
+@override@JsonKey() List<String> get customInterests {
+  if (_customInterests is EqualUnmodifiableListView) return _customInterests;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_customInterests);
+}
+
+/// User-added strength chips (removable)
+ final  List<String> _customStrengths;
+/// User-added strength chips (removable)
+@override@JsonKey() List<String> get customStrengths {
+  if (_customStrengths is EqualUnmodifiableListView) return _customStrengths;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_customStrengths);
+}
+
+/// Who supports the student financially (never shown to employers)
+@override final  String? supportSource;
+@override final  int? earliestMoveYear;
+@override final  int? graduationYear;
+/// YYYY-MM
+@override final  String? passportValidUntil;
+ final  List<String> _preferredCountryIds;
+@override@JsonKey() List<String> get preferredCountryIds {
+  if (_preferredCountryIds is EqualUnmodifiableListView) return _preferredCountryIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_preferredCountryIds);
+}
+
+/// Things the plan must respect (family duties, work, health, religion)
+@override final  String? constraints;
+@override final  UserNotifications? notifications;
+/// users/{uid}/goals/{id} shown in the cockpit
+@override final  String? activeGoalId;
+/// Work experience entries; experienceMonths is kept in sync (sum)
+ final  List<UserExperience> _experience;
+/// Work experience entries; experienceMonths is kept in sync (sum)
+@override@JsonKey() List<UserExperience> get experience {
+  if (_experience is EqualUnmodifiableListView) return _experience;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_experience);
+}
+
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -1185,18 +1834,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.nationality, nationality) || other.nationality == nationality)&&(identical(other.residenceCountry, residenceCountry) || other.residenceCountry == residenceCountry)&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&const DeepCollectionEquality().equals(other.education, _education)&&const DeepCollectionEquality().equals(other.languages, _languages)&&(identical(other.experienceMonths, experienceMonths) || other.experienceMonths == experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _interests)&&(identical(other.savings, savings) || other.savings == savings)&&(identical(other.monthlySupport, monthlySupport) || other.monthlySupport == monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _facts)&&const DeepCollectionEquality().equals(other.roles, _roles)&&(identical(other.consents, consents) || other.consents == consents)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.nationality, nationality) || other.nationality == nationality)&&(identical(other.residenceCountry, residenceCountry) || other.residenceCountry == residenceCountry)&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&const DeepCollectionEquality().equals(other.education, _education)&&const DeepCollectionEquality().equals(other.languages, _languages)&&(identical(other.experienceMonths, experienceMonths) || other.experienceMonths == experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _interests)&&(identical(other.savings, savings) || other.savings == savings)&&(identical(other.monthlySupport, monthlySupport) || other.monthlySupport == monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _facts)&&const DeepCollectionEquality().equals(other.roles, _roles)&&(identical(other.consents, consents) || other.consents == consents)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.city, city) || other.city == city)&&const DeepCollectionEquality().equals(other.strengths, _strengths)&&const DeepCollectionEquality().equals(other.customInterests, _customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _customStrengths)&&(identical(other.supportSource, supportSource) || other.supportSource == supportSource)&&(identical(other.earliestMoveYear, earliestMoveYear) || other.earliestMoveYear == earliestMoveYear)&&(identical(other.graduationYear, graduationYear) || other.graduationYear == graduationYear)&&(identical(other.passportValidUntil, passportValidUntil) || other.passportValidUntil == passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _preferredCountryIds)&&(identical(other.constraints, constraints) || other.constraints == constraints)&&(identical(other.notifications, notifications) || other.notifications == notifications)&&(identical(other.activeGoalId, activeGoalId) || other.activeGoalId == activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _experience));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,displayName,email,nationality,residenceCountry,birthYear,const DeepCollectionEquality().hash(_education),const DeepCollectionEquality().hash(_languages),experienceMonths,const DeepCollectionEquality().hash(_interests),savings,monthlySupport,const DeepCollectionEquality().hash(_facts),const DeepCollectionEquality().hash(_roles),consents,createdAt);
+    return Object.hashAll([runtimeType,id,displayName,email,nationality,residenceCountry,birthYear,const DeepCollectionEquality().hash(_education),const DeepCollectionEquality().hash(_languages),experienceMonths,const DeepCollectionEquality().hash(_interests),savings,monthlySupport,const DeepCollectionEquality().hash(_facts),const DeepCollectionEquality().hash(_roles),consents,createdAt,phone,city,const DeepCollectionEquality().hash(_strengths),const DeepCollectionEquality().hash(_customInterests),const DeepCollectionEquality().hash(_customStrengths),supportSource,earliestMoveYear,graduationYear,passportValidUntil,const DeepCollectionEquality().hash(_preferredCountryIds),constraints,notifications,activeGoalId,const DeepCollectionEquality().hash(_experience)]);
 }
 
 @override
 String toString() {
-    return 'UserProfile(id: $id, displayName: $displayName, email: $email, nationality: $nationality, residenceCountry: $residenceCountry, birthYear: $birthYear, education: $education, languages: $languages, experienceMonths: $experienceMonths, interests: $interests, savings: $savings, monthlySupport: $monthlySupport, facts: $facts, roles: $roles, consents: $consents, createdAt: $createdAt)';
+    return 'UserProfile(id: $id, displayName: $displayName, email: $email, nationality: $nationality, residenceCountry: $residenceCountry, birthYear: $birthYear, education: $education, languages: $languages, experienceMonths: $experienceMonths, interests: $interests, savings: $savings, monthlySupport: $monthlySupport, facts: $facts, roles: $roles, consents: $consents, createdAt: $createdAt, phone: $phone, city: $city, strengths: $strengths, customInterests: $customInterests, customStrengths: $customStrengths, supportSource: $supportSource, earliestMoveYear: $earliestMoveYear, graduationYear: $graduationYear, passportValidUntil: $passportValidUntil, preferredCountryIds: $preferredCountryIds, constraints: $constraints, notifications: $notifications, activeGoalId: $activeGoalId, experience: $experience)';
 }
 
 
@@ -1207,11 +1856,11 @@ abstract mixin class _$UserProfileCopyWith<$Res> implements $UserProfileCopyWith
   factory _$UserProfileCopyWith(_UserProfile value, $Res Function(_UserProfile) _then) = __$UserProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt
+ String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience
 });
 
 
-@override $MoneyCopyWith<$Res>? get savings;@override $MoneyCopyWith<$Res>? get monthlySupport;@override $UserConsentsCopyWith<$Res>? get consents;
+@override $MoneyCopyWith<$Res>? get savings;@override $MoneyCopyWith<$Res>? get monthlySupport;@override $UserConsentsCopyWith<$Res>? get consents;@override $UserNotificationsCopyWith<$Res>? get notifications;
 
 }
 /// @nodoc
@@ -1224,7 +1873,7 @@ class __$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,}) {
   return _then(_UserProfile(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -1242,7 +1891,21 @@ as Money?,facts: freezed == facts ? _self._facts : facts // ignore: cast_nullabl
 as Map<String, dynamic>?,roles: null == roles ? _self._roles : roles // ignore: cast_nullable_to_non_nullable
 as List<UserRole>,consents: freezed == consents ? _self.consents : consents // ignore: cast_nullable_to_non_nullable
 as UserConsents?,createdAt: freezed == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,city: freezed == city ? _self.city : city // ignore: cast_nullable_to_non_nullable
+as String?,strengths: null == strengths ? _self._strengths : strengths // ignore: cast_nullable_to_non_nullable
+as List<String>,customInterests: null == customInterests ? _self._customInterests : customInterests // ignore: cast_nullable_to_non_nullable
+as List<String>,customStrengths: null == customStrengths ? _self._customStrengths : customStrengths // ignore: cast_nullable_to_non_nullable
+as List<String>,supportSource: freezed == supportSource ? _self.supportSource : supportSource // ignore: cast_nullable_to_non_nullable
+as String?,earliestMoveYear: freezed == earliestMoveYear ? _self.earliestMoveYear : earliestMoveYear // ignore: cast_nullable_to_non_nullable
+as int?,graduationYear: freezed == graduationYear ? _self.graduationYear : graduationYear // ignore: cast_nullable_to_non_nullable
+as int?,passportValidUntil: freezed == passportValidUntil ? _self.passportValidUntil : passportValidUntil // ignore: cast_nullable_to_non_nullable
+as String?,preferredCountryIds: null == preferredCountryIds ? _self._preferredCountryIds : preferredCountryIds // ignore: cast_nullable_to_non_nullable
+as List<String>,constraints: freezed == constraints ? _self.constraints : constraints // ignore: cast_nullable_to_non_nullable
+as String?,notifications: freezed == notifications ? _self.notifications : notifications // ignore: cast_nullable_to_non_nullable
+as UserNotifications?,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
+as String?,experience: null == experience ? _self._experience : experience // ignore: cast_nullable_to_non_nullable
+as List<UserExperience>,
   ));
 }
 
@@ -1281,6 +1944,18 @@ $UserConsentsCopyWith<$Res>? get consents {
 
   return $UserConsentsCopyWith<$Res>(_self.consents!, (value) {
     return _then(_self.copyWith(consents: value));
+  });
+}/// Create a copy of UserProfile
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$UserNotificationsCopyWith<$Res>? get notifications {
+    if (_self.notifications == null) {
+    return null;
+  }
+
+  return $UserNotificationsCopyWith<$Res>(_self.notifications!, (value) {
+    return _then(_self.copyWith(notifications: value));
   });
 }
 }
