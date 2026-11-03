@@ -25,19 +25,19 @@ for extraction (Sonnet) and coach chat (Haiku), always called from Cloud Functio
 ```
 schema/njia.schema.json       canonical data model (JSON Schema) – generate Dart models from it
 seed/*.json                   135 start docs (SL → DE GB IE NL FR IT HU FI AT NO) – npm run validate
-functions/src/engine.mjs      planning engine (pure JS, tested) – port to Dart in app/lib/core/engine, keep in sync
+functions/src/engine.mjs      planning engine (pure JS, tested) – Dart port in app/lib/core/engine (parity test), keep in sync
 functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalWritten · computePlan · setRole
 firestore.rules/indexes       public read content, owner-only users, editor-only queue, TTL on jobs.expireAt
 n8n/*.js                      the 3 workflows as n8n SDK code (already created in n8n, inactive)
 app/prototype/njia.html       the approved UI prototype (v8) – the visual and behavioural reference for the Flutter app
-app/                          Flutter project goes here (see docs/architecture.md for the folder layout)
+app/                          Flutter project (app/README.md) – models generated from the schema via npm run gen:models
 docs/                         architecture · setup · data-model · plan (full planning doc, German) · handover · prototype-notes
 ```
 
 ## Commands
 ```
 npm install && npm run validate && npm test      # schema + referential checks, engine tests (no Firebase needed)
-cd app && flutter pub get && flutter test        # once the Flutter app exists
+cd app && flutter pub get && flutter test        # Dart engine port, model round-trips, app smoke test
 firebase emulators:start                         # local Firestore/Functions/Auth
 ```
 

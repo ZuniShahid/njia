@@ -1,0 +1,157 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'user_profile.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_UserEducation _$UserEducationFromJson(Map<String, dynamic> json) =>
+    _UserEducation(
+      isced: $enumDecodeNullable(
+        _$IscedEnumMap,
+        json['isced'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      field: json['field'] as String?,
+      institution: json['institution'] as String?,
+      country: json['country'] as String?,
+      gradeScale: json['gradeScale'] as String?,
+      grade: json['grade'] as String?,
+      year: (json['year'] as num?)?.toInt(),
+      status: $enumDecodeNullable(
+        _$UserEducationStatusEnumMap,
+        json['status'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+    );
+
+Map<String, dynamic> _$UserEducationToJson(_UserEducation instance) =>
+    <String, dynamic>{
+      'isced': _$IscedEnumMap[instance.isced],
+      'field': instance.field,
+      'institution': instance.institution,
+      'country': instance.country,
+      'gradeScale': instance.gradeScale,
+      'grade': instance.grade,
+      'year': instance.year,
+      'status': _$UserEducationStatusEnumMap[instance.status],
+    };
+
+const _$IscedEnumMap = {
+  Isced.level3: '3',
+  Isced.level4: '4',
+  Isced.level5: '5',
+  Isced.level6: '6',
+  Isced.level7: '7',
+  Isced.level8: '8',
+};
+
+const _$UserEducationStatusEnumMap = {
+  UserEducationStatus.inProgress: 'in_progress',
+  UserEducationStatus.completed: 'completed',
+};
+
+_UserLanguage _$UserLanguageFromJson(Map<String, dynamic> json) =>
+    _UserLanguage(
+      lang: json['lang'] as String?,
+      cefr: $enumDecodeNullable(
+        _$CefrEnumMap,
+        json['cefr'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      test: json['test'] as String?,
+      score: json['score'] as String?,
+      testDate: json['testDate'] as String?,
+    );
+
+Map<String, dynamic> _$UserLanguageToJson(_UserLanguage instance) =>
+    <String, dynamic>{
+      'lang': instance.lang,
+      'cefr': _$CefrEnumMap[instance.cefr],
+      'test': instance.test,
+      'score': instance.score,
+      'testDate': instance.testDate,
+    };
+
+const _$CefrEnumMap = {
+  Cefr.a1: 'A1',
+  Cefr.a2: 'A2',
+  Cefr.b1: 'B1',
+  Cefr.b2: 'B2',
+  Cefr.c1: 'C1',
+  Cefr.c2: 'C2',
+};
+
+_UserConsents _$UserConsentsFromJson(Map<String, dynamic> json) =>
+    _UserConsents(
+      analytics: json['analytics'] as bool?,
+      outcomeSharing: json['outcomeSharing'] as bool?,
+    );
+
+Map<String, dynamic> _$UserConsentsToJson(_UserConsents instance) =>
+    <String, dynamic>{
+      'analytics': instance.analytics,
+      'outcomeSharing': instance.outcomeSharing,
+    };
+
+_UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => _UserProfile(
+  id: json['id'] as String?,
+  displayName: json['displayName'] as String?,
+  email: json['email'] as String?,
+  nationality: json['nationality'] as String?,
+  residenceCountry: json['residenceCountry'] as String?,
+  birthYear: (json['birthYear'] as num?)?.toInt(),
+  education:
+      (json['education'] as List<dynamic>?)
+          ?.map((e) => UserEducation.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  languages:
+      (json['languages'] as List<dynamic>?)
+          ?.map((e) => UserLanguage.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const [],
+  experienceMonths: (json['experienceMonths'] as num?)?.toInt(),
+  interests:
+      (json['interests'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  savings: json['savings'] == null
+      ? null
+      : Money.fromJson(json['savings'] as Map<String, dynamic>),
+  monthlySupport: json['monthlySupport'] == null
+      ? null
+      : Money.fromJson(json['monthlySupport'] as Map<String, dynamic>),
+  facts: json['facts'] as Map<String, dynamic>?,
+  roles:
+      (json['roles'] as List<dynamic>?)
+          ?.map((e) => $enumDecode(_$UserRoleEnumMap, e))
+          .toList() ??
+      const [],
+  consents: json['consents'] == null
+      ? null
+      : UserConsents.fromJson(json['consents'] as Map<String, dynamic>),
+  createdAt: json['createdAt'] as String?,
+);
+
+Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'displayName': instance.displayName,
+      'email': instance.email,
+      'nationality': instance.nationality,
+      'residenceCountry': instance.residenceCountry,
+      'birthYear': instance.birthYear,
+      'education': instance.education.map((e) => e.toJson()).toList(),
+      'languages': instance.languages.map((e) => e.toJson()).toList(),
+      'experienceMonths': instance.experienceMonths,
+      'interests': instance.interests,
+      'savings': instance.savings?.toJson(),
+      'monthlySupport': instance.monthlySupport?.toJson(),
+      'facts': instance.facts,
+      'roles': instance.roles.map((e) => _$UserRoleEnumMap[e]!).toList(),
+      'consents': instance.consents?.toJson(),
+      'createdAt': instance.createdAt,
+    };
+
+const _$UserRoleEnumMap = {UserRole.editor: 'editor', UserRole.admin: 'admin'};

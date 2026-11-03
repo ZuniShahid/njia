@@ -1,0 +1,20 @@
+// GENERATED barrel – see scripts/gen-models.mjs.
+export 'change_request.dart';
+export 'common.dart';
+export 'content_source.dart';
+export 'corridor.dart';
+export 'country.dart';
+export 'funding.dart';
+export 'goal.dart';
+export 'job.dart';
+export 'occupation.dart';
+export 'outcome.dart';
+export 'pathway.dart';
+export 'plan.dart';
+export 'refresh_run.dart';
+export 'requirement.dart';
+export 'residence_permit.dart';
+export 'service_provider.dart';
+export 'trust_alert.dart';
+export 'user_document.dart';
+export 'user_profile.dart';

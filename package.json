@@ -6,7 +6,9 @@
   "scripts": {
     "validate": "node scripts/validate-seed.mjs",
     "seed": "node scripts/seed-firestore.mjs",
-    "test": "node --test functions/test/*.test.mjs"
+    "test": "node --test functions/test/*.test.mjs",
+    "gen:models": "node scripts/gen-models.mjs",
+    "engine:fixture": "node scripts/engine-fixture.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
