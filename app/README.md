@@ -22,13 +22,16 @@ lib/
                               providers.dart (Firebase handles, auth state, repositories)
   core/models/                GENERATED from ../schema/njia.schema.json – see below. plan.dart is hand-written (engine shape).
   core/engine/                Dart port of ../functions/src/engine.mjs (engine.dart) + ContentBundle. Keep in sync!
+                              roadmap_model.dart: plan → phases, year axis, milestone, tasks, deadlines, decisions (for cockpit/roadmap)
   data/                       content_repository · user_repository · jobs_repository · firestore_codec (Timestamp → ISO, id in/out)
-  features/<view>/            one folder per screen. Built: auth, profile, goal (form, drawer, page). Placeholders: the rest (task 5)
+  features/<view>/            one folder per screen. Built: auth, profile, goal, cockpit, roadmap. Placeholders: the rest (task 5)
   preview/                    sample_data.dart (Aminata Kamara, 2 goals) · fakes.dart (in-memory auth/user/content) – used by main_preview.dart and tests
   shared/                     format.dart (dates, money) · widgets/ui.dart (PageHead, badges, accordion, chips, fields…) · provenance_chip · view_scaffold
 assets/fonts/                 Plus Jakarta Sans (OFL), the prototype font
+assets/seed/                  copy of ../seed (npm run gen:models) for main_preview.dart and widget tests
 test/                         engine_test (the 4 cases from functions/test) · engine_parity_test (fixture from the JS engine)
                               models_test (every seed doc round-trips) · app_test (routing + shell) · auth_test · profile_test · goal_test
+                              roadmap_model_test · cockpit_roadmap_test
 ```
 
 ## Models
@@ -58,6 +61,10 @@ Each screen mirrors its prototype view (`docs/prototype-notes.md`). Data comes t
 (`AuthService`, `UserRepository`, `ContentRepository`); `preview/fakes.dart` implements them in memory so screens can be
 developed and tested without Firebase. Profile sections save partial updates (`updateProfile(uid, patch)`); goals are
 written to `users/{uid}/goals` and the server computes the plan (`onGoalWritten`). The active goal is `users/{uid}.activeGoalId`.
+Cockpit and roadmap read `users/{uid}/plans/{goalId}`; until the server has written it, the Dart engine computes the same plan
+from the corridor bundle (`effectivePlanProvider`). Step status, checklist ticks and decisions are stored per goal in
+`users/{uid}.progress` (client-only, not read by the engine). Content numbers (tuition, fees, funds, living costs, funding
+amounts) are looked up in the content docs the step points at, so each one renders with its `ProvenanceChip`.
 
 ## Firebase
 

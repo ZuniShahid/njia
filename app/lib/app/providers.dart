@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/engine/engine.dart';
+import '../core/engine/roadmap_model.dart';
 import '../core/models/models.dart';
 import '../data/auth_service.dart';
 import '../data/content_repository.dart';
@@ -56,5 +58,68 @@ final activeGoalProvider = Provider<Goal?>((ref) {
 final countriesProvider = FutureProvider<List<Country>>((ref) => ref.watch(contentRepositoryProvider).countries());
 final occupationsProvider = FutureProvider<List<Occupation>>((ref) => ref.watch(contentRepositoryProvider).occupations());
 
+/// sources/{id}.name for provenance chips, keyed by id.
+final sourceNamesProvider = FutureProvider<Map<String, String>>((ref) async {
+  final list = await ref.watch(contentRepositoryProvider).sources();
+  return {for (final s in list) s.id: s.name};
+});
+
 /// Max goals per user (prototype: "Up to 5 goals").
 const maxGoals = 5;
+
+// ---- plan & roadmap -------------------------------------------------------------------------------
+
+/// The canonical server plan for a goal (null until computePlan has run or while offline before the first sync).
+final serverPlanProvider = StreamProvider.family<Plan?, String>((ref, goalId) {
+  final uid = ref.watch(currentUidProvider);
+  if (uid == null) return Stream.value(null);
+  return ref.watch(userRepositoryProvider).plan(uid, goalId);
+});
+
+/// Content for one destination country (origin SL), cached per country for the session.
+final corridorBundleProvider = FutureProvider.family<ContentBundle, String>(
+  (ref, countryId) => ref.watch(contentRepositoryProvider).corridorBundle(destination: countryId),
+);
+
+/// Server plan if present, otherwise the Dart engine's instant preview from the same inputs.
+final effectivePlanProvider = FutureProvider.family<Plan?, String>((ref, goalId) async {
+  final goal = (ref.watch(goalsProvider).value ?? const <Goal>[]).where((g) => g.id == goalId).firstOrNull;
+  if (goal == null) return null;
+  final server = ref.watch(serverPlanProvider(goalId)).value;
+  if (server != null) return server;
+  final profile = ref.watch(profileProvider).value;
+  final countryId = goal.countryId;
+  if (profile == null || countryId == null) return null;
+  final content = await ref.watch(corridorBundleProvider(countryId).future);
+  final facts = factsFromProfile(profile);
+  return buildPlan(goal: goal, profile: profile.copyWith(facts: facts), content: content);
+});
+
+/// Everything the cockpit and roadmap render, for the active goal.
+final roadmapProvider = FutureProvider<RoadmapModel?>((ref) async {
+  final goal = ref.watch(activeGoalProvider);
+  if (goal?.id == null || goal!.countryId == null) return null;
+  final plan = await ref.watch(effectivePlanProvider(goal.id!).future);
+  if (plan == null) return null;
+  final content = await ref.watch(corridorBundleProvider(goal.countryId!).future);
+  final progress = ref.watch(profileProvider).value?.progress?[goal.id] as Map?;
+  return RoadmapModel.build(goal: goal, plan: plan, content: content, progress: progress == null ? null : Map<String, dynamic>.from(progress));
+});
+
+/// Writes one progress value for the active goal: users/{uid}.progress[goalId][section][key] = value.
+Future<void> saveProgress(WidgetRef ref, {required String goalId, required String section, required String key, required Object? value}) async {
+  final uid = ref.read(currentUidProvider);
+  final profile = ref.read(profileProvider).value;
+  if (uid == null) return;
+  final all = Map<String, dynamic>.from(profile?.progress ?? const {});
+  final goalMap = Map<String, dynamic>.from(all[goalId] as Map? ?? const {});
+  final sectionMap = Map<String, dynamic>.from(goalMap[section] as Map? ?? const {});
+  if (value == null) {
+    sectionMap.remove(key);
+  } else {
+    sectionMap[key] = value;
+  }
+  goalMap[section] = sectionMap;
+  all[goalId] = goalMap;
+  await ref.read(userRepositoryProvider).updateProfile(uid, {'progress': all});
+}

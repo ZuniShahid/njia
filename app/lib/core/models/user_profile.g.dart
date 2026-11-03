@@ -200,6 +200,7 @@ _UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => _UserProfile(
           ?.map((e) => UserExperience.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  progress: json['progress'] as Map<String, dynamic>?,
 );
 
 Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) =>
@@ -234,6 +235,7 @@ Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) =>
       'notifications': instance.notifications?.toJson(),
       'activeGoalId': instance.activeGoalId,
       'experience': instance.experience.map((e) => e.toJson()).toList(),
+      'progress': instance.progress,
     };
 
 const _$UserRoleEnumMap = {UserRole.editor: 'editor', UserRole.admin: 'admin'};
