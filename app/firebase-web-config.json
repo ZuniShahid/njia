@@ -1,0 +1,9 @@
+{
+  "_comment": "Firebase web app 'Njia Careers Web' in project njia-prod (registered 3 Nov 2026). Public client identifiers, safe to commit. Android/iOS apps: run `flutterfire configure --project=njia-prod` once the Flutter project exists; it generates lib/firebase_options.dart from this project.",
+  "apiKey": "AIzaSyA38e3MntQaIHRcIsg1HfI064kYY__7sU0",
+  "authDomain": "njia-prod.firebaseapp.com",
+  "projectId": "njia-prod",
+  "storageBucket": "njia-prod.firebasestorage.app",
+  "messagingSenderId": "778432942041",
+  "appId": "1:778432942041:web:6f381c5896e8c60fdf93c8"
+}

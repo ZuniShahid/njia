@@ -23,7 +23,7 @@ Everything decided so far is here or in the linked files. German planning doc: `
 | --- | --- | --- |
 | Data model | `schema/njia.schema.json` (15 collections, provenance on every content doc) | done |
 | Seed data | `seed/*.json` – 11 countries, 10 corridors, 23 residence permits, 21 requirements, 14 funding, 12 pathways, 6 occupations, 30 sources, 5 trust alerts, 3 providers (135 docs) | validated (`npm run validate` → "seed OK"); fees/deadlines partly `trust: "estimate"` – first review round pending |
-| Firestore | `firestore.rules`, `firestore.indexes.json` (TTL on `jobs.expireAt`), `storage.rules`, `firebase.json`, `.firebaserc` (njia-prod) | done, **not deployed** (no Firebase project yet) |
+| Firestore | `firestore.rules`, `firestore.indexes.json` (TTL on `jobs.expireAt`), `storage.rules`, `firebase.json`, `.firebaserc` (njia-prod) | rules/indexes **not deployed yet** (project exists, see below) |
 | Planning engine | `functions/src/engine.mjs` + `functions/test/engine.test.mjs` (4 tests) | done, tests green |
 | Cloud Functions | `functions/src/index.mjs` (api, review, onChangeRequestWritten, onGoalWritten, computePlan, setRole), `changes.mjs` | written, **not deployed** |
 | n8n flows | `n8n/njia-1-source-check.js`, `njia-2-notify-reviewer.js`, `njia-3-jobs-refresh.js`; created in n8n as "Njia 1 – Source check" (id 1tmUJrpW85k4v2o5), "Njia 2 – Notify reviewer" (lgUfq7EKOUPUZ9Dv), "Njia 3 – Jobs refresh" (UVzN9LCe5URaQzSK), project Dy9ixzJXAYkO6P6G | created, **inactive**; Settings nodes and credentials still to fill (`docs/setup.md` §2) |
@@ -33,11 +33,11 @@ Everything decided so far is here or in the linked files. German planning doc: `
 
 External things that exist but are not in the repo:
 - n8n credentials on n8n.keevana.com: Firestore service account "Google Firebase Cloud Firestore account 3" (n8n-firestore@keepa-lean – needs IAM role *Cloud Datastore User* on njia-prod), "Claude Header Auth account", WhatsApp Business account. Still to create: Gmail OAuth2 "Njia Gmail", HTTP Query Auth "Adzuna app_key".
-- Firebase project `njia-prod`: **does not exist yet** – create it first (`docs/setup.md` §1).
+- Firebase project `njia-prod` (project number 778432942041): **created 3 Nov 2026** by Philipp's Google account keevana.app@gmail.com. Done: Firestore `(default)` in **eur3 (Europe)**, Standard edition, production-mode rules; Authentication with Email/Password + Google (public name "Njia Careers", support e-mail keevana.app@gmail.com); web app "Njia Careers Web" registered with Hosting (config in `app/firebase-web-config.json`). Not done: **Blaze plan upgrade** (needed for Storage and Cloud Functions – Philipp must attach a billing account), Storage bucket, deploy of rules/indexes/functions, seed import, admin user. Analytics and Gemini were left off on purpose.
 
 ## 3. Next tasks, in order
 
-1. **Firebase project** `njia-prod` (Blaze, europe-west), deploy rules/indexes/storage, seed, deploy functions, create admin user with claim `role: admin` (`docs/setup.md`).
+1. **Firebase project** `njia-prod` exists (Spark). Remaining: Blaze upgrade (Philipp), create Storage bucket in europe-west1, `firebase deploy --only firestore:rules,firestore:indexes,storage`, `npm run seed`, deploy functions, create admin user with claim `role: admin` (`docs/setup.md`).
 2. **Flutter app skeleton** in `app/`: `flutter create --org com.revana --project-name njia_careers --platforms web,android,ios .`, folder layout from `docs/architecture.md`, go_router routes, Riverpod, Firebase init with Firestore persistence, theme tokens from the prototype.
 3. **Models from schema**: generate freezed/json_serializable Dart models for every collection in `schema/njia.schema.json`.
 4. **Engine port**: `functions/src/engine.mjs` → `app/lib/core/engine/`, with the same 4 test cases ported to `flutter test`.

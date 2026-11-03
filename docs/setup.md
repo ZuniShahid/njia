@@ -1,7 +1,7 @@
 # Setup checklist
 
 ## 1. Firebase project
-- Create project `njia-prod` (Blaze plan), default location **europe-west** (Firestore + Storage in the EU).
+- Project `njia-prod` exists (created 3 Nov 2026, Firestore in eur3, Auth Email/Password + Google, web app registered → `app/firebase-web-config.json`). Upgrade to the **Blaze plan** (required for Storage and Functions), then create the Storage bucket in **europe-west1**.
 - Enable Authentication (Email/Password + Google), Firestore, Storage, Hosting, Functions.
 - `firebase deploy --only firestore:rules,firestore:indexes,storage` – the indexes file also enables the **TTL policy** on `jobs.expireAt`.
 - Create a service account key for seeding (`sa.json`, role *Cloud Datastore User*), run `npm run seed`.
