@@ -66,6 +66,7 @@ abstract class UserLanguage with _$UserLanguage {
     String? test,
     String? score,
     String? testDate,
+    bool? native,
   }) = _UserLanguage;
 
   factory UserLanguage.fromJson(Map<String, dynamic> json) => _$UserLanguageFromJson(json);
@@ -79,6 +80,30 @@ abstract class UserConsents with _$UserConsents {
   }) = _UserConsents;
 
   factory UserConsents.fromJson(Map<String, dynamic> json) => _$UserConsentsFromJson(json);
+}
+
+@freezed
+abstract class UserNotifications with _$UserNotifications {
+  const factory UserNotifications({
+    bool? whatsapp,
+    bool? sms,
+    bool? email,
+    bool? weekly,
+  }) = _UserNotifications;
+
+  factory UserNotifications.fromJson(Map<String, dynamic> json) => _$UserNotificationsFromJson(json);
+}
+
+@freezed
+abstract class UserExperience with _$UserExperience {
+  const factory UserExperience({
+    String? role,
+    /// Organisation · place · when
+    String? where,
+    int? months,
+  }) = _UserExperience;
+
+  factory UserExperience.fromJson(Map<String, dynamic> json) => _$UserExperienceFromJson(json);
 }
 
 /// Doc id: Firebase Auth uid
@@ -104,6 +129,28 @@ abstract class UserProfile with _$UserProfile {
     @Default([]) List<UserRole> roles,
     UserConsents? consents,
     String? createdAt,
+    /// E.164, for SMS / WhatsApp reminders
+    String? phone,
+    String? city,
+    @Default([]) List<String> strengths,
+    /// User-added interest chips (removable)
+    @Default([]) List<String> customInterests,
+    /// User-added strength chips (removable)
+    @Default([]) List<String> customStrengths,
+    /// Who supports the student financially (never shown to employers)
+    String? supportSource,
+    int? earliestMoveYear,
+    int? graduationYear,
+    /// YYYY-MM
+    String? passportValidUntil,
+    @Default([]) List<String> preferredCountryIds,
+    /// Things the plan must respect (family duties, work, health, religion)
+    String? constraints,
+    UserNotifications? notifications,
+    /// users/{uid}/goals/{id} shown in the cockpit
+    String? activeGoalId,
+    /// Work experience entries; experienceMonths is kept in sync (sum)
+    @Default([]) List<UserExperience> experience,
   }) = _UserProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);

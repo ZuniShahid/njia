@@ -9,7 +9,7 @@ String formatDate(String? iso) {
   return '${d.day} ${_months[d.month - 1]} ${d.year}';
 }
 
-/// "EUR 11,904" – thousands separator, no decimals unless needed.
+/// "€120,000" / "EUR 11,904" – thousands separator, no decimals unless needed; a space only after a code.
 String formatMoney(num amount, String currency) {
   final whole = amount.truncate();
   final s = whole.abs().toString();
@@ -20,5 +20,6 @@ String formatMoney(num amount, String currency) {
   }
   final frac = amount - whole;
   final tail = frac == 0 ? '' : '.${(frac.abs() * 100).round().toString().padLeft(2, '0')}';
-  return '$currency ${whole < 0 ? '-' : ''}$buf$tail';
+  final sep = currency.length > 1 ? ' ' : '';
+  return '$currency$sep${whole < 0 ? '-' : ''}$buf$tail';
 }

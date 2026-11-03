@@ -3,19 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:njia_careers/app/app.dart';
-import 'package:njia_careers/app/providers.dart';
 import 'package:njia_careers/app/theme.dart';
+import 'package:njia_careers/preview/fakes.dart';
 
-Widget app({required bool? signedIn}) => ProviderScope(
-      overrides: [isSignedInProvider.overrideWithValue(signedIn)],
-      child: const NjiaApp(),
-    );
+Widget app({required bool signedIn}) => ProviderScope(overrides: previewOverrides(signedIn: signedIn), child: const NjiaApp());
 
 void main() {
   testWidgets('signed out → auth screen', (tester) async {
     await tester.pumpWidget(app(signedIn: false));
     await tester.pumpAndSettle();
-    expect(find.text('Plan your path to Europe'), findsOneWidget);
+    expect(find.text('Plan the path to the job you want.'), findsOneWidget);
   });
 
   testWidgets('signed in → cockpit with left nav on a wide screen', (tester) async {
