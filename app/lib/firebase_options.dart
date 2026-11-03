@@ -1,8 +1,8 @@
-// Web: real values from app/firebase-web-config.json (public client identifiers, project njia-prod).
-// Android/iOS: placeholders until those apps are registered – then replace this file with the output of:
-//   dart pub global activate flutterfire_cli
-//   flutterfire configure --project=njia-prod --platforms=web,android,ios
-// `main.dart` catches an initialisation failure, so the app still starts (without data) in the meantime.
+// Firebase client config for project njia-prod (public client identifiers, safe to commit).
+// Web: app "Njia Careers Web" (app/firebase-web-config.json). Android: "Njia Careers Android", iOS: "Njia Careers iOS",
+// both com.revana.njia, registered 3 Nov 2026. Values from `firebase apps:sdkconfig`.
+// To regenerate: dart pub global activate flutterfire_cli && flutterfire configure --project=njia-prod --platforms=web,android,ios
+// Android Google sign-in additionally needs the SHA-1 of the signing key in Firebase → Project settings → Android app.
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
@@ -32,17 +32,17 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'TODO',
-    appId: 'TODO',
-    messagingSenderId: 'TODO',
+    apiKey: 'AIzaSyBxgJY4qV32HGZNAwOwutYnOcvstnwjhoI',
+    appId: '1:778432942041:android:520c7c2d34c6fcf6df93c8',
+    messagingSenderId: '778432942041',
     projectId: projectId,
     storageBucket: '$projectId.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'TODO',
-    appId: 'TODO',
-    messagingSenderId: 'TODO',
+    apiKey: 'AIzaSyDN6bFRbgJUDAba73HwYAhP9VCC8yICpKA',
+    appId: '1:778432942041:ios:12de97deb04a8ce3df93c8',
+    messagingSenderId: '778432942041',
     projectId: projectId,
     storageBucket: '$projectId.firebasestorage.app',
     iosBundleId: 'com.revana.njia',

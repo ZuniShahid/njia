@@ -38,7 +38,7 @@ External things that exist but are not in the repo:
 ## 3. Next tasks, in order
 
 1. ~~Firebase project~~ done. Remaining infra: give the n8n Firestore service account the role Cloud Datastore User on njia-prod; WhatsApp template `njia_review_needed` (WhatsApp account Keevana POS) awaiting Meta approval; Adzuna account for Njia 3.
-2. ~~**Flutter app skeleton**~~ done (`app/README.md`). `app/lib/firebase_options.dart` carries the real web config from `app/firebase-web-config.json`; Android/iOS values are still placeholders – run `flutterfire configure --project=njia-prod` once the Android/iOS apps are registered.
+2. ~~**Flutter app skeleton**~~ done (`app/README.md`). `app/lib/firebase_options.dart` carries the real config for web, Android and iOS (apps registered 3 Nov 2026, all `com.revana.njia`). Still open for Android Google sign-in: add the release SHA-1 in Firebase once signing is set up (Zunair). iOS builds need a Mac/Xcode or a build service (Zunair). Apple and Google Play developer accounts exist.
 3. ~~**Models from schema**~~ done – `scripts/gen-models.mjs` generates them; rerun after schema changes.
 4. ~~**Engine port**~~ done – `app/lib/core/engine/engine.dart`, 4 tests + parity test against the JS output.
 5. **Screens**, in this order (each one mirrors the prototype view, see `docs/prototype-notes.md`): ~~Auth → Profile → Goal (create/edit)~~ done → Cockpit → Roadmap → Readiness → Finances → Visa & residence → Jobs → Big picture → Coach → Documents → Next milestone → Admin review queue (`/admin/changes`, editors only). Phone sign-in is not enabled in Firebase Auth, so the auth screen offers email + Google only.

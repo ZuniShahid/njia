@@ -16,7 +16,7 @@ flutter run -d chrome -t lib/main_preview.dart   # sample data, no Firebase – 
 ```
 lib/
   main.dart                   Firebase init (offline persistence on), ProviderScope, NjiaApp
-  firebase_options.dart       web values are real (from ../firebase-web-config.json); Android/iOS still placeholders → `flutterfire configure`
+  firebase_options.dart       real config for web, Android and iOS (project njia-prod)
   app/                        app.dart (MaterialApp.router) · router.dart (go_router, one route per prototype view)
                               theme.dart (tokens from the prototype, light + dark) · shell.dart (left nav / bottom nav)
                               providers.dart (Firebase handles, auth state, repositories)
@@ -61,6 +61,7 @@ written to `users/{uid}/goals` and the server computes the plan (`onGoalWritten`
 
 ## Firebase
 
-`firebase_options.dart` has the real web config (`app/firebase-web-config.json`, project `njia-prod`); Android and iOS values are
-placeholders until those apps are registered (`flutterfire configure --project=njia-prod`). `main.dart` catches a failed init
-(15 s timeout), so the app starts without data. Firestore persistence is switched on in `initFirebase()`.
+`firebase_options.dart` holds the real client config for web, Android and iOS (apps "Njia Careers Web/Android/iOS",
+package/bundle `com.revana.njia`, project `njia-prod`). Android Google sign-in also needs the release SHA-1 registered in
+Firebase once signing is set up. `main.dart` catches a failed init (15 s timeout), so the app starts without data.
+Firestore persistence is switched on in `initFirebase()`.
