@@ -1,4 +1,4 @@
-import { workflow, node, trigger, sticky, ifElse, splitInBatches, nextBatch, expr, placeholder } from '@n8n/workflow-sdk';
+import { workflow, node, trigger, sticky, ifElse, splitInBatches, nextBatch, expr } from '@n8n/workflow-sdk';
 
 const FS_CRED = { googleApi: { id: 'VVUOOS1FNgA7B8Bn', name: 'Google Firebase Cloud Firestore account 3' } };
 const PROJECT = expr("{{ $('Settings').first().json.projectId }}");
@@ -27,8 +27,8 @@ const settings = node({
       mode: 'manual',
       includeOtherFields: false,
       assignments: { assignments: [
-        { id: 'projectId', name: 'projectId', value: placeholder('Firebase project ID, e.g. njia-prod'), type: 'string' },
-        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: placeholder('Review function URL, e.g. https://europe-west1-njia-prod.cloudfunctions.net/review'), type: 'string' },
+        { id: 'projectId', name: 'projectId', value: 'njia-prod', type: 'string' },
+        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: 'https://europe-west1-njia-prod.cloudfunctions.net/review', type: 'string' },
         { id: 'claudeModel', name: 'claudeModel', value: 'claude-sonnet-5-5', type: 'string' },
         { id: 'maxSources', name: 'maxSources', value: 80, type: 'number' },
         { id: 'forceAll', name: 'forceAll', value: false, type: 'boolean' },

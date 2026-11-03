@@ -1,8 +1,8 @@
-// Placeholder until the Firebase project `njia-prod` exists (docs/setup.md §1).
-// Then replace this file with the output of:
+// Web: real values from app/firebase-web-config.json (public client identifiers, project njia-prod).
+// Android/iOS: placeholders until those apps are registered – then replace this file with the output of:
 //   dart pub global activate flutterfire_cli
 //   flutterfire configure --project=njia-prod --platforms=web,android,ios
-// `main.dart` catches the initialisation failure, so the app still starts (without data) in the meantime.
+// `main.dart` catches an initialisation failure, so the app still starts (without data) in the meantime.
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
@@ -23,12 +23,12 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'TODO',
-    appId: 'TODO',
-    messagingSenderId: 'TODO',
-    projectId: projectId,
-    authDomain: '$projectId.firebaseapp.com',
-    storageBucket: '$projectId.firebasestorage.app',
+    apiKey: 'AIzaSyA38e3MntQaIHRcIsg1HfI064kYY__7sU0',
+    appId: '1:778432942041:web:6f381c5896e8c60fdf93c8',
+    messagingSenderId: '778432942041',
+    projectId: 'njia-prod',
+    authDomain: 'njia-prod.firebaseapp.com',
+    storageBucket: 'njia-prod.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(

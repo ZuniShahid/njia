@@ -15,7 +15,7 @@ flutter run -d chrome             # runs without Firebase until firebase_options
 ```
 lib/
   main.dart                   Firebase init (offline persistence on), ProviderScope, NjiaApp
-  firebase_options.dart       PLACEHOLDER – replace with `flutterfire configure --project=njia-prod` once the project exists
+  firebase_options.dart       web values are real (from ../firebase-web-config.json); Android/iOS still placeholders → `flutterfire configure`
   app/                        app.dart (MaterialApp.router) · router.dart (go_router, one route per prototype view)
                               theme.dart (tokens from the prototype, light + dark) · shell.dart (left nav / bottom nav)
                               providers.dart (Firebase handles, auth state, repositories)
@@ -52,5 +52,6 @@ After changing `engine.mjs`: port the change, then `npm run engine:fixture` and 
 
 ## Firebase
 
-`firebase_options.dart` is a placeholder (project `njia-prod` does not exist yet, see `docs/setup.md` §1). `main.dart` catches
-the failed init, so the app starts without data. Firestore persistence is switched on in `initFirebase()`.
+`firebase_options.dart` has the real web config (`app/firebase-web-config.json`, project `njia-prod`); Android and iOS values are
+placeholders until those apps are registered (`flutterfire configure --project=njia-prod`). `main.dart` catches a failed init
+(15 s timeout), so the app starts without data. Firestore persistence is switched on in `initFirebase()`.

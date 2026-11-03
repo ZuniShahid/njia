@@ -26,7 +26,7 @@ const settings = node({
       mode: 'manual',
       includeOtherFields: false,
       assignments: { assignments: [
-        { id: 'projectId', name: 'projectId', value: placeholder('Firebase project ID, e.g. njia-prod'), type: 'string' },
+        { id: 'projectId', name: 'projectId', value: 'njia-prod', type: 'string' },
         { id: 'adzunaAppId', name: 'adzunaAppId', value: placeholder('Adzuna app_id (from developer.adzuna.com; the app_key goes into the credential)'), type: 'string' },
         { id: 'countries', name: 'countries', value: 'gb,de,nl,fr,it,at', type: 'string' },
         { id: 'queries', name: 'queries', value: 'graduate finance=isco-2413|junior financial analyst=isco-2413|junior accountant=isco-2411|junior software developer=isco-2512|credit analyst=isco-3312', type: 'string' },
