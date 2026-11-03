@@ -24,12 +24,12 @@ const settings = node({
       mode: 'manual',
       includeOtherFields: true,
       assignments: { assignments: [
-        { id: 'projectId', name: 'projectId', value: placeholder('Firebase project ID, e.g. njia-prod'), type: 'string' },
-        { id: 'reviewerEmail', name: 'reviewerEmail', value: placeholder('Reviewer e-mail address'), type: 'string' },
-        { id: 'reviewerPhone', name: 'reviewerPhone', value: placeholder('Reviewer WhatsApp number with country code, e.g. 4915159157590'), type: 'string' },
-        { id: 'waPhoneNumberId', name: 'waPhoneNumberId', value: placeholder('WhatsApp Business phone number ID (same as Content Engine)'), type: 'string' },
-        { id: 'adminUrl', name: 'adminUrl', value: placeholder('Admin review page, e.g. https://njia-prod.web.app/admin/changes'), type: 'string' },
-        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: placeholder('Review function URL, e.g. https://europe-west1-njia-prod.cloudfunctions.net/review'), type: 'string' }
+        { id: 'projectId', name: 'projectId', value: 'njia-prod', type: 'string' },
+        { id: 'reviewerEmail', name: 'reviewerEmail', value: placeholder('Reviewer e-mail address (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'reviewerPhone', name: 'reviewerPhone', value: placeholder('Reviewer WhatsApp number with country code (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'waPhoneNumberId', name: 'waPhoneNumberId', value: placeholder('WhatsApp Business phone number ID (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'adminUrl', name: 'adminUrl', value: 'https://njia-prod.web.app/admin/changes', type: 'string' },
+        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: 'https://europe-west1-njia-prod.cloudfunctions.net/review', type: 'string' }
       ] }
     },
     position: [260, 200]
@@ -47,12 +47,12 @@ const settingsReminder = node({
       mode: 'manual',
       includeOtherFields: true,
       assignments: { assignments: [
-        { id: 'projectId', name: 'projectId', value: placeholder('Firebase project ID, e.g. njia-prod'), type: 'string' },
-        { id: 'reviewerEmail', name: 'reviewerEmail', value: placeholder('Reviewer e-mail address'), type: 'string' },
-        { id: 'reviewerPhone', name: 'reviewerPhone', value: placeholder('Reviewer WhatsApp number with country code, e.g. 4915159157590'), type: 'string' },
-        { id: 'waPhoneNumberId', name: 'waPhoneNumberId', value: placeholder('WhatsApp Business phone number ID (same as Content Engine)'), type: 'string' },
-        { id: 'adminUrl', name: 'adminUrl', value: placeholder('Admin review page, e.g. https://njia-prod.web.app/admin/changes'), type: 'string' },
-        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: placeholder('Review function URL, e.g. https://europe-west1-njia-prod.cloudfunctions.net/review'), type: 'string' }
+        { id: 'projectId', name: 'projectId', value: 'njia-prod', type: 'string' },
+        { id: 'reviewerEmail', name: 'reviewerEmail', value: placeholder('Reviewer e-mail address (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'reviewerPhone', name: 'reviewerPhone', value: placeholder('Reviewer WhatsApp number with country code (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'waPhoneNumberId', name: 'waPhoneNumberId', value: placeholder('WhatsApp Business phone number ID (set in n8n, not in the repo)'), type: 'string' },
+        { id: 'adminUrl', name: 'adminUrl', value: 'https://njia-prod.web.app/admin/changes', type: 'string' },
+        { id: 'reviewBaseUrl', name: 'reviewBaseUrl', value: 'https://europe-west1-njia-prod.cloudfunctions.net/review', type: 'string' }
       ] }
     },
     position: [260, 500]
@@ -161,4 +161,4 @@ export default workflow('njia-2-notify-reviewer', 'Njia 2 - Notify reviewer')
   .add(fromSourceCheck).to(settings).to(buildMessages).to(sendEmail)
   .add(buildMessages).to(sendWhatsApp)
   .add(weeklyReminder).to(settingsReminder).to(readPending).to(buildReminder).to(buildMessages)
-  .add(sticky('## Njia 2 - Notify reviewer\n\nCalled by **Njia 1** after each 14-day source check, and runs itself every Monday 09:00 as a reminder while change requests are still pending.\n\n**Set up once**: fill BOTH Settings nodes (project ID, reviewer e-mail and WhatsApp number, admin URL, review function URL).\n\n**Firestore**: credential "Google Firebase Cloud Firestore account 3" (service account n8n-firestore@keepa-lean). Give that service account the role *Cloud Datastore User* on the Njia Firebase project, or create a new Google service-account credential for Njia and select it in all Firestore nodes.\n\n**E-mail**: create a Gmail OAuth2 credential "Njia Gmail" (any Google account), the approve/reject buttons link to the Cloud Function `review`.\n\n**WhatsApp**: template `njia_review_needed` (English, 3 body variables: count, summary, link) must be created and approved in Meta Business Manager first; until then only the e-mail arrives.', [fromSourceCheck, weeklyReminder], { color: 4 }));
+  .add(sticky('## Njia 2 - Notify reviewer\n\nCalled by **Njia 1** after each 14-day source check, and runs itself every Monday 09:00 as a reminder while change requests are still pending.\n\n**Settings** (both nodes): project ID and URLs are in the code; reviewer e-mail, WhatsApp number and WhatsApp sender ID are filled in n8n only (public repo).\n\n**Firestore**: credential "Google Firebase Cloud Firestore account 3" (service account n8n-firestore@keepa-lean). Give that service account the role *Cloud Datastore User* on the Njia Firebase project, or create a new Google service-account credential for Njia and select it in all Firestore nodes.\n\n**E-mail**: create a Gmail OAuth2 credential "Njia Gmail" (any Google account), the approve/reject buttons link to the Cloud Function `review`.\n\n**WhatsApp**: template `njia_review_needed` (English, 3 body variables: count, summary, link) must be created and approved in Meta Business Manager first; until then only the e-mail arrives.', [fromSourceCheck, weeklyReminder], { color: 4 }));
