@@ -13,8 +13,12 @@ firestore.rules / indexes    public read for content, owner-only users, editor-o
 functions/src/engine.mjs     planning engine (readiness, difficulty, realism, roadmap) – pure JS, tested
 functions/src/index.mjs      Cloud Functions: api, review, onChangeRequestWritten, onGoalWritten, computePlan, setRole
 n8n/*.js                     the 3 n8n workflows as SDK code (already created in n8n.keevana.com)
-docs/                        architecture, setup, data model
+app/prototype/njia.html      approved UI prototype (v8) – reference for the Flutter app
+docs/                        architecture, setup, data model, plan (full planning doc), handover, prototype-notes
+CLAUDE.md                    project memory for Claude Code sessions
 ```
+
+New here? Read `docs/handover.md` first.
 
 ## Quick start
 
