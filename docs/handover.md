@@ -23,21 +23,21 @@ Everything decided so far is here or in the linked files. German planning doc: `
 | --- | --- | --- |
 | Data model | `schema/njia.schema.json` (15 collections, provenance on every content doc) | done |
 | Seed data | `seed/*.json` – 11 countries, 10 corridors, 23 residence permits, 21 requirements, 14 funding, 12 pathways, 6 occupations, 30 sources, 5 trust alerts, 3 providers (135 docs) | validated (`npm run validate` → "seed OK"); fees/deadlines partly `trust: "estimate"` – first review round pending |
-| Firestore | `firestore.rules`, `firestore.indexes.json` (TTL on `jobs.expireAt`), `storage.rules`, `firebase.json`, `.firebaserc` (njia-prod) | rules/indexes **not deployed yet** (project exists, see below) |
+| Firestore | `firestore.rules`, `firestore.indexes.json` (TTL on `jobs.expireAt`), `storage.rules`, `firebase.json`, `.firebaserc` (njia-prod) | **deployed 3 Nov 2026**; seed imported (135 docs) |
 | Planning engine | `functions/src/engine.mjs` + `functions/test/engine.test.mjs` (4 tests); Dart port `app/lib/core/engine/engine.dart` + `app/test/engine_test.dart` (same 4 cases) + `engine_parity_test.dart` (output identical to the JS engine, fixture via `npm run engine:fixture`) | done, tests green |
-| Cloud Functions | `functions/src/index.mjs` (api, review, onChangeRequestWritten, onGoalWritten, computePlan, setRole), `changes.mjs` | written, **not deployed** |
-| n8n flows | `n8n/njia-1-source-check.js`, `njia-2-notify-reviewer.js`, `njia-3-jobs-refresh.js`; created in n8n as "Njia 1 – Source check" (id 1tmUJrpW85k4v2o5), "Njia 2 – Notify reviewer" (lgUfq7EKOUPUZ9Dv), "Njia 3 – Jobs refresh" (UVzN9LCe5URaQzSK), project Dy9ixzJXAYkO6P6G | created, **inactive**; Settings nodes and credentials still to fill (`docs/setup.md` §2) |
+| Cloud Functions | `functions/src/index.mjs` (api, review, onChangeRequestWritten, onGoalWritten, computePlan, setRole), `changes.mjs` | **all 6 deployed 3 Nov 2026** (europe-west1, Node 22) |
+| n8n flows | `n8n/njia-1-source-check.js`, `njia-2-notify-reviewer.js`, `njia-3-jobs-refresh.js`; created in n8n as "Njia 1 – Source check" (id 1tmUJrpW85k4v2o5), "Njia 2 – Notify reviewer" (lgUfq7EKOUPUZ9Dv), "Njia 3 – Jobs refresh" (UVzN9LCe5URaQzSK), project Dy9ixzJXAYkO6P6G | created, **inactive**; Njia 1 + 2 point at njia-prod, reviewer set, Gmail credential connected; Njia 3 needs the Adzuna app_id/app_key |
 | Prototype | `app/prototype/njia.html` (v8, single file, vanilla JS, sample data) | approved by Philipp |
 | Flutter app | `app/` – skeleton: go_router routes for every prototype view, Riverpod, Firebase init with Firestore persistence, theme tokens + font from the prototype, left/bottom nav shell, `ProvenanceChip`, repositories (content/user/jobs), Dart models generated from the schema (`npm run gen:models`, committed) | skeleton done; screens are placeholders; `firebase_options.dart` is a placeholder until task 1 |
 | Docs | `docs/architecture.md`, `setup.md`, `data-model.md`, `plan.md`, `prototype-notes.md` | current |
 
 External things that exist but are not in the repo:
-- n8n credentials on n8n.keevana.com: Firestore service account "Google Firebase Cloud Firestore account 3" (n8n-firestore@keepa-lean – needs IAM role *Cloud Datastore User* on njia-prod), "Claude Header Auth account", WhatsApp Business account. Still to create: Gmail OAuth2 "Njia Gmail", HTTP Query Auth "Adzuna app_key".
-- Firebase project `njia-prod` (project number 778432942041): **created 3 Nov 2026** by Philipp's Google account keevana.app@gmail.com. Done: Firestore `(default)` in **eur3 (Europe)**, Standard edition, production-mode rules; Authentication with Email/Password + Google (public name "Njia Careers", support e-mail keevana.app@gmail.com); web app "Njia Careers Web" registered with Hosting (config in `app/firebase-web-config.json`). Not done: **Blaze plan upgrade** (needed for Storage and Cloud Functions – Philipp must attach a billing account), Storage bucket, deploy of rules/indexes/functions, seed import, admin user. Analytics and Gemini were left off on purpose.
+- n8n credentials on n8n.keevana.com: Firestore service account "Google Firebase Cloud Firestore account 3" (n8n-firestore@keepa-lean – needs IAM role *Cloud Datastore User* on njia-prod), "Claude Header Auth account", WhatsApp Business account. Gmail OAuth2 "Njia Gmail account" exists (3 Nov 2026). Still to create: HTTP Query Auth "Adzuna app_key".
+- Firebase project `njia-prod` (project number 778432942041): **created 3 Nov 2026** by Philipp's Google account keevana.app@gmail.com. Done: Firestore `(default)` in **eur3 (Europe)**, Standard edition, production-mode rules; Authentication with Email/Password + Google (public name "Njia Careers", support e-mail keevana.app@gmail.com); web app "Njia Careers Web" registered with Hosting (config in `app/firebase-web-config.json`). Since then: Blaze plan active, Storage bucket in europe-west1, rules/indexes/functions deployed, seed imported, first admin user created with claim `role: admin` (`scripts/make-admin.mjs`). Gmail API enabled and an OAuth client for the n8n Gmail credential created. Deploys run from Google Cloud Shell. Analytics and Gemini were left off on purpose.
 
 ## 3. Next tasks, in order
 
-1. **Firebase project** `njia-prod` exists (Spark). Remaining: Blaze upgrade (Philipp), create Storage bucket in europe-west1, `firebase deploy --only firestore:rules,firestore:indexes,storage`, `npm run seed`, deploy functions, create admin user with claim `role: admin` (`docs/setup.md`).
+1. ~~Firebase project~~ done. Remaining infra: give the n8n Firestore service account the role Cloud Datastore User on njia-prod; WhatsApp template `njia_review_needed` (WhatsApp account Keevana POS) awaiting Meta approval; Adzuna account for Njia 3.
 2. ~~**Flutter app skeleton**~~ done (`app/README.md`). `app/lib/firebase_options.dart` carries the real web config from `app/firebase-web-config.json`; Android/iOS values are still placeholders – run `flutterfire configure --project=njia-prod` once the Android/iOS apps are registered.
 3. ~~**Models from schema**~~ done – `scripts/gen-models.mjs` generates them; rerun after schema changes.
 4. ~~**Engine port**~~ done – `app/lib/core/engine/engine.dart`, 4 tests + parity test against the JS output.
@@ -48,7 +48,7 @@ External things that exist but are not in the repo:
 9. **First review round**: approve/correct all `trust: "estimate"` facts for the 10 countries against the official pages listed in `seed/sources.json`.
 10. Web build to Firebase Hosting (PWA), then Android/iOS builds.
 
-Open inputs needed from Philipp: reviewer name/e-mail/WhatsApp number; Adzuna developer account (app_id/app_key); WhatsApp template `njia_review_needed` approval; trademark/domain decision.
+Open inputs needed from Philipp: Adzuna developer account (app_id/app_key); WhatsApp template `njia_review_needed` approval (submitted 3 Nov 2026); trademark/domain decision. Reviewer = Philipp (contact data in n8n only).
 
 ## 4. How the pieces fit
 
