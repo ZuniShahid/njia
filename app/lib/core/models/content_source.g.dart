@@ -87,6 +87,7 @@ const _$ContentSourceExtractorEnumMap = {
   ContentSourceExtractor.htmlDiff: 'html_diff',
   ContentSourceExtractor.claudeSchema: 'claude_schema',
   ContentSourceExtractor.api: 'api',
+  ContentSourceExtractor.manual: 'manual',
 };
 
 const _$ContentSourceLastStatusEnumMap = {

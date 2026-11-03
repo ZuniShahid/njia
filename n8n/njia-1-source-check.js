@@ -82,7 +82,7 @@ const filterDue = node({
 "for (const it of $input.all()) {\n" +
 "  const r = it.json;\n" +
 "  if (!r || !r._id || !r.url) continue;\n" +
-"  if (r.extractor === 'api') continue;\n" +
+"  if (r.extractor === 'api' || r.extractor === 'manual') continue; // api: Njia 3; manual: site blocks bots, reviewer checks by hand\n" +
 "  const cadence = Number(r.cadenceDays || 14);\n" +
 "  const last = r.lastCheckedAt ? Date.parse(r.lastCheckedAt) : 0;\n" +
 "  const due = s.forceAll || !last || (now - last) >= cadence * 864e5 - 36e5;\n" +

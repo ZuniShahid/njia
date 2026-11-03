@@ -1140,8 +1140,10 @@
             "none",
             "html_diff",
             "claude_schema",
-            "api"
-          ]
+            "api",
+            "manual"
+          ],
+          "description": "manual = the site blocks automated fetches; n8n skips it and the reviewer checks the page by hand every cadenceDays"
         },
         "selector": {
           "type": [
