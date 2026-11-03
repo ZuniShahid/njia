@@ -41,6 +41,7 @@ flutter:
 
   assets:
     - assets/fonts/
+    - assets/seed/   # copy of ../seed (npm run gen:models) for main_preview.dart and widget tests
 
   # Prototype font (--font in app/prototype/njia.html). SIL Open Font License 1.1, see assets/fonts/README.md.
   fonts:

@@ -151,6 +151,8 @@ abstract class UserProfile with _$UserProfile {
     String? activeGoalId,
     /// Work experience entries; experienceMonths is kept in sync (sum)
     @Default([]) List<UserExperience> experience,
+    /// Per-goal progress kept by the client, keyed by goalId: { steps: {stepKey: 0|1|2}, tasks: {stepKey: true}, decisions: {decisionId: optionIndex}, where: {stepKey: optionIndex} }. Not read by the engine.
+    Map<String, dynamic>? progress,
   }) = _UserProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);

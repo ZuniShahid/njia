@@ -1613,6 +1613,10 @@
               }
             }
           }
+        },
+        "progress": {
+          "type": "object",
+          "description": "Per-goal progress kept by the client, keyed by goalId: { steps: {stepKey: 0|1|2}, tasks: {stepKey: true}, decisions: {decisionId: optionIndex}, where: {stepKey: optionIndex} }. Not read by the engine."
         }
       },
       "subcollections": {
