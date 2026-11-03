@@ -24,11 +24,11 @@ Everything decided so far is here or in the linked files. German planning doc: `
 | Data model | `schema/njia.schema.json` (15 collections, provenance on every content doc) | done |
 | Seed data | `seed/*.json` – 11 countries, 10 corridors, 23 residence permits, 21 requirements, 14 funding, 12 pathways, 6 occupations, 30 sources, 5 trust alerts, 3 providers (135 docs) | validated (`npm run validate` → "seed OK"); fees/deadlines partly `trust: "estimate"` – first review round pending |
 | Firestore | `firestore.rules`, `firestore.indexes.json` (TTL on `jobs.expireAt`), `storage.rules`, `firebase.json`, `.firebaserc` (njia-prod) | rules/indexes **not deployed yet** (project exists, see below) |
-| Planning engine | `functions/src/engine.mjs` + `functions/test/engine.test.mjs` (4 tests) | done, tests green |
+| Planning engine | `functions/src/engine.mjs` + `functions/test/engine.test.mjs` (4 tests); Dart port `app/lib/core/engine/engine.dart` + `app/test/engine_test.dart` (same 4 cases) + `engine_parity_test.dart` (output identical to the JS engine, fixture via `npm run engine:fixture`) | done, tests green |
 | Cloud Functions | `functions/src/index.mjs` (api, review, onChangeRequestWritten, onGoalWritten, computePlan, setRole), `changes.mjs` | written, **not deployed** |
 | n8n flows | `n8n/njia-1-source-check.js`, `njia-2-notify-reviewer.js`, `njia-3-jobs-refresh.js`; created in n8n as "Njia 1 – Source check" (id 1tmUJrpW85k4v2o5), "Njia 2 – Notify reviewer" (lgUfq7EKOUPUZ9Dv), "Njia 3 – Jobs refresh" (UVzN9LCe5URaQzSK), project Dy9ixzJXAYkO6P6G | created, **inactive**; Settings nodes and credentials still to fill (`docs/setup.md` §2) |
 | Prototype | `app/prototype/njia.html` (v8, single file, vanilla JS, sample data) | approved by Philipp |
-| Flutter app | `app/` | **not started** – only `app/README.md` with the `flutter create` line |
+| Flutter app | `app/` – skeleton: go_router routes for every prototype view, Riverpod, Firebase init with Firestore persistence, theme tokens + font from the prototype, left/bottom nav shell, `ProvenanceChip`, repositories (content/user/jobs), Dart models generated from the schema (`npm run gen:models`, committed) | skeleton done; screens are placeholders; `firebase_options.dart` is a placeholder until task 1 |
 | Docs | `docs/architecture.md`, `setup.md`, `data-model.md`, `plan.md`, `prototype-notes.md` | current |
 
 External things that exist but are not in the repo:
@@ -38,9 +38,9 @@ External things that exist but are not in the repo:
 ## 3. Next tasks, in order
 
 1. **Firebase project** `njia-prod` exists (Spark). Remaining: Blaze upgrade (Philipp), create Storage bucket in europe-west1, `firebase deploy --only firestore:rules,firestore:indexes,storage`, `npm run seed`, deploy functions, create admin user with claim `role: admin` (`docs/setup.md`).
-2. **Flutter app skeleton** in `app/`: `flutter create --org com.revana --project-name njia_careers --platforms web,android,ios .`, folder layout from `docs/architecture.md`, go_router routes, Riverpod, Firebase init with Firestore persistence, theme tokens from the prototype.
-3. **Models from schema**: generate freezed/json_serializable Dart models for every collection in `schema/njia.schema.json`.
-4. **Engine port**: `functions/src/engine.mjs` → `app/lib/core/engine/`, with the same 4 test cases ported to `flutter test`.
+2. ~~**Flutter app skeleton**~~ done (`app/README.md`). `app/lib/firebase_options.dart` carries the real web config from `app/firebase-web-config.json`; Android/iOS values are still placeholders – run `flutterfire configure --project=njia-prod` once the Android/iOS apps are registered.
+3. ~~**Models from schema**~~ done – `scripts/gen-models.mjs` generates them; rerun after schema changes.
+4. ~~**Engine port**~~ done – `app/lib/core/engine/engine.dart`, 4 tests + parity test against the JS output.
 5. **Screens**, in this order (each one mirrors the prototype view, see `docs/prototype-notes.md`): Auth → Profile → Goal (create/edit) → Cockpit → Roadmap → Readiness → Finances → Visa & residence → Jobs → Big picture → Coach → Documents → Next milestone → Admin review queue (`/admin/changes`, editors only).
 6. **Responsive**: ≥1180 px three columns (nav · center · right panel), <860 px bottom nav + sheet; roadmap view hides the right panel and shows decisions/watch-outs below.
 7. **Coach backend**: Cloud Function `coach` that calls Claude (Haiku for chat) with the guard rails from the prototype (no ghostwriting), context = selected phase/step/pool.

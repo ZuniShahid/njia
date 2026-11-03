@@ -1,0 +1,599 @@
+[
+ {
+  "name": "SL -> Deutsche Bank via Frankfurt School",
+  "goal": {
+   "id": "g1",
+   "occupationId": "isco-2413",
+   "countryId": "DE",
+   "targetYear": 2032,
+   "pathwayIds": [
+    "fs-master-of-finance",
+    "db-graduate-programme"
+   ]
+  },
+  "profile": {
+   "nationality": "SL",
+   "facts": {
+    "language.en.ielts": 6.5,
+    "education.maxIsced": 6,
+    "experienceMonths": 3,
+    "documents.passport.valid": true
+   },
+   "savings": {
+    "amount": 3000,
+    "currency": "EUR"
+   }
+  },
+  "now": "2026-11-02T00:00:00.000Z",
+  "plan": {
+   "goalId": "g1",
+   "corridorId": "SL-DE",
+   "pathwayIds": [
+    "fs-master-of-finance",
+    "db-graduate-programme"
+   ],
+   "steps": [
+    {
+     "order": 1,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "GMAT or GRE (selective finance master's)",
+     "requirementId": "gmat-or-gre",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "GMAT Focus is offered online; many schools waive it for strong grades.",
+     "providerTypes": [
+      "tutor",
+      "test_centre"
+     ]
+    },
+    {
+     "order": 2,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Blocked account: EUR 11,904 for one year (EUR 992/month)",
+     "requirementId": "de-blocked-account",
+     "durationMonths": 6,
+     "status": "unknown",
+     "howToMeet": "Open with an approved provider (e.g. Expatrio, Fintiba, Coracle); transfer the full amount before the visa appointment. A scholarship letter or a formal obligation letter (Verpflichtungserklärung) can replace it.",
+     "providerTypes": [
+      "agency"
+     ]
+    },
+    {
+     "order": 3,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Admission letter from the institution",
+     "requirementId": "admission-letter",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Apply before the deadline; conditional offers are usually accepted for visa purposes.",
+     "providerTypes": [
+      "coach"
+     ]
+    },
+    {
+     "order": 4,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "English: IELTS 7.0 (C1)",
+     "requirementId": "ielts-7-0",
+     "durationMonths": 9,
+     "status": "gap",
+     "howToMeet": "Required by selective business schools and some scholarships.",
+     "providerTypes": [
+      "tutor",
+      "language_school",
+      "test_centre"
+     ]
+    },
+    {
+     "order": 5,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "University listed H+ in anabin and degree rated 'entspricht'/'gleichwertig'",
+     "requirementId": "degree-recognised-de",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Search anabin for your university; if not listed or H+/-, request a Statement of Comparability from ZAB (fee, several weeks).",
+     "providerTypes": [
+      "coach"
+     ]
+    },
+    {
+     "order": 6,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Health insurance valid in the destination country",
+     "requirementId": "health-insurance",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Travel insurance for the visa period, then statutory student insurance after arrival (Germany: approx. EUR 130–150/month, estimate).",
+     "providerTypes": [
+      "agency"
+     ]
+    },
+    {
+     "order": 7,
+     "startMonth": 9,
+     "kind": "apply",
+     "title": "Apply: Master of Finance",
+     "pathwayId": "fs-master-of-finance",
+     "durationMonths": 3,
+     "deadline": null,
+     "funding": [
+      {
+       "id": "daad-epos",
+       "name": "DAAD EPOS – Development-Related Postgraduate Courses",
+       "difficulty": 4,
+       "closes": "2026-10-15"
+      },
+      {
+       "id": "deutschlandstipendium",
+       "name": "Deutschlandstipendium",
+       "difficulty": 3,
+       "closes": null
+      },
+      {
+       "id": "erasmus-mundus-jmd",
+       "name": "Erasmus Mundus Joint Master scholarships",
+       "difficulty": 5,
+       "closes": "2027-01-15"
+      }
+     ]
+    },
+    {
+     "order": 8,
+     "startMonth": 12,
+     "kind": "visa",
+     "title": "Germany – student visa and residence permit (§ 16b AufenthG)",
+     "permitId": "DE-student",
+     "durationMonths": 3,
+     "applyAt": {
+      "authority": "German Embassy Accra",
+      "city": "Accra",
+      "country": "GH",
+      "provider": null,
+      "decidedIn": "Accra",
+      "url": "https://accra.diplo.de/",
+      "travelRequired": true
+     },
+     "checklist": [
+      {
+       "id": "form",
+       "label": "Completed national visa application (VIDEX)",
+       "docType": "visa_form"
+      },
+      {
+       "id": "photos",
+       "label": "2 biometric photos",
+       "docType": "photo"
+      },
+      {
+       "id": "admission",
+       "label": "Admission letter",
+       "docType": "admission_letter"
+      },
+      {
+       "id": "funds",
+       "label": "Blocked account confirmation or scholarship letter",
+       "docType": "blocked_account_confirmation"
+      },
+      {
+       "id": "insurance",
+       "label": "Health insurance for the first months",
+       "docType": "insurance_certificate"
+      },
+      {
+       "id": "certificates",
+       "label": "School and university certificates with certified translations",
+       "docType": "degree_certificate"
+      },
+      {
+       "id": "language",
+       "label": "Language certificate for the programme language",
+       "docType": "language_certificate"
+      },
+      {
+       "id": "appointment",
+       "label": "Appointment at German Embassy Accra",
+       "docType": null
+      }
+     ],
+     "fee": {
+      "amount": 75,
+      "currency": "EUR",
+      "period": "once"
+     },
+     "fundsProof": {
+      "amount": 11904,
+      "currency": "EUR",
+      "period": "year"
+     }
+    },
+    {
+     "order": 9,
+     "startMonth": 15,
+     "kind": "study",
+     "title": "Master of Finance",
+     "pathwayId": "fs-master-of-finance",
+     "durationMonths": 24,
+     "institution": "Frankfurt School of Finance & Management",
+     "city": "Frankfurt"
+    },
+    {
+     "order": 10,
+     "startMonth": 39,
+     "kind": "visa",
+     "title": "Germany – residence permit to seek employment after graduation (§ 20 Abs. 3 AufenthG)",
+     "permitId": "DE-job_seeker",
+     "durationMonths": 18,
+     "note": "Time to find a job after graduation"
+    },
+    {
+     "order": 11,
+     "startMonth": 39,
+     "kind": "apply",
+     "title": "Apply: Deutsche Bank Graduate Programme",
+     "pathwayId": "db-graduate-programme",
+     "durationMonths": 3,
+     "deadline": null,
+     "funding": []
+    },
+    {
+     "order": 12,
+     "startMonth": 42,
+     "kind": "visa",
+     "title": "Germany – EU Blue Card",
+     "permitId": "DE-blue_card",
+     "durationMonths": 3,
+     "applyAt": {
+      "authority": "German Embassy Accra",
+      "city": "Accra",
+      "country": "GH",
+      "provider": null,
+      "decidedIn": "Accra",
+      "url": "https://accra.diplo.de/",
+      "travelRequired": true
+     },
+     "checklist": [],
+     "fee": {
+      "amount": 100,
+      "currency": "EUR",
+      "period": "once"
+     },
+     "fundsProof": null
+    },
+    {
+     "order": 13,
+     "startMonth": 45,
+     "kind": "work",
+     "title": "Deutsche Bank Graduate Programme",
+     "pathwayId": "db-graduate-programme",
+     "durationMonths": 12,
+     "institution": "Deutsche Bank AG",
+     "city": "Frankfurt"
+    }
+   ],
+   "totalMonths": 57,
+   "costs": [
+    {
+     "label": "Germany – student visa and residence permit (§ 16b AufenthG) fee",
+     "amount": 75,
+     "currency": "EUR",
+     "period": "once",
+     "kind": "fee",
+     "month": 15
+    },
+    {
+     "label": "Tuition: Master of Finance",
+     "min": 42000,
+     "max": 42000,
+     "currency": "EUR",
+     "kind": "tuition",
+     "month": 15
+    },
+    {
+     "label": "Living costs Germany (24 months)",
+     "min": 22800,
+     "max": 31200,
+     "currency": "EUR",
+     "kind": "living",
+     "month": 15
+    },
+    {
+     "label": "Germany – EU Blue Card fee",
+     "amount": 100,
+     "currency": "EUR",
+     "period": "once",
+     "kind": "fee",
+     "month": 45
+    }
+   ],
+   "gaps": [
+    {
+     "requirementId": "gmat-or-gre",
+     "status": "unknown",
+     "label": "GMAT or GRE (selective finance master's)"
+    },
+    {
+     "requirementId": "de-blocked-account",
+     "status": "unknown",
+     "label": "Blocked account: EUR 11,904 for one year (EUR 992/month)"
+    },
+    {
+     "requirementId": "admission-letter",
+     "status": "unknown",
+     "label": "Admission letter from the institution"
+    },
+    {
+     "requirementId": "ielts-7-0",
+     "status": "gap",
+     "label": "English: IELTS 7.0 (C1)"
+    },
+    {
+     "requirementId": "degree-recognised-de",
+     "status": "unknown",
+     "label": "University listed H+ in anabin and degree rated 'entspricht'/'gleichwertig'"
+    },
+    {
+     "requirementId": "health-insurance",
+     "status": "unknown",
+     "label": "Health insurance valid in the destination country"
+    }
+   ],
+   "scores": {
+    "readiness": 65,
+    "difficulty": 3.3,
+    "realism": 53,
+    "financeCoverage": 5
+   },
+   "watch": [
+    {
+     "kind": "visa",
+     "text": "Visa applications are lodged in Accra (GH); plan travel and an appointment."
+    },
+    {
+     "kind": "deadline",
+     "text": "Erasmus Mundus Joint Master scholarships closes on 2027-01-15.",
+     "fundingId": "erasmus-mundus-jmd"
+    }
+   ],
+   "computedAt": "2026-11-02T00:00:00.000Z"
+  }
+ },
+ {
+  "name": "inferred pathways HU",
+  "goal": {
+   "occupationId": "isco-2413",
+   "countryId": "HU"
+  },
+  "profile": {
+   "nationality": "SL",
+   "facts": {}
+  },
+  "now": "2026-11-02T00:00:00.000Z",
+  "plan": {
+   "goalId": null,
+   "corridorId": "SL-HU",
+   "pathwayIds": [
+    "hu-ba-business-corvinus"
+   ],
+   "steps": [
+    {
+     "order": 1,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "WASSCE with at least 5 credits incl. English and Maths",
+     "requirementId": "wassce-5-credits",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Request your WAEC result slip and scratch card; most universities verify online.",
+     "providerTypes": [
+      "tutor"
+     ]
+    },
+    {
+     "order": 2,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "English: IELTS 6.0 (or equivalent, B2)",
+     "requirementId": "ielts-6-0",
+     "durationMonths": 9,
+     "status": "unknown",
+     "howToMeet": "Book IELTS at British Council Freetown; results in 3–13 days. TOEFL iBT and Duolingo are accepted by many universities.",
+     "providerTypes": [
+      "tutor",
+      "language_school",
+      "test_centre"
+     ]
+    },
+    {
+     "order": 3,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Admission letter from the institution",
+     "requirementId": "admission-letter",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Apply before the deadline; conditional offers are usually accepted for visa purposes.",
+     "providerTypes": [
+      "coach"
+     ]
+    },
+    {
+     "order": 4,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Valid passport (6+ months beyond stay)",
+     "requirementId": "passport-valid",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Apply at Sierra Leone Immigration Department; allow several weeks.",
+     "providerTypes": []
+    },
+    {
+     "order": 5,
+     "startMonth": 0,
+     "kind": "prepare",
+     "title": "Health insurance valid in the destination country",
+     "requirementId": "health-insurance",
+     "durationMonths": 2,
+     "status": "unknown",
+     "howToMeet": "Travel insurance for the visa period, then statutory student insurance after arrival (Germany: approx. EUR 130–150/month, estimate).",
+     "providerTypes": [
+      "agency"
+     ]
+    },
+    {
+     "order": 6,
+     "startMonth": 9,
+     "kind": "apply",
+     "title": "Apply: BSc Business and Management (English)",
+     "pathwayId": "hu-ba-business-corvinus",
+     "durationMonths": 3,
+     "deadline": "2027-01-15",
+     "funding": [
+      {
+       "id": "stipendium-hungaricum",
+       "name": "Stipendium Hungaricum",
+       "difficulty": 3,
+       "closes": "2027-01-15"
+      }
+     ]
+    },
+    {
+     "order": 7,
+     "startMonth": 12,
+     "kind": "visa",
+     "title": "Hungary – residence permit for study",
+     "permitId": "HU-student",
+     "durationMonths": 3,
+     "applyAt": {
+      "authority": "Embassy of Hungary Accra",
+      "city": "Accra",
+      "country": "GH",
+      "provider": null,
+      "decidedIn": "Accra",
+      "url": "https://accra.mfa.gov.hu/",
+      "travelRequired": true
+     },
+     "checklist": [
+      {
+       "id": "enterhungary",
+       "label": "Apply on Enter Hungary or at the embassy in Accra",
+       "docType": null
+      },
+      {
+       "id": "sh",
+       "label": "Stipendium Hungaricum award letter replaces proof of funds",
+       "docType": "scholarship_letter"
+      }
+     ],
+     "fee": {
+      "amount": 110,
+      "currency": "EUR",
+      "period": "once"
+     },
+     "fundsProof": {
+      "amount": 350,
+      "currency": "EUR",
+      "period": "month"
+     }
+    },
+    {
+     "order": 8,
+     "startMonth": 15,
+     "kind": "study",
+     "title": "BSc Business and Management (English)",
+     "pathwayId": "hu-ba-business-corvinus",
+     "durationMonths": 42,
+     "institution": "Corvinus University of Budapest",
+     "city": "Budapest"
+    },
+    {
+     "order": 9,
+     "startMonth": 57,
+     "kind": "visa",
+     "title": "Hungary – residence permit for job search after studies",
+     "permitId": "HU-job_seeker",
+     "durationMonths": 9,
+     "note": "Time to find a job after graduation"
+    }
+   ],
+   "totalMonths": 57,
+   "costs": [
+    {
+     "label": "Hungary – residence permit for study fee",
+     "amount": 110,
+     "currency": "EUR",
+     "period": "once",
+     "kind": "fee",
+     "month": 15
+    },
+    {
+     "label": "Tuition: BSc Business and Management (English)",
+     "min": 0,
+     "max": 28000,
+     "currency": "EUR",
+     "kind": "tuition",
+     "month": 15
+    },
+    {
+     "label": "Living costs Hungary (42 months)",
+     "min": 21000,
+     "max": 37800,
+     "currency": "EUR",
+     "kind": "living",
+     "month": 15
+    }
+   ],
+   "gaps": [
+    {
+     "requirementId": "wassce-5-credits",
+     "status": "unknown",
+     "label": "WASSCE with at least 5 credits incl. English and Maths"
+    },
+    {
+     "requirementId": "ielts-6-0",
+     "status": "unknown",
+     "label": "English: IELTS 6.0 (or equivalent, B2)"
+    },
+    {
+     "requirementId": "admission-letter",
+     "status": "unknown",
+     "label": "Admission letter from the institution"
+    },
+    {
+     "requirementId": "passport-valid",
+     "status": "unknown",
+     "label": "Valid passport (6+ months beyond stay)"
+    },
+    {
+     "requirementId": "health-insurance",
+     "status": "unknown",
+     "label": "Health insurance valid in the destination country"
+    }
+   ],
+   "scores": {
+    "readiness": 50,
+    "difficulty": 2.8,
+    "realism": 49,
+    "financeCoverage": 0
+   },
+   "watch": [
+    {
+     "kind": "visa",
+     "text": "Visa applications are lodged in Accra (GH); plan travel and an appointment."
+    },
+    {
+     "kind": "deadline",
+     "text": "Stipendium Hungaricum closes on 2027-01-15.",
+     "fundingId": "stipendium-hungaricum"
+    }
+   ],
+   "computedAt": "2026-11-02T00:00:00.000Z"
+  }
+ }
+]

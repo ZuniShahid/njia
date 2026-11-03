@@ -1,0 +1,8 @@
+# json_serializable: nested models serialise themselves (needed for Firestore writes and for
+# comparing engine output with the JS fixture).
+targets:
+  $default:
+    builders:
+      json_serializable:
+        options:
+          explicit_to_json: true
