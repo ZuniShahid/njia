@@ -6,7 +6,8 @@
   "scripts": {
     "validate": "node scripts/validate-seed.mjs",
     "seed": "node scripts/seed-firestore.mjs",
-    "test": "node --test functions/test/*.test.mjs"
+    "test": "node --test functions/test/*.test.mjs",
+    "make-admin": "node scripts/make-admin.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
