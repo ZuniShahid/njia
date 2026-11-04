@@ -2,6 +2,7 @@
 // Previews and tests override the service/repository providers (lib/preview/fakes.dart).
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -11,7 +12,10 @@ import '../core/engine/readiness_model.dart';
 import '../core/engine/roadmap_model.dart';
 import '../core/models/models.dart';
 import '../data/auth_service.dart';
+import '../data/change_request_repository.dart';
+import '../data/coach_service.dart';
 import '../data/content_repository.dart';
+import '../data/documents_repository.dart';
 import '../data/jobs_repository.dart';
 import '../data/plan_service.dart';
 import '../data/user_repository.dart';
@@ -24,7 +28,10 @@ final firestoreProvider = Provider<FirebaseFirestore>((_) => FirebaseFirestore.i
 final authServiceProvider = Provider<AuthService>((ref) => FirebaseAuthService(FirebaseAuth.instance));
 final userRepositoryProvider = Provider<UserRepository>((ref) => FirestoreUserRepository(ref.watch(firestoreProvider)));
 final contentRepositoryProvider = Provider<ContentRepository>((ref) => FirestoreContentRepository(ref.watch(firestoreProvider)));
-final jobsRepositoryProvider = Provider<JobsRepository>((ref) => JobsRepository(ref.watch(firestoreProvider)));
+final jobsRepositoryProvider = Provider<JobsRepository>((ref) => FirestoreJobsRepository(ref.watch(firestoreProvider)));
+final documentsRepositoryProvider = Provider<DocumentsRepository>((ref) => FirebaseDocumentsRepository(ref.watch(firestoreProvider), FirebaseStorage.instance));
+final changeRequestRepositoryProvider = Provider<ChangeRequestRepository>((ref) => FirestoreChangeRequestRepository(ref.watch(firestoreProvider)));
+final coachServiceProvider = Provider<CoachService>((ref) => FirebaseCoachService(FirebaseFunctions.instanceFor(region: 'europe-west1')));
 final planServiceProvider = Provider<PlanService>((ref) => FirebasePlanService(FirebaseFunctions.instanceFor(region: 'europe-west1')));
 
 final authUserProvider = StreamProvider<AuthUser?>((ref) {
@@ -158,3 +165,29 @@ Future<void> setRequirementMet(WidgetRef ref, {required Requirement requirement,
   final goalId = ref.read(activeGoalProvider)?.id;
   if (goalId != null) await ref.read(planServiceProvider).recompute(goalId);
 }
+
+final providersProvider = FutureProvider<List<ServiceProvider>>((ref) => ref.watch(contentRepositoryProvider).providers());
+
+final documentsProvider = StreamProvider<List<UserDocument>>((ref) {
+  final uid = ref.watch(currentUidProvider);
+  if (uid == null) return Stream.value(const []);
+  return ref.watch(documentsRepositoryProvider).documents(uid);
+});
+
+/// Jobs for the active goal's country (all countries when the goal is at home).
+final jobsProvider = FutureProvider<List<Job>>((ref) {
+  final goal = ref.watch(activeGoalProvider);
+  final country = goal?.countryId == null || goal!.countryId == 'SL' ? null : goal.countryId;
+  return ref.watch(jobsRepositoryProvider).recent(countryId: country);
+});
+
+/// True when users/{uid}.roles (mirrored from the custom claims by setRole) contains editor or admin.
+final isEditorProvider = Provider<bool>((ref) {
+  final roles = ref.watch(profileProvider).value?.roles ?? const [];
+  return roles.contains(UserRole.editor) || roles.contains(UserRole.admin);
+});
+
+final pendingChangesProvider = StreamProvider<List<ChangeRequest>>((ref) {
+  if (!ref.watch(isEditorProvider)) return Stream.value(const []);
+  return ref.watch(changeRequestRepositoryProvider).pending();
+});
