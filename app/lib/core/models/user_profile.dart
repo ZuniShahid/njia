@@ -39,6 +39,45 @@ extension UserRoleJson on UserRole {
       };
 }
 
+enum HelpPreferencesChannel {
+  @JsonValue('whatsapp')
+  whatsapp,
+  @JsonValue('sms')
+  sms,
+  @JsonValue('email')
+  email,
+  @JsonValue('app')
+  app,
+}
+
+extension HelpPreferencesChannelJson on HelpPreferencesChannel {
+  /// The wire value as stored in Firestore / the schema.
+  String get value => switch (this) {
+        HelpPreferencesChannel.whatsapp => 'whatsapp',
+        HelpPreferencesChannel.sms => 'sms',
+        HelpPreferencesChannel.email => 'email',
+        HelpPreferencesChannel.app => 'app',
+      };
+}
+
+enum HelpPreferencesFrequency {
+  @JsonValue('weekly')
+  weekly,
+  @JsonValue('biweekly')
+  biweekly,
+  @JsonValue('monthly')
+  monthly,
+}
+
+extension HelpPreferencesFrequencyJson on HelpPreferencesFrequency {
+  /// The wire value as stored in Firestore / the schema.
+  String get value => switch (this) {
+        HelpPreferencesFrequency.weekly => 'weekly',
+        HelpPreferencesFrequency.biweekly => 'biweekly',
+        HelpPreferencesFrequency.monthly => 'monthly',
+      };
+}
+
 @freezed
 abstract class UserEducation with _$UserEducation {
   const factory UserEducation({
@@ -106,6 +145,24 @@ abstract class UserExperience with _$UserExperience {
   factory UserExperience.fromJson(Map<String, dynamic> json) => _$UserExperienceFromJson(json);
 }
 
+@freezed
+abstract class HelpPreferences with _$HelpPreferences {
+  const factory HelpPreferences({
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    HelpPreferencesChannel? channel,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    HelpPreferencesFrequency? frequency,
+    @Default([]) List<String> styles,
+    @Default([]) List<String> subjects,
+    @Default([]) List<String> availability,
+    /// EUR, 0 = free only
+    int? budgetPerSession,
+    String? language,
+  }) = _HelpPreferences;
+
+  factory HelpPreferences.fromJson(Map<String, dynamic> json) => _$HelpPreferencesFromJson(json);
+}
+
 /// Doc id: Firebase Auth uid
 @freezed
 abstract class UserProfile with _$UserProfile {
@@ -153,6 +210,8 @@ abstract class UserProfile with _$UserProfile {
     @Default([]) List<UserExperience> experience,
     /// Per-goal progress kept by the client, keyed by goalId: { steps: {stepKey: 0|1|2}, tasks: {stepKey: true}, decisions: {decisionId: optionIndex}, where: {stepKey: optionIndex} }. Not read by the engine.
     Map<String, dynamic>? progress,
+    /// How the student wants help (milestone screen)
+    HelpPreferences? helpPreferences,
   }) = _UserProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);

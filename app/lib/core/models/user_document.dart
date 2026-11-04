@@ -27,6 +27,36 @@ extension UserDocumentStatusJson on UserDocumentStatus {
       };
 }
 
+enum UserDocumentCategory {
+  @JsonValue('identity')
+  identity,
+  @JsonValue('education')
+  education,
+  @JsonValue('language')
+  language,
+  @JsonValue('finance')
+  finance,
+  @JsonValue('visa')
+  visa,
+  @JsonValue('career')
+  career,
+  @JsonValue('other')
+  other,
+}
+
+extension UserDocumentCategoryJson on UserDocumentCategory {
+  /// The wire value as stored in Firestore / the schema.
+  String get value => switch (this) {
+        UserDocumentCategory.identity => 'identity',
+        UserDocumentCategory.education => 'education',
+        UserDocumentCategory.language => 'language',
+        UserDocumentCategory.finance => 'finance',
+        UserDocumentCategory.visa => 'visa',
+        UserDocumentCategory.career => 'career',
+        UserDocumentCategory.other => 'other',
+      };
+}
+
 /// Doc id: auto
 @freezed
 abstract class UserDocument with _$UserDocument {
@@ -40,6 +70,11 @@ abstract class UserDocument with _$UserDocument {
     String? expiresAt,
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     UserDocumentStatus? status,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    UserDocumentCategory? category,
+    String? fileName,
+    int? sizeBytes,
+    String? uploadedAt,
   }) = _UserDocument;
 
   factory UserDocument.fromJson(Map<String, dynamic> json) => _$UserDocumentFromJson(json);

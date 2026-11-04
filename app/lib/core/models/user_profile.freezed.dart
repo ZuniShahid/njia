@@ -1420,6 +1420,314 @@ as int?,
 
 
 /// @nodoc
+mixin _$HelpPreferences {
+
+@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesChannel? get channel;@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesFrequency? get frequency; List<String> get styles; List<String> get subjects; List<String> get availability;/// EUR, 0 = free only
+ int? get budgetPerSession; String? get language;
+/// Create a copy of HelpPreferences
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$HelpPreferencesCopyWith<HelpPreferences> get copyWith => _$HelpPreferencesCopyWithImpl<HelpPreferences>(this as HelpPreferences, _$identity);
+
+  /// Serializes this HelpPreferences to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as HelpPreferences;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HelpPreferences&&(identical(other.channel, _this.channel) || other.channel == _this.channel)&&(identical(other.frequency, _this.frequency) || other.frequency == _this.frequency)&&const DeepCollectionEquality().equals(other.styles, _this.styles)&&const DeepCollectionEquality().equals(other.subjects, _this.subjects)&&const DeepCollectionEquality().equals(other.availability, _this.availability)&&(identical(other.budgetPerSession, _this.budgetPerSession) || other.budgetPerSession == _this.budgetPerSession)&&(identical(other.language, _this.language) || other.language == _this.language));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as HelpPreferences;
+  return Object.hash(runtimeType,_this.channel,_this.frequency,const DeepCollectionEquality().hash(_this.styles),const DeepCollectionEquality().hash(_this.subjects),const DeepCollectionEquality().hash(_this.availability),_this.budgetPerSession,_this.language);
+}
+
+@override
+String toString() {
+  final _this = this as HelpPreferences;
+  return 'HelpPreferences(channel: ${_this.channel}, frequency: ${_this.frequency}, styles: ${_this.styles}, subjects: ${_this.subjects}, availability: ${_this.availability}, budgetPerSession: ${_this.budgetPerSession}, language: ${_this.language})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $HelpPreferencesCopyWith<$Res>  {
+  factory $HelpPreferencesCopyWith(HelpPreferences value, $Res Function(HelpPreferences) _then) = _$HelpPreferencesCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesChannel? channel,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesFrequency? frequency, List<String> styles, List<String> subjects, List<String> availability, int? budgetPerSession, String? language
+});
+
+
+
+
+}
+/// @nodoc
+class _$HelpPreferencesCopyWithImpl<$Res>
+    implements $HelpPreferencesCopyWith<$Res> {
+  _$HelpPreferencesCopyWithImpl(this._self, this._then);
+
+  final HelpPreferences _self;
+  final $Res Function(HelpPreferences) _then;
+
+/// Create a copy of HelpPreferences
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? channel = freezed,Object? frequency = freezed,Object? styles = null,Object? subjects = null,Object? availability = null,Object? budgetPerSession = freezed,Object? language = freezed,}) {
+  return _then(HelpPreferences(
+channel: freezed == channel ? _self.channel : channel // ignore: cast_nullable_to_non_nullable
+as HelpPreferencesChannel?,frequency: freezed == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
+as HelpPreferencesFrequency?,styles: null == styles ? _self.styles : styles // ignore: cast_nullable_to_non_nullable
+as List<String>,subjects: null == subjects ? _self.subjects : subjects // ignore: cast_nullable_to_non_nullable
+as List<String>,availability: null == availability ? _self.availability : availability // ignore: cast_nullable_to_non_nullable
+as List<String>,budgetPerSession: freezed == budgetPerSession ? _self.budgetPerSession : budgetPerSession // ignore: cast_nullable_to_non_nullable
+as int?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [HelpPreferences].
+extension HelpPreferencesPatterns on HelpPreferences {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _HelpPreferences value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _HelpPreferences() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _HelpPreferences value)  $default,){
+final _that = this;
+switch (_that) {
+case _HelpPreferences():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _HelpPreferences value)?  $default,){
+final _that = this;
+switch (_that) {
+case _HelpPreferences() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesChannel? channel, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesFrequency? frequency,  List<String> styles,  List<String> subjects,  List<String> availability,  int? budgetPerSession,  String? language)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _HelpPreferences() when $default != null:
+return $default(_that.channel,_that.frequency,_that.styles,_that.subjects,_that.availability,_that.budgetPerSession,_that.language);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesChannel? channel, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesFrequency? frequency,  List<String> styles,  List<String> subjects,  List<String> availability,  int? budgetPerSession,  String? language)  $default,) {final _that = this;
+switch (_that) {
+case _HelpPreferences():
+return $default(_that.channel,_that.frequency,_that.styles,_that.subjects,_that.availability,_that.budgetPerSession,_that.language);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesChannel? channel, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)  HelpPreferencesFrequency? frequency,  List<String> styles,  List<String> subjects,  List<String> availability,  int? budgetPerSession,  String? language)?  $default,) {final _that = this;
+switch (_that) {
+case _HelpPreferences() when $default != null:
+return $default(_that.channel,_that.frequency,_that.styles,_that.subjects,_that.availability,_that.budgetPerSession,_that.language);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _HelpPreferences implements HelpPreferences {
+  const _HelpPreferences({@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.channel, @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.frequency,  List<String> styles = const [],  List<String> subjects = const [],  List<String> availability = const [], this.budgetPerSession, this.language}): _styles = styles,_subjects = subjects,_availability = availability;
+  factory _HelpPreferences.fromJson(Map<String, dynamic> json) => _$HelpPreferencesFromJson(json);
+
+@override@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  HelpPreferencesChannel? channel;
+@override@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  HelpPreferencesFrequency? frequency;
+ final  List<String> _styles;
+@override@JsonKey() List<String> get styles {
+  if (_styles is EqualUnmodifiableListView) return _styles;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_styles);
+}
+
+ final  List<String> _subjects;
+@override@JsonKey() List<String> get subjects {
+  if (_subjects is EqualUnmodifiableListView) return _subjects;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_subjects);
+}
+
+ final  List<String> _availability;
+@override@JsonKey() List<String> get availability {
+  if (_availability is EqualUnmodifiableListView) return _availability;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_availability);
+}
+
+/// EUR, 0 = free only
+@override final  int? budgetPerSession;
+@override final  String? language;
+
+/// Create a copy of HelpPreferences
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$HelpPreferencesCopyWith<_HelpPreferences> get copyWith => __$HelpPreferencesCopyWithImpl<_HelpPreferences>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$HelpPreferencesToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _HelpPreferences&&(identical(other.channel, channel) || other.channel == channel)&&(identical(other.frequency, frequency) || other.frequency == frequency)&&const DeepCollectionEquality().equals(other.styles, _styles)&&const DeepCollectionEquality().equals(other.subjects, _subjects)&&const DeepCollectionEquality().equals(other.availability, _availability)&&(identical(other.budgetPerSession, budgetPerSession) || other.budgetPerSession == budgetPerSession)&&(identical(other.language, language) || other.language == language));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,channel,frequency,const DeepCollectionEquality().hash(_styles),const DeepCollectionEquality().hash(_subjects),const DeepCollectionEquality().hash(_availability),budgetPerSession,language);
+}
+
+@override
+String toString() {
+    return 'HelpPreferences(channel: $channel, frequency: $frequency, styles: $styles, subjects: $subjects, availability: $availability, budgetPerSession: $budgetPerSession, language: $language)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$HelpPreferencesCopyWith<$Res> implements $HelpPreferencesCopyWith<$Res> {
+  factory _$HelpPreferencesCopyWith(_HelpPreferences value, $Res Function(_HelpPreferences) _then) = __$HelpPreferencesCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesChannel? channel,@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) HelpPreferencesFrequency? frequency, List<String> styles, List<String> subjects, List<String> availability, int? budgetPerSession, String? language
+});
+
+
+
+
+}
+/// @nodoc
+class __$HelpPreferencesCopyWithImpl<$Res>
+    implements _$HelpPreferencesCopyWith<$Res> {
+  __$HelpPreferencesCopyWithImpl(this._self, this._then);
+
+  final _HelpPreferences _self;
+  final $Res Function(_HelpPreferences) _then;
+
+/// Create a copy of HelpPreferences
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? channel = freezed,Object? frequency = freezed,Object? styles = null,Object? subjects = null,Object? availability = null,Object? budgetPerSession = freezed,Object? language = freezed,}) {
+  return _then(_HelpPreferences(
+channel: freezed == channel ? _self.channel : channel // ignore: cast_nullable_to_non_nullable
+as HelpPreferencesChannel?,frequency: freezed == frequency ? _self.frequency : frequency // ignore: cast_nullable_to_non_nullable
+as HelpPreferencesFrequency?,styles: null == styles ? _self._styles : styles // ignore: cast_nullable_to_non_nullable
+as List<String>,subjects: null == subjects ? _self._subjects : subjects // ignore: cast_nullable_to_non_nullable
+as List<String>,availability: null == availability ? _self._availability : availability // ignore: cast_nullable_to_non_nullable
+as List<String>,budgetPerSession: freezed == budgetPerSession ? _self.budgetPerSession : budgetPerSession // ignore: cast_nullable_to_non_nullable
+as int?,language: freezed == language ? _self.language : language // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$UserProfile {
 
 /// Firestore document id (null before the doc is created).
@@ -1434,7 +1742,8 @@ mixin _$UserProfile {
  String? get constraints; UserNotifications? get notifications;/// users/{uid}/goals/{id} shown in the cockpit
  String? get activeGoalId;/// Work experience entries; experienceMonths is kept in sync (sum)
  List<UserExperience> get experience;/// Per-goal progress kept by the client, keyed by goalId: { steps: {stepKey: 0|1|2}, tasks: {stepKey: true}, decisions: {decisionId: optionIndex}, where: {stepKey: optionIndex} }. Not read by the engine.
- Map<String, dynamic>? get progress;
+ Map<String, dynamic>? get progress;/// How the student wants help (milestone screen)
+ HelpPreferences? get helpPreferences;
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1448,20 +1757,20 @@ $UserProfileCopyWith<UserProfile> get copyWith => _$UserProfileCopyWithImpl<User
 @override
 bool operator ==(Object other) {
   final _this = this as UserProfile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.nationality, _this.nationality) || other.nationality == _this.nationality)&&(identical(other.residenceCountry, _this.residenceCountry) || other.residenceCountry == _this.residenceCountry)&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&const DeepCollectionEquality().equals(other.education, _this.education)&&const DeepCollectionEquality().equals(other.languages, _this.languages)&&(identical(other.experienceMonths, _this.experienceMonths) || other.experienceMonths == _this.experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _this.interests)&&(identical(other.savings, _this.savings) || other.savings == _this.savings)&&(identical(other.monthlySupport, _this.monthlySupport) || other.monthlySupport == _this.monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _this.facts)&&const DeepCollectionEquality().equals(other.roles, _this.roles)&&(identical(other.consents, _this.consents) || other.consents == _this.consents)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.city, _this.city) || other.city == _this.city)&&const DeepCollectionEquality().equals(other.strengths, _this.strengths)&&const DeepCollectionEquality().equals(other.customInterests, _this.customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _this.customStrengths)&&(identical(other.supportSource, _this.supportSource) || other.supportSource == _this.supportSource)&&(identical(other.earliestMoveYear, _this.earliestMoveYear) || other.earliestMoveYear == _this.earliestMoveYear)&&(identical(other.graduationYear, _this.graduationYear) || other.graduationYear == _this.graduationYear)&&(identical(other.passportValidUntil, _this.passportValidUntil) || other.passportValidUntil == _this.passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _this.preferredCountryIds)&&(identical(other.constraints, _this.constraints) || other.constraints == _this.constraints)&&(identical(other.notifications, _this.notifications) || other.notifications == _this.notifications)&&(identical(other.activeGoalId, _this.activeGoalId) || other.activeGoalId == _this.activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _this.experience)&&const DeepCollectionEquality().equals(other.progress, _this.progress));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserProfile&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.displayName, _this.displayName) || other.displayName == _this.displayName)&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.nationality, _this.nationality) || other.nationality == _this.nationality)&&(identical(other.residenceCountry, _this.residenceCountry) || other.residenceCountry == _this.residenceCountry)&&(identical(other.birthYear, _this.birthYear) || other.birthYear == _this.birthYear)&&const DeepCollectionEquality().equals(other.education, _this.education)&&const DeepCollectionEquality().equals(other.languages, _this.languages)&&(identical(other.experienceMonths, _this.experienceMonths) || other.experienceMonths == _this.experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _this.interests)&&(identical(other.savings, _this.savings) || other.savings == _this.savings)&&(identical(other.monthlySupport, _this.monthlySupport) || other.monthlySupport == _this.monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _this.facts)&&const DeepCollectionEquality().equals(other.roles, _this.roles)&&(identical(other.consents, _this.consents) || other.consents == _this.consents)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.city, _this.city) || other.city == _this.city)&&const DeepCollectionEquality().equals(other.strengths, _this.strengths)&&const DeepCollectionEquality().equals(other.customInterests, _this.customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _this.customStrengths)&&(identical(other.supportSource, _this.supportSource) || other.supportSource == _this.supportSource)&&(identical(other.earliestMoveYear, _this.earliestMoveYear) || other.earliestMoveYear == _this.earliestMoveYear)&&(identical(other.graduationYear, _this.graduationYear) || other.graduationYear == _this.graduationYear)&&(identical(other.passportValidUntil, _this.passportValidUntil) || other.passportValidUntil == _this.passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _this.preferredCountryIds)&&(identical(other.constraints, _this.constraints) || other.constraints == _this.constraints)&&(identical(other.notifications, _this.notifications) || other.notifications == _this.notifications)&&(identical(other.activeGoalId, _this.activeGoalId) || other.activeGoalId == _this.activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _this.experience)&&const DeepCollectionEquality().equals(other.progress, _this.progress)&&(identical(other.helpPreferences, _this.helpPreferences) || other.helpPreferences == _this.helpPreferences));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserProfile;
-  return Object.hashAll([runtimeType,_this.id,_this.displayName,_this.email,_this.nationality,_this.residenceCountry,_this.birthYear,const DeepCollectionEquality().hash(_this.education),const DeepCollectionEquality().hash(_this.languages),_this.experienceMonths,const DeepCollectionEquality().hash(_this.interests),_this.savings,_this.monthlySupport,const DeepCollectionEquality().hash(_this.facts),const DeepCollectionEquality().hash(_this.roles),_this.consents,_this.createdAt,_this.phone,_this.city,const DeepCollectionEquality().hash(_this.strengths),const DeepCollectionEquality().hash(_this.customInterests),const DeepCollectionEquality().hash(_this.customStrengths),_this.supportSource,_this.earliestMoveYear,_this.graduationYear,_this.passportValidUntil,const DeepCollectionEquality().hash(_this.preferredCountryIds),_this.constraints,_this.notifications,_this.activeGoalId,const DeepCollectionEquality().hash(_this.experience),const DeepCollectionEquality().hash(_this.progress)]);
+  return Object.hashAll([runtimeType,_this.id,_this.displayName,_this.email,_this.nationality,_this.residenceCountry,_this.birthYear,const DeepCollectionEquality().hash(_this.education),const DeepCollectionEquality().hash(_this.languages),_this.experienceMonths,const DeepCollectionEquality().hash(_this.interests),_this.savings,_this.monthlySupport,const DeepCollectionEquality().hash(_this.facts),const DeepCollectionEquality().hash(_this.roles),_this.consents,_this.createdAt,_this.phone,_this.city,const DeepCollectionEquality().hash(_this.strengths),const DeepCollectionEquality().hash(_this.customInterests),const DeepCollectionEquality().hash(_this.customStrengths),_this.supportSource,_this.earliestMoveYear,_this.graduationYear,_this.passportValidUntil,const DeepCollectionEquality().hash(_this.preferredCountryIds),_this.constraints,_this.notifications,_this.activeGoalId,const DeepCollectionEquality().hash(_this.experience),const DeepCollectionEquality().hash(_this.progress),_this.helpPreferences]);
 }
 
 @override
 String toString() {
   final _this = this as UserProfile;
-  return 'UserProfile(id: ${_this.id}, displayName: ${_this.displayName}, email: ${_this.email}, nationality: ${_this.nationality}, residenceCountry: ${_this.residenceCountry}, birthYear: ${_this.birthYear}, education: ${_this.education}, languages: ${_this.languages}, experienceMonths: ${_this.experienceMonths}, interests: ${_this.interests}, savings: ${_this.savings}, monthlySupport: ${_this.monthlySupport}, facts: ${_this.facts}, roles: ${_this.roles}, consents: ${_this.consents}, createdAt: ${_this.createdAt}, phone: ${_this.phone}, city: ${_this.city}, strengths: ${_this.strengths}, customInterests: ${_this.customInterests}, customStrengths: ${_this.customStrengths}, supportSource: ${_this.supportSource}, earliestMoveYear: ${_this.earliestMoveYear}, graduationYear: ${_this.graduationYear}, passportValidUntil: ${_this.passportValidUntil}, preferredCountryIds: ${_this.preferredCountryIds}, constraints: ${_this.constraints}, notifications: ${_this.notifications}, activeGoalId: ${_this.activeGoalId}, experience: ${_this.experience}, progress: ${_this.progress})';
+  return 'UserProfile(id: ${_this.id}, displayName: ${_this.displayName}, email: ${_this.email}, nationality: ${_this.nationality}, residenceCountry: ${_this.residenceCountry}, birthYear: ${_this.birthYear}, education: ${_this.education}, languages: ${_this.languages}, experienceMonths: ${_this.experienceMonths}, interests: ${_this.interests}, savings: ${_this.savings}, monthlySupport: ${_this.monthlySupport}, facts: ${_this.facts}, roles: ${_this.roles}, consents: ${_this.consents}, createdAt: ${_this.createdAt}, phone: ${_this.phone}, city: ${_this.city}, strengths: ${_this.strengths}, customInterests: ${_this.customInterests}, customStrengths: ${_this.customStrengths}, supportSource: ${_this.supportSource}, earliestMoveYear: ${_this.earliestMoveYear}, graduationYear: ${_this.graduationYear}, passportValidUntil: ${_this.passportValidUntil}, preferredCountryIds: ${_this.preferredCountryIds}, constraints: ${_this.constraints}, notifications: ${_this.notifications}, activeGoalId: ${_this.activeGoalId}, experience: ${_this.experience}, progress: ${_this.progress}, helpPreferences: ${_this.helpPreferences})';
 }
 
 
@@ -1472,11 +1781,11 @@ abstract mixin class $UserProfileCopyWith<$Res>  {
   factory $UserProfileCopyWith(UserProfile value, $Res Function(UserProfile) _then) = _$UserProfileCopyWithImpl;
 @useResult
 $Res call({
- String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience, Map<String, dynamic>? progress
+ String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience, Map<String, dynamic>? progress, HelpPreferences? helpPreferences
 });
 
 
-$MoneyCopyWith<$Res>? get savings;$MoneyCopyWith<$Res>? get monthlySupport;$UserConsentsCopyWith<$Res>? get consents;$UserNotificationsCopyWith<$Res>? get notifications;
+$MoneyCopyWith<$Res>? get savings;$MoneyCopyWith<$Res>? get monthlySupport;$UserConsentsCopyWith<$Res>? get consents;$UserNotificationsCopyWith<$Res>? get notifications;$HelpPreferencesCopyWith<$Res>? get helpPreferences;
 
 }
 /// @nodoc
@@ -1489,7 +1798,7 @@ class _$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,Object? progress = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,Object? progress = freezed,Object? helpPreferences = freezed,}) {
   return _then(UserProfile(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -1522,7 +1831,8 @@ as String?,notifications: freezed == notifications ? _self.notifications : notif
 as UserNotifications?,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
 as String?,experience: null == experience ? _self.experience : experience // ignore: cast_nullable_to_non_nullable
 as List<UserExperience>,progress: freezed == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,helpPreferences: freezed == helpPreferences ? _self.helpPreferences : helpPreferences // ignore: cast_nullable_to_non_nullable
+as HelpPreferences?,
   ));
 }
 /// Create a copy of UserProfile
@@ -1572,6 +1882,18 @@ $UserNotificationsCopyWith<$Res>? get notifications {
 
   return $UserNotificationsCopyWith<$Res>(_self.notifications!, (value) {
     return _then(_self.copyWith(notifications: value));
+  });
+}/// Create a copy of UserProfile
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HelpPreferencesCopyWith<$Res>? get helpPreferences {
+    if (_self.helpPreferences == null) {
+    return null;
+  }
+
+  return $HelpPreferencesCopyWith<$Res>(_self.helpPreferences!, (value) {
+    return _then(_self.copyWith(helpPreferences: value));
   });
 }
 }
@@ -1655,10 +1977,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress,  HelpPreferences? helpPreferences)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress,_that.helpPreferences);case _:
   return orElse();
 
 }
@@ -1676,10 +1998,10 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress,  HelpPreferences? helpPreferences)  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile():
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress,_that.helpPreferences);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -1696,10 +2018,10 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? id,  String? displayName,  String? email,  String? nationality,  String? residenceCountry,  int? birthYear,  List<UserEducation> education,  List<UserLanguage> languages,  int? experienceMonths,  List<String> interests,  Money? savings,  Money? monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles,  UserConsents? consents,  String? createdAt,  String? phone,  String? city,  List<String> strengths,  List<String> customInterests,  List<String> customStrengths,  String? supportSource,  int? earliestMoveYear,  int? graduationYear,  String? passportValidUntil,  List<String> preferredCountryIds,  String? constraints,  UserNotifications? notifications,  String? activeGoalId,  List<UserExperience> experience,  Map<String, dynamic>? progress,  HelpPreferences? helpPreferences)?  $default,) {final _that = this;
 switch (_that) {
 case _UserProfile() when $default != null:
-return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress);case _:
+return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.residenceCountry,_that.birthYear,_that.education,_that.languages,_that.experienceMonths,_that.interests,_that.savings,_that.monthlySupport,_that.facts,_that.roles,_that.consents,_that.createdAt,_that.phone,_that.city,_that.strengths,_that.customInterests,_that.customStrengths,_that.supportSource,_that.earliestMoveYear,_that.graduationYear,_that.passportValidUntil,_that.preferredCountryIds,_that.constraints,_that.notifications,_that.activeGoalId,_that.experience,_that.progress,_that.helpPreferences);case _:
   return null;
 
 }
@@ -1711,7 +2033,7 @@ return $default(_that.id,_that.displayName,_that.email,_that.nationality,_that.r
 @JsonSerializable()
 
 class _UserProfile implements UserProfile {
-  const _UserProfile({this.id, this.displayName, this.email, this.nationality, this.residenceCountry, this.birthYear,  List<UserEducation> education = const [],  List<UserLanguage> languages = const [], this.experienceMonths,  List<String> interests = const [], this.savings, this.monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles = const [], this.consents, this.createdAt, this.phone, this.city,  List<String> strengths = const [],  List<String> customInterests = const [],  List<String> customStrengths = const [], this.supportSource, this.earliestMoveYear, this.graduationYear, this.passportValidUntil,  List<String> preferredCountryIds = const [], this.constraints, this.notifications, this.activeGoalId,  List<UserExperience> experience = const [],  Map<String, dynamic>? progress}): _education = education,_languages = languages,_interests = interests,_facts = facts,_roles = roles,_strengths = strengths,_customInterests = customInterests,_customStrengths = customStrengths,_preferredCountryIds = preferredCountryIds,_experience = experience,_progress = progress;
+  const _UserProfile({this.id, this.displayName, this.email, this.nationality, this.residenceCountry, this.birthYear,  List<UserEducation> education = const [],  List<UserLanguage> languages = const [], this.experienceMonths,  List<String> interests = const [], this.savings, this.monthlySupport,  Map<String, dynamic>? facts,  List<UserRole> roles = const [], this.consents, this.createdAt, this.phone, this.city,  List<String> strengths = const [],  List<String> customInterests = const [],  List<String> customStrengths = const [], this.supportSource, this.earliestMoveYear, this.graduationYear, this.passportValidUntil,  List<String> preferredCountryIds = const [], this.constraints, this.notifications, this.activeGoalId,  List<UserExperience> experience = const [],  Map<String, dynamic>? progress, this.helpPreferences}): _education = education,_languages = languages,_interests = interests,_facts = facts,_roles = roles,_strengths = strengths,_customInterests = customInterests,_customStrengths = customStrengths,_preferredCountryIds = preferredCountryIds,_experience = experience,_progress = progress;
   factory _UserProfile.fromJson(Map<String, dynamic> json) => _$UserProfileFromJson(json);
 
 /// Firestore document id (null before the doc is created).
@@ -1833,6 +2155,8 @@ class _UserProfile implements UserProfile {
   return EqualUnmodifiableMapView(value);
 }
 
+/// How the student wants help (milestone screen)
+@override final  HelpPreferences? helpPreferences;
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -1847,18 +2171,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.nationality, nationality) || other.nationality == nationality)&&(identical(other.residenceCountry, residenceCountry) || other.residenceCountry == residenceCountry)&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&const DeepCollectionEquality().equals(other.education, _education)&&const DeepCollectionEquality().equals(other.languages, _languages)&&(identical(other.experienceMonths, experienceMonths) || other.experienceMonths == experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _interests)&&(identical(other.savings, savings) || other.savings == savings)&&(identical(other.monthlySupport, monthlySupport) || other.monthlySupport == monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _facts)&&const DeepCollectionEquality().equals(other.roles, _roles)&&(identical(other.consents, consents) || other.consents == consents)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.city, city) || other.city == city)&&const DeepCollectionEquality().equals(other.strengths, _strengths)&&const DeepCollectionEquality().equals(other.customInterests, _customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _customStrengths)&&(identical(other.supportSource, supportSource) || other.supportSource == supportSource)&&(identical(other.earliestMoveYear, earliestMoveYear) || other.earliestMoveYear == earliestMoveYear)&&(identical(other.graduationYear, graduationYear) || other.graduationYear == graduationYear)&&(identical(other.passportValidUntil, passportValidUntil) || other.passportValidUntil == passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _preferredCountryIds)&&(identical(other.constraints, constraints) || other.constraints == constraints)&&(identical(other.notifications, notifications) || other.notifications == notifications)&&(identical(other.activeGoalId, activeGoalId) || other.activeGoalId == activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _experience)&&const DeepCollectionEquality().equals(other.progress, _progress));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserProfile&&(identical(other.id, id) || other.id == id)&&(identical(other.displayName, displayName) || other.displayName == displayName)&&(identical(other.email, email) || other.email == email)&&(identical(other.nationality, nationality) || other.nationality == nationality)&&(identical(other.residenceCountry, residenceCountry) || other.residenceCountry == residenceCountry)&&(identical(other.birthYear, birthYear) || other.birthYear == birthYear)&&const DeepCollectionEquality().equals(other.education, _education)&&const DeepCollectionEquality().equals(other.languages, _languages)&&(identical(other.experienceMonths, experienceMonths) || other.experienceMonths == experienceMonths)&&const DeepCollectionEquality().equals(other.interests, _interests)&&(identical(other.savings, savings) || other.savings == savings)&&(identical(other.monthlySupport, monthlySupport) || other.monthlySupport == monthlySupport)&&const DeepCollectionEquality().equals(other.facts, _facts)&&const DeepCollectionEquality().equals(other.roles, _roles)&&(identical(other.consents, consents) || other.consents == consents)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.city, city) || other.city == city)&&const DeepCollectionEquality().equals(other.strengths, _strengths)&&const DeepCollectionEquality().equals(other.customInterests, _customInterests)&&const DeepCollectionEquality().equals(other.customStrengths, _customStrengths)&&(identical(other.supportSource, supportSource) || other.supportSource == supportSource)&&(identical(other.earliestMoveYear, earliestMoveYear) || other.earliestMoveYear == earliestMoveYear)&&(identical(other.graduationYear, graduationYear) || other.graduationYear == graduationYear)&&(identical(other.passportValidUntil, passportValidUntil) || other.passportValidUntil == passportValidUntil)&&const DeepCollectionEquality().equals(other.preferredCountryIds, _preferredCountryIds)&&(identical(other.constraints, constraints) || other.constraints == constraints)&&(identical(other.notifications, notifications) || other.notifications == notifications)&&(identical(other.activeGoalId, activeGoalId) || other.activeGoalId == activeGoalId)&&const DeepCollectionEquality().equals(other.experience, _experience)&&const DeepCollectionEquality().equals(other.progress, _progress)&&(identical(other.helpPreferences, helpPreferences) || other.helpPreferences == helpPreferences));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hashAll([runtimeType,id,displayName,email,nationality,residenceCountry,birthYear,const DeepCollectionEquality().hash(_education),const DeepCollectionEquality().hash(_languages),experienceMonths,const DeepCollectionEquality().hash(_interests),savings,monthlySupport,const DeepCollectionEquality().hash(_facts),const DeepCollectionEquality().hash(_roles),consents,createdAt,phone,city,const DeepCollectionEquality().hash(_strengths),const DeepCollectionEquality().hash(_customInterests),const DeepCollectionEquality().hash(_customStrengths),supportSource,earliestMoveYear,graduationYear,passportValidUntil,const DeepCollectionEquality().hash(_preferredCountryIds),constraints,notifications,activeGoalId,const DeepCollectionEquality().hash(_experience),const DeepCollectionEquality().hash(_progress)]);
+    return Object.hashAll([runtimeType,id,displayName,email,nationality,residenceCountry,birthYear,const DeepCollectionEquality().hash(_education),const DeepCollectionEquality().hash(_languages),experienceMonths,const DeepCollectionEquality().hash(_interests),savings,monthlySupport,const DeepCollectionEquality().hash(_facts),const DeepCollectionEquality().hash(_roles),consents,createdAt,phone,city,const DeepCollectionEquality().hash(_strengths),const DeepCollectionEquality().hash(_customInterests),const DeepCollectionEquality().hash(_customStrengths),supportSource,earliestMoveYear,graduationYear,passportValidUntil,const DeepCollectionEquality().hash(_preferredCountryIds),constraints,notifications,activeGoalId,const DeepCollectionEquality().hash(_experience),const DeepCollectionEquality().hash(_progress),helpPreferences]);
 }
 
 @override
 String toString() {
-    return 'UserProfile(id: $id, displayName: $displayName, email: $email, nationality: $nationality, residenceCountry: $residenceCountry, birthYear: $birthYear, education: $education, languages: $languages, experienceMonths: $experienceMonths, interests: $interests, savings: $savings, monthlySupport: $monthlySupport, facts: $facts, roles: $roles, consents: $consents, createdAt: $createdAt, phone: $phone, city: $city, strengths: $strengths, customInterests: $customInterests, customStrengths: $customStrengths, supportSource: $supportSource, earliestMoveYear: $earliestMoveYear, graduationYear: $graduationYear, passportValidUntil: $passportValidUntil, preferredCountryIds: $preferredCountryIds, constraints: $constraints, notifications: $notifications, activeGoalId: $activeGoalId, experience: $experience, progress: $progress)';
+    return 'UserProfile(id: $id, displayName: $displayName, email: $email, nationality: $nationality, residenceCountry: $residenceCountry, birthYear: $birthYear, education: $education, languages: $languages, experienceMonths: $experienceMonths, interests: $interests, savings: $savings, monthlySupport: $monthlySupport, facts: $facts, roles: $roles, consents: $consents, createdAt: $createdAt, phone: $phone, city: $city, strengths: $strengths, customInterests: $customInterests, customStrengths: $customStrengths, supportSource: $supportSource, earliestMoveYear: $earliestMoveYear, graduationYear: $graduationYear, passportValidUntil: $passportValidUntil, preferredCountryIds: $preferredCountryIds, constraints: $constraints, notifications: $notifications, activeGoalId: $activeGoalId, experience: $experience, progress: $progress, helpPreferences: $helpPreferences)';
 }
 
 
@@ -1869,11 +2193,11 @@ abstract mixin class _$UserProfileCopyWith<$Res> implements $UserProfileCopyWith
   factory _$UserProfileCopyWith(_UserProfile value, $Res Function(_UserProfile) _then) = __$UserProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience, Map<String, dynamic>? progress
+ String? id, String? displayName, String? email, String? nationality, String? residenceCountry, int? birthYear, List<UserEducation> education, List<UserLanguage> languages, int? experienceMonths, List<String> interests, Money? savings, Money? monthlySupport, Map<String, dynamic>? facts, List<UserRole> roles, UserConsents? consents, String? createdAt, String? phone, String? city, List<String> strengths, List<String> customInterests, List<String> customStrengths, String? supportSource, int? earliestMoveYear, int? graduationYear, String? passportValidUntil, List<String> preferredCountryIds, String? constraints, UserNotifications? notifications, String? activeGoalId, List<UserExperience> experience, Map<String, dynamic>? progress, HelpPreferences? helpPreferences
 });
 
 
-@override $MoneyCopyWith<$Res>? get savings;@override $MoneyCopyWith<$Res>? get monthlySupport;@override $UserConsentsCopyWith<$Res>? get consents;@override $UserNotificationsCopyWith<$Res>? get notifications;
+@override $MoneyCopyWith<$Res>? get savings;@override $MoneyCopyWith<$Res>? get monthlySupport;@override $UserConsentsCopyWith<$Res>? get consents;@override $UserNotificationsCopyWith<$Res>? get notifications;@override $HelpPreferencesCopyWith<$Res>? get helpPreferences;
 
 }
 /// @nodoc
@@ -1886,7 +2210,7 @@ class __$UserProfileCopyWithImpl<$Res>
 
 /// Create a copy of UserProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,Object? progress = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? displayName = freezed,Object? email = freezed,Object? nationality = freezed,Object? residenceCountry = freezed,Object? birthYear = freezed,Object? education = null,Object? languages = null,Object? experienceMonths = freezed,Object? interests = null,Object? savings = freezed,Object? monthlySupport = freezed,Object? facts = freezed,Object? roles = null,Object? consents = freezed,Object? createdAt = freezed,Object? phone = freezed,Object? city = freezed,Object? strengths = null,Object? customInterests = null,Object? customStrengths = null,Object? supportSource = freezed,Object? earliestMoveYear = freezed,Object? graduationYear = freezed,Object? passportValidUntil = freezed,Object? preferredCountryIds = null,Object? constraints = freezed,Object? notifications = freezed,Object? activeGoalId = freezed,Object? experience = null,Object? progress = freezed,Object? helpPreferences = freezed,}) {
   return _then(_UserProfile(
 id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String?,displayName: freezed == displayName ? _self.displayName : displayName // ignore: cast_nullable_to_non_nullable
@@ -1919,7 +2243,8 @@ as String?,notifications: freezed == notifications ? _self.notifications : notif
 as UserNotifications?,activeGoalId: freezed == activeGoalId ? _self.activeGoalId : activeGoalId // ignore: cast_nullable_to_non_nullable
 as String?,experience: null == experience ? _self._experience : experience // ignore: cast_nullable_to_non_nullable
 as List<UserExperience>,progress: freezed == progress ? _self._progress : progress // ignore: cast_nullable_to_non_nullable
-as Map<String, dynamic>?,
+as Map<String, dynamic>?,helpPreferences: freezed == helpPreferences ? _self.helpPreferences : helpPreferences // ignore: cast_nullable_to_non_nullable
+as HelpPreferences?,
   ));
 }
 
@@ -1970,6 +2295,18 @@ $UserNotificationsCopyWith<$Res>? get notifications {
 
   return $UserNotificationsCopyWith<$Res>(_self.notifications!, (value) {
     return _then(_self.copyWith(notifications: value));
+  });
+}/// Create a copy of UserProfile
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$HelpPreferencesCopyWith<$Res>? get helpPreferences {
+    if (_self.helpPreferences == null) {
+    return null;
+  }
+
+  return $HelpPreferencesCopyWith<$Res>(_self.helpPreferences!, (value) {
+    return _then(_self.copyWith(helpPreferences: value));
   });
 }
 }

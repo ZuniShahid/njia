@@ -9,6 +9,7 @@ flutter test                      # engine port (4 cases + parity with engine.mj
 flutter analyze
 flutter run -d chrome                         # real Firebase (web config is in firebase_options.dart)
 flutter run -d chrome -t lib/main_preview.dart   # sample data, no Firebase – look at screens without signing in
+                                                 # add --dart-define=EDITOR=true to see /admin/changes
 ```
 
 ## Layout (docs/architecture.md)
@@ -24,9 +25,11 @@ lib/
   core/engine/                Dart port of ../functions/src/engine.mjs (engine.dart) + ContentBundle. Keep in sync!
                               roadmap_model.dart: plan → phases, year axis, milestone, tasks, deadlines, decisions (for cockpit/roadmap)
                               readiness_model.dart (requirements by dimension) · finance_model.dart (costs/funds per year, scholarships fit)
-  data/                       content_repository · user_repository (incl. setFact) · jobs_repository · plan_service (computePlan callable)
+                              milestone_model.dart (phase checklist: steps, proofs, permit checklist items)
+  data/                       content_repository · user_repository (incl. setFact) · jobs_repository · documents_repository (Storage)
+                              change_request_repository (review queue) · coach_service (`coach` callable) · plan_service (computePlan callable)
                               firestore_codec (Timestamp → ISO, id in/out)
-  features/<view>/            one folder per screen. Built: auth, profile, goal, cockpit, roadmap, readiness, finances, visa. Placeholders: the rest (task 5)
+  features/<view>/            one folder per screen – all prototype views are built (auth, profile, goal, cockpit, roadmap, readiness, finances, visa, milestone, big_picture, jobs, coach, documents) plus admin (review queue)
   preview/                    sample_data.dart (Aminata Kamara, 2 goals) · fakes.dart (in-memory auth/user/content) – used by main_preview.dart and tests
   shared/                     format.dart (dates, money) · widgets/ui.dart (PageHead, badges, accordion, chips, fields…) · provenance_chip · view_scaffold
 assets/fonts/                 Plus Jakarta Sans (OFL), the prototype font
@@ -34,6 +37,7 @@ assets/seed/                  copy of ../seed (npm run gen:models) for main_prev
 test/                         engine_test (the 4 cases from functions/test) · engine_parity_test (fixture from the JS engine)
                               models_test (every seed doc round-trips) · app_test (routing + shell) · auth_test · profile_test · goal_test
                               roadmap_model_test · cockpit_roadmap_test · readiness_finance_model_test · readiness_finances_visa_test
+                              milestone_bigpicture_jobs_coach_docs_test · admin_test
 ```
 
 ## Models
