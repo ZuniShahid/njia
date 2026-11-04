@@ -23,15 +23,17 @@ lib/
   core/models/                GENERATED from ../schema/njia.schema.json – see below. plan.dart is hand-written (engine shape).
   core/engine/                Dart port of ../functions/src/engine.mjs (engine.dart) + ContentBundle. Keep in sync!
                               roadmap_model.dart: plan → phases, year axis, milestone, tasks, deadlines, decisions (for cockpit/roadmap)
-  data/                       content_repository · user_repository · jobs_repository · firestore_codec (Timestamp → ISO, id in/out)
-  features/<view>/            one folder per screen. Built: auth, profile, goal, cockpit, roadmap. Placeholders: the rest (task 5)
+                              readiness_model.dart (requirements by dimension) · finance_model.dart (costs/funds per year, scholarships fit)
+  data/                       content_repository · user_repository (incl. setFact) · jobs_repository · plan_service (computePlan callable)
+                              firestore_codec (Timestamp → ISO, id in/out)
+  features/<view>/            one folder per screen. Built: auth, profile, goal, cockpit, roadmap, readiness, finances, visa. Placeholders: the rest (task 5)
   preview/                    sample_data.dart (Aminata Kamara, 2 goals) · fakes.dart (in-memory auth/user/content) – used by main_preview.dart and tests
   shared/                     format.dart (dates, money) · widgets/ui.dart (PageHead, badges, accordion, chips, fields…) · provenance_chip · view_scaffold
 assets/fonts/                 Plus Jakarta Sans (OFL), the prototype font
 assets/seed/                  copy of ../seed (npm run gen:models) for main_preview.dart and widget tests
 test/                         engine_test (the 4 cases from functions/test) · engine_parity_test (fixture from the JS engine)
                               models_test (every seed doc round-trips) · app_test (routing + shell) · auth_test · profile_test · goal_test
-                              roadmap_model_test · cockpit_roadmap_test
+                              roadmap_model_test · cockpit_roadmap_test · readiness_finance_model_test · readiness_finances_visa_test
 ```
 
 ## Models

@@ -11,6 +11,7 @@ import '../core/engine/content_bundle.dart';
 import '../core/models/models.dart';
 import '../data/auth_service.dart';
 import '../data/content_repository.dart';
+import '../data/plan_service.dart';
 import '../data/user_repository.dart';
 import 'sample_data.dart';
 
@@ -126,6 +127,17 @@ class FakeUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> setFact(String uid, String key, Object? value) async {
+    final facts = Map<String, dynamic>.from(_profiles[uid]?.facts ?? const {});
+    if (value == null) {
+      facts.remove(key);
+    } else {
+      facts[key] = value;
+    }
+    await updateProfile(uid, {'facts': facts});
+  }
+
+  @override
   Stream<List<Goal>> goals(String uid) async* {
     yield goalsOf(uid);
     yield* _goalsCtrl.stream.map((_) => goalsOf(uid));
@@ -196,7 +208,10 @@ class FakeContentRepository implements ContentRepository {
   @override
   Future<List<Occupation>> occupations() async => sampleOccupations;
   @override
-  Future<List<TrustAlert>> trustAlerts(String countryId) async => const [];
+  Future<List<TrustAlert>> trustAlerts(String countryId) async => (await seed())['trustAlerts']!
+      .map((e) => TrustAlert.fromJson(Map<String, dynamic>.from(e as Map)))
+      .where((a) => a.countryIds.contains(countryId))
+      .toList();
   @override
   Future<List<ContentSource>> sources() async =>
       (await seed())['sources']!.map((e) => ContentSource.fromJson(Map<String, dynamic>.from(e as Map))).toList();
@@ -215,6 +230,12 @@ class FakeContentRepository implements ContentRepository {
   }
 }
 
+class FakePlanService implements PlanService {
+  int calls = 0;
+  @override
+  Future<void> recompute(String goalId) async => calls++;
+}
+
 /// Provider overrides for a signed-in (or signed-out) preview with sample data.
 List<Override> previewOverrides({bool signedIn = true}) {
   final auth = FakeAuthService(
@@ -226,5 +247,6 @@ List<Override> previewOverrides({bool signedIn = true}) {
     authServiceProvider.overrideWithValue(auth),
     userRepositoryProvider.overrideWithValue(users),
     contentRepositoryProvider.overrideWithValue(const FakeContentRepository()),
+    planServiceProvider.overrideWithValue(FakePlanService()),
   ];
 }

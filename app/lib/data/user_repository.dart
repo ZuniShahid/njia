@@ -14,6 +14,9 @@ abstract class UserRepository {
   /// Partial update. A null value deletes the field.
   Future<void> updateProfile(String uid, Map<String, Object?> patch);
 
+  /// Sets one entry of users/{uid}.facts (keys contain dots, so this is not a dotted path); null deletes it.
+  Future<void> setFact(String uid, String key, Object? value);
+
   Stream<List<Goal>> goals(String uid);
 
   /// Creates or updates a goal and returns its id. Writing a goal triggers `onGoalWritten` → `computePlan`.
@@ -67,6 +70,10 @@ class FirestoreUserRepository implements UserRepository {
     final data = {for (final e in patch.entries) e.key: e.value ?? FieldValue.delete()};
     return _user(uid).set(data, SetOptions(merge: true));
   }
+
+  @override
+  Future<void> setFact(String uid, String key, Object? value) =>
+      _user(uid).update({FieldPath(['facts', key]): value ?? FieldValue.delete()});
 
   @override
   Stream<List<Goal>> goals(String uid) =>
