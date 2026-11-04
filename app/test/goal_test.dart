@@ -28,7 +28,7 @@ Future<void> reveal(WidgetTester tester, Finder finder) async {
 }
 
 Future<void> openDrawer(WidgetTester tester) async {
-  await tester.tap(find.text('Goal 1 of 2'.toUpperCase()));
+  await tester.tap(find.text('Goal 1 of 2'.toUpperCase()).first); // nav goal switcher (the hero repeats it)
   await tester.pumpAndSettle();
 }
 
@@ -60,7 +60,7 @@ void main() {
     await tester.pumpAndSettle();
     final repo = c.read(userRepositoryProvider) as FakeUserRepository;
     expect(repo.profileOf(sampleUid)!.activeGoalId, 'g2');
-    expect(find.text('Goal 2 of 2'.toUpperCase()), findsOneWidget);
+    expect(find.text('Goal 2 of 2'.toUpperCase()), findsWidgets);
   });
 
   testWidgets('adding a goal validates, saves and makes it active', (tester) async {
@@ -96,7 +96,7 @@ void main() {
     expect(goals.last.countryId, 'AT');
     expect(goals.last.city, 'Vienna');
     expect(repo.profileOf(sampleUid)!.activeGoalId, goals.last.id);
-    expect(find.text('Goal 3 of 3'.toUpperCase()), findsOneWidget);
+    expect(find.text('Goal 3 of 3'.toUpperCase()), findsWidgets);
   });
 
   testWidgets('deleting a goal asks for confirmation', (tester) async {

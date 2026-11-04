@@ -421,7 +421,7 @@ class SelectField<T> extends StatelessWidget {
   final String label;
   final T? value;
   final List<(T, String)> items;
-  final ValueChanged<T?> onChanged;
+  final ValueChanged<T?>? onChanged;
   @override
   Widget build(BuildContext context) => Field(
         label: label,

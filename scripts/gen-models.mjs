@@ -214,3 +214,10 @@ for (const [file, b] of Object.entries(files)) {
 }
 writeFileSync(join(outDir, "models.dart"), `// GENERATED barrel – see scripts/gen-models.mjs.\n${[...written, "plan"].sort().map((f) => `export '${f}.dart';`).join("\n")}\n`);
 console.log(`models: wrote ${written.length} files to app/lib/core/models`);
+
+// ---- seed copy for previews/tests (app/assets/seed) ----------------------------------------------
+import { readdirSync, copyFileSync } from "node:fs";
+const seedSrc = join(root, "seed"), seedDst = join(root, "app/assets/seed");
+mkdirSync(seedDst, { recursive: true });
+for (const f of readdirSync(seedSrc).filter((f) => f.endsWith(".json"))) copyFileSync(join(seedSrc, f), join(seedDst, f));
+console.log(`seed: copied to app/assets/seed (preview + tests)`);

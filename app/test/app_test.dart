@@ -23,9 +23,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Cockpit'), findsWidgets);
     expect(find.text('YOUR GOAL'), findsOneWidget);
-    await tester.tap(find.text('Roadmap'));
+    await tester.tap(find.text('Jobs'));
     await tester.pumpAndSettle();
-    expect(find.text('Phases × years, decision points and watch-outs.'), findsOneWidget);
+    expect(find.text('Search and filters; jobs come from APIs and partner feeds only.'), findsOneWidget);
   });
 
   testWidgets('narrow screen uses the bottom nav', (tester) async {

@@ -300,7 +300,8 @@ mixin _$ContentSource {
 
 /// Firestore document id.
  String get id; String get name; String get url; SourceType get type; String? get license; int get cadenceDays;/// Which documents/fields this source feeds; the extractor only proposes changes to these.
- List<SourceTarget> get targets;@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ContentSourceExtractor? get extractor;/// CSS selector to limit the fetched region
+ List<SourceTarget> get targets;/// manual = the site blocks automated fetches; n8n skips it and the reviewer checks the page by hand every cadenceDays
+@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ContentSourceExtractor? get extractor;/// CSS selector to limit the fetched region
  String? get selector; String? get ownerUid; String? get lastFetchedAt; String? get lastCheckedAt; String? get lastHash;@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) ContentSourceLastStatus? get lastStatus; bool? get active;
 /// Create a copy of ContentSource
 /// with the given fields replaced by the non-null parameter values.
@@ -533,6 +534,7 @@ class _ContentSource implements ContentSource {
   return EqualUnmodifiableListView(_targets);
 }
 
+/// manual = the site blocks automated fetches; n8n skips it and the reviewer checks the page by hand every cadenceDays
 @override@JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) final  ContentSourceExtractor? extractor;
 /// CSS selector to limit the fetched region
 @override final  String? selector;

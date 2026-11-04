@@ -9,6 +9,7 @@ part 'content_source.freezed.dart';
 part 'content_source.g.dart';
 
 
+/// manual = the site blocks automated fetches; n8n skips it and the reviewer checks the page by hand every cadenceDays
 enum ContentSourceExtractor {
   @JsonValue('none')
   none,
@@ -18,6 +19,8 @@ enum ContentSourceExtractor {
   claudeSchema,
   @JsonValue('api')
   api,
+  @JsonValue('manual')
+  manual,
 }
 
 extension ContentSourceExtractorJson on ContentSourceExtractor {
@@ -27,6 +30,7 @@ extension ContentSourceExtractorJson on ContentSourceExtractor {
         ContentSourceExtractor.htmlDiff => 'html_diff',
         ContentSourceExtractor.claudeSchema => 'claude_schema',
         ContentSourceExtractor.api => 'api',
+        ContentSourceExtractor.manual => 'manual',
       };
 }
 
@@ -75,6 +79,7 @@ abstract class ContentSource with _$ContentSource {
     required int cadenceDays,
     /// Which documents/fields this source feeds; the extractor only proposes changes to these.
     @Default([]) List<SourceTarget> targets,
+    /// manual = the site blocks automated fetches; n8n skips it and the reviewer checks the page by hand every cadenceDays
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     ContentSourceExtractor? extractor,
     /// CSS selector to limit the fetched region
