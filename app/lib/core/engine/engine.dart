@@ -108,6 +108,21 @@ List<Pathway> selectPathways(Goal goal, ContentBundle content) {
   return [study, work].whereType<Pathway>().toList();
 }
 
+/// The requirement ids a route depends on: every requirement of the chosen pathways plus those of
+/// the first pathway's student permit (same set the server uses for readiness).
+Set<String> neededRequirementIds(List<Pathway> pathways, Map<String, ResidencePermit> permitById) {
+  final ids = <String>{};
+  for (final p in pathways) {
+    ids.addAll(p.requirementIds);
+  }
+  final firstPermit = pathways.firstOrNull?.unlocksPermitIds
+      .map((id) => permitById[id])
+      .where((p) => p != null && p.type == PermitType.student)
+      .firstOrNull;
+  if (firstPermit != null) ids.addAll(firstPermit.requirementIds);
+  return ids;
+}
+
 /// Build the plan: steps (with month offsets), costs, requirement gaps, scores.
 Plan buildPlan({
   required Goal goal,
@@ -131,15 +146,7 @@ Plan buildPlan({
   void pushStep(PlanStep s) => steps.add(s.copyWith(order: steps.length + 1, startMonth: month));
 
   // 1. Preparation: every requirement of the pathways (+ first student permit) that is a gap or unknown
-  final neededReqIds = <String>{};
-  for (final p in pathways) {
-    neededReqIds.addAll(p.requirementIds);
-  }
-  final firstPermit = pathways.firstOrNull?.unlocksPermitIds
-      .map((id) => permitById[id])
-      .where((p) => p != null && p.type == PermitType.student)
-      .firstOrNull;
-  if (firstPermit != null) neededReqIds.addAll(firstPermit.requirementIds);
+  final neededReqIds = neededRequirementIds(pathways, permitById);
   final evals = neededReqIds
       .map((id) => reqById[id])
       .whereType<Requirement>()

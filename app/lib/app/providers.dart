@@ -1,15 +1,19 @@
 // App-wide Riverpod providers: Firebase handles, auth state, repositories, current user data.
 // Previews and tests override the service/repository providers (lib/preview/fakes.dart).
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/engine/engine.dart';
+import '../core/engine/finance_model.dart';
+import '../core/engine/readiness_model.dart';
 import '../core/engine/roadmap_model.dart';
 import '../core/models/models.dart';
 import '../data/auth_service.dart';
 import '../data/content_repository.dart';
 import '../data/jobs_repository.dart';
+import '../data/plan_service.dart';
 import '../data/user_repository.dart';
 
 /// Set by main() – false while Firebase could not be initialised.
@@ -21,6 +25,7 @@ final authServiceProvider = Provider<AuthService>((ref) => FirebaseAuthService(F
 final userRepositoryProvider = Provider<UserRepository>((ref) => FirestoreUserRepository(ref.watch(firestoreProvider)));
 final contentRepositoryProvider = Provider<ContentRepository>((ref) => FirestoreContentRepository(ref.watch(firestoreProvider)));
 final jobsRepositoryProvider = Provider<JobsRepository>((ref) => JobsRepository(ref.watch(firestoreProvider)));
+final planServiceProvider = Provider<PlanService>((ref) => FirebasePlanService(FirebaseFunctions.instanceFor(region: 'europe-west1')));
 
 final authUserProvider = StreamProvider<AuthUser?>((ref) {
   if (!ref.watch(firebaseReadyProvider)) return Stream.value(null);
@@ -122,4 +127,34 @@ Future<void> saveProgress(WidgetRef ref, {required String goalId, required Strin
   goalMap[section] = sectionMap;
   all[goalId] = goalMap;
   await ref.read(userRepositoryProvider).updateProfile(uid, {'progress': all});
+}
+
+/// Readiness for the active goal, recomputed locally from profile facts (instant feedback).
+final readinessProvider = FutureProvider<ReadinessModel?>((ref) async {
+  final goal = ref.watch(activeGoalProvider);
+  final profile = ref.watch(profileProvider).value;
+  if (goal?.countryId == null || profile == null) return null;
+  final content = await ref.watch(corridorBundleProvider(goal!.countryId!).future);
+  return ReadinessModel.build(goal: goal, profile: profile, content: content);
+});
+
+/// Finances for the active goal (costs from the plan, funds from profile + progress).
+final financeProvider = FutureProvider<FinanceModel?>((ref) async {
+  final roadmap = await ref.watch(roadmapProvider.future);
+  final profile = ref.watch(profileProvider).value;
+  if (roadmap == null || profile == null) return null;
+  return FinanceModel.build(roadmap: roadmap, profile: profile);
+});
+
+final trustAlertsProvider = FutureProvider.family<List<TrustAlert>, String>((ref, countryId) => ref.watch(contentRepositoryProvider).trustAlerts(countryId));
+
+/// Ticks a requirement on the readiness screen: writes the satisfying fact, asks the server to recompute.
+Future<void> setRequirementMet(WidgetRef ref, {required Requirement requirement, required bool met}) async {
+  final uid = ref.read(currentUidProvider);
+  final key = requirement.key;
+  if (uid == null || key == null) return;
+  final value = met ? ReadinessModel.satisfyingValue(requirement) : null;
+  await ref.read(userRepositoryProvider).setFact(uid, key, value);
+  final goalId = ref.read(activeGoalProvider)?.id;
+  if (goalId != null) await ref.read(planServiceProvider).recompute(goalId);
 }
