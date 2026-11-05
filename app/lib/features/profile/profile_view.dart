@@ -171,7 +171,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         Section(
           children: [
             Text('Your goals', style: text.titleMedium),
-            Text('${goals.length} of $maxGoals', style: text.bodySmall),
+            Text('${goals.length} of $maxGoals goals', style: text.bodySmall),
             for (final (i, g) in goals.indexed)
               Row(
                 children: [

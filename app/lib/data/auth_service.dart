@@ -48,6 +48,7 @@ class FirebaseAuthService implements AuthService {
     try {
       return await fn();
     } on FirebaseAuthException catch (e) {
+      debugPrint('auth: ${e.code} ${e.message}');
       throw AuthFailure(_message(e.code), code: e.code);
     }
   }
@@ -59,11 +60,26 @@ class FirebaseAuthService implements AuthService {
       });
 
   @override
-  Future<AuthUser> createAccount({required String name, required String email, required String password}) => _guard(() async {
-        final c = await _auth.createUserWithEmailAndPassword(email: email.trim(), password: password);
-        await c.user?.updateDisplayName(name.trim());
-        return AuthUser(uid: c.user!.uid, email: c.user!.email, displayName: name.trim());
-      });
+  Future<AuthUser> createAccount({required String name, required String email, required String password}) async {
+    final displayName = name.trim();
+    User user;
+    try {
+      user = (await _auth.createUserWithEmailAndPassword(email: email.trim(), password: password)).user!;
+    } on FirebaseAuthException catch (e) {
+      // Seen in production: the account is created and signed in, but the call still fails with
+      // internal-error. Carry on with the signed-in user instead of leaving them without a profile.
+      final u = _auth.currentUser;
+      debugPrint('createAccount: ${e.code} ${e.message}');
+      if (u == null || (u.email ?? '').toLowerCase() != email.trim().toLowerCase()) throw AuthFailure(_message(e.code), code: e.code);
+      user = u;
+    }
+    try {
+      await user.updateDisplayName(displayName);
+    } catch (e) {
+      debugPrint('updateDisplayName: $e'); // the profile document carries the name anyway
+    }
+    return AuthUser(uid: user.uid, email: user.email, displayName: displayName);
+  }
 
   @override
   Future<AuthUser> signInWithGoogle() => _guard(() async {

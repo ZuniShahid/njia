@@ -222,3 +222,53 @@ Future<void> showWelcomeGuide(BuildContext context, WidgetRef ref, RoadmapModel 
   );
   if (go == true && context.mounted) context.go(steps.first.route);
 }
+
+/// Shown above a page that is one of the five steps while the guide is open: where you are in the
+/// list and the way to the next step, so the student never has to go back to the cockpit to continue.
+class GuideBar extends ConsumerWidget {
+  const GuideBar({super.key, required this.location});
+  final String location;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final model = ref.watch(roadmapProvider).value;
+    if (model == null) return const SizedBox.shrink();
+    final guide = Map<String, dynamic>.from(model.progress['guide'] as Map? ?? const {});
+    final goals = ref.watch(goalsProvider).value ?? const [];
+    if (guide['hidden'] == true || (goals.length != 1 && guide['welcomed'] != true)) return const SizedBox.shrink();
+    final steps = guideSteps(profile: ref.watch(profileProvider).value, documents: ref.watch(documentsProvider).value ?? const [], roadmap: model);
+    final path = Uri.parse(location).path;
+    final i = steps.indexWhere((s) => s.route == path);
+    if (i < 0 || steps.every((s) => s.done)) return const SizedBox.shrink();
+    final step = steps[i];
+    final next = i + 1 < steps.length ? steps[i + 1] : null;
+    final t = context.tokens;
+    final narrow = MediaQuery.sizeOf(context).width <= NjiaTokens.narrow;
+    return Container(
+      key: const Key('guide-bar'),
+      padding: EdgeInsets.symmetric(horizontal: narrow ? 16 : 32, vertical: 8),
+      decoration: BoxDecoration(color: t.subtle, border: Border(bottom: BorderSide(color: t.line))),
+      child: Row(
+        children: [
+          Icon(step.done ? Icons.check_circle_rounded : Icons.flag_outlined, size: 18, color: step.done ? t.ok : t.brand),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(text: 'Step ${i + 1} of ${steps.length} · ', style: TextStyle(color: t.muted)),
+                TextSpan(text: step.title, style: const TextStyle(fontWeight: FontWeight.w600)),
+              ]),
+              style: const TextStyle(fontSize: 14),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          if (i > 0 && !narrow) TextButton(key: const Key('guide-back'), onPressed: () => context.go(steps[i - 1].route), child: const Text('Back')),
+          const SizedBox(width: 4),
+          next == null
+              ? FilledButton(key: const Key('guide-next'), onPressed: () => context.go(Routes.cockpit), child: const Text('Done'))
+              : FilledButton(key: const Key('guide-next'), onPressed: () => context.go(next.route), child: Text(narrow ? 'Next' : 'Next: ${next.title}')),
+        ],
+      ),
+    );
+  }
+}

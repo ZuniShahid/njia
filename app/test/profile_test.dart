@@ -36,7 +36,7 @@ void main() {
       expect(find.text(s), findsOneWidget, reason: s);
     }
     expect(find.text('Profile 100% complete'), findsOneWidget);
-    expect(find.text('2 of 5'), findsOneWidget);
+    expect(find.text('2 of 5 goals'), findsOneWidget);
   });
 
   testWidgets('saving personal details writes a partial update', (tester) async {

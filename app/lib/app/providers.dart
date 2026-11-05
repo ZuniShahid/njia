@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/engine/engine.dart';
@@ -47,10 +48,20 @@ final isSignedInProvider = Provider<bool?>((ref) {
 
 final currentUidProvider = Provider<String?>((ref) => ref.watch(authUserProvider).value?.uid);
 
+/// Signed in but no users/{uid} document (a sign-up that failed half-way): create it once, so the
+/// account works instead of staying empty.
 final profileProvider = StreamProvider<UserProfile?>((ref) {
-  final uid = ref.watch(currentUidProvider);
-  if (uid == null) return Stream.value(null);
-  return ref.watch(userRepositoryProvider).profile(uid);
+  final user = ref.watch(authUserProvider).value;
+  if (user == null) return Stream.value(null);
+  final repo = ref.watch(userRepositoryProvider);
+  var healed = false;
+  return repo.profile(user.uid).map((p) {
+    if (p == null && !healed) {
+      healed = true;
+      repo.ensureProfile(AuthLike(uid: user.uid, email: user.email, displayName: user.displayName)).catchError((Object e) => debugPrint('ensureProfile: $e'));
+    }
+    return p;
+  });
 });
 
 final goalsProvider = StreamProvider<List<Goal>>((ref) {
