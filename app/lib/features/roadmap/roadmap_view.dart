@@ -3,10 +3,8 @@
 // on every content number, then "Decision points" and "Watch out" below. No right panel.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
-import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../core/engine/roadmap_model.dart';
 import '../../core/models/models.dart';
@@ -15,6 +13,7 @@ import '../../shared/widgets/gantt.dart';
 import '../../shared/widgets/provenance_chip.dart';
 import '../../shared/widgets/ui.dart';
 import '../../shared/widgets/view_scaffold.dart';
+import '../assistant/assistant.dart';
 import '../goal/goal_title.dart';
 
 class RoadmapView extends ConsumerStatefulWidget {
@@ -27,6 +26,7 @@ class RoadmapView extends ConsumerStatefulWidget {
 
 class _RoadmapViewState extends ConsumerState<RoadmapView> {
   String? _open;
+  bool _seen = false;
 
   @override
   void initState() {
@@ -45,6 +45,12 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
       );
     }
     final roadmap = ref.watch(roadmapProvider);
+    final rm = roadmap.value;
+    // Getting started step 4 ("Walk through your roadmap") is done once the roadmap was opened.
+    if (!_seen && rm != null && rm.goal.id != null && (rm.progress['guide'] as Map?)?['roadmap'] != true) {
+      _seen = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) => saveProgress(ref, goalId: rm.goal.id!, section: 'guide', key: 'roadmap', value: true));
+    }
     return roadmap.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => ViewScaffold(
@@ -471,6 +477,12 @@ class _StepDetail extends ConsumerWidget {
       bigBody =
           '${pw.durationMonths ?? ''} months${pw.languageOfInstruction == null ? '' : ' · taught in ${pw.languageOfInstruction}'}${pw.mode == null ? '' : ' · ${pw.mode!.value.replaceAll('_', ' ')}'}';
       bigProv = pw.provenance;
+    } else if (s.kind == 'grow') {
+      big = s.barLabel.split(' · ').last;
+      bigCap = '${formatYear(s.start)}–${formatYear(s.end)}';
+      bigBody = s.key == 'grow:first-job'
+          ? 'Your first role after the move. Use the Jobs tab and your job-search permit.'
+          : 'The years that turn your first job into ${m.goal.title ?? 'your goal'}. Ask the coach which roles and skills lead there.';
     } else if (s.kind == 'goal') {
       big = 'Your goal';
       bigCap = formatYear(s.start);
@@ -500,6 +512,8 @@ class _StepDetail extends ConsumerWidget {
       if (ps?.kind == PlanStepKind.apply) ...['Applications submitted', 'Offer accepted'],
       if (pw != null && s.kind == PlanStepKind.study) ...['Enrolled', 'Degree certificate issued'],
       if (pw != null && s.kind == PlanStepKind.work) ...['Contract signed'],
+      if (s.key == 'grow:first-job') 'Contract signed',
+      if (s.key == 'grow:experience') ...['Next role reached', 'Skills for the goal role'],
       if (s.kind == 'goal') 'Goal reached',
     ];
     final checks = Map<String, dynamic>.from(m.progress['checks'] as Map? ?? const {});
@@ -584,8 +598,9 @@ class _StepDetail extends ConsumerWidget {
                 spacing: 8,
                 children: [
                   OutlinedButton.icon(
-                    onPressed: () => context.go(Routes.coach),
-                    icon: const Icon(Icons.menu_book_outlined, size: 14),
+                    key: const Key('step-ask-coach'),
+                    onPressed: () => ref.read(assistantProvider.notifier).openAbout('Step ${s.number}: ${s.title}', {'stepKey': s.key, 'phase': phase.name}),
+                    icon: const Icon(Icons.chat_bubble_outline_rounded, size: 14),
                     label: const Text('Ask coach'),
                   ),
                   TextButton.icon(

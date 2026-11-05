@@ -33,6 +33,7 @@ n8n/*.js                      the 3 workflows as n8n SDK code (already created i
 app/prototype/njia.html       the approved UI prototype (v8) – the visual and behavioural reference for the Flutter app
 app/                          Flutter app, all prototype views built (app/README.md) – models generated via npm run gen:models
 app/lib/main_preview.dart     app with sample data and no Firebase (flutter run -t lib/main_preview.dart -d chrome)
+app/lib/features/assistant/   "Ask Njia" chat on every page (floating button after scrolling) – same coach function as the Coach page
 docs/                         architecture · setup · data-model · plan (full planning doc, German) · handover · prototype-notes
 docs/release/                 Play Store kit (play-store.md) and Android signing (android-signing.md)
 branding/                     logo "Soft Ni" (SVG sources, Play icon + feature graphic); app icons are rendered from it

@@ -29,6 +29,18 @@ void main() {
     expect(find.text('Enter your password.'), findsOneWidget);
   });
 
+  testWidgets('eye icon shows and hides the password', (tester) async {
+    await pumpApp(tester);
+    bool obscured() => tester.widget<TextField>(find.descendant(of: find.byType(TextFormField).at(1), matching: find.byType(TextField))).obscureText;
+    expect(obscured(), isTrue);
+    await tester.tap(find.byKey(const Key('toggle-password')));
+    await tester.pump();
+    expect(obscured(), isFalse);
+    await tester.tap(find.byKey(const Key('toggle-password')));
+    await tester.pump();
+    expect(obscured(), isTrue);
+  });
+
   testWidgets('wrong password shows the auth error', (tester) async {
     await pumpApp(tester);
     await tester.enterText(find.byType(TextFormField).at(0), 'aminata.kamara@example.com');
