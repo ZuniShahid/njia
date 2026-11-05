@@ -329,7 +329,7 @@ class FakePlanService implements PlanService {
 }
 
 /// Provider overrides for a signed-in (or signed-out) preview with sample data.
-List<Override> previewOverrides({bool signedIn = true, UserProfile? profile}) {
+List<Override> previewOverrides({bool signedIn = true, UserProfile? profile, CoachService? coach}) {
   final auth = FakeAuthService(
     user: signedIn ? const AuthUser(uid: sampleUid, email: 'aminata.kamara@example.com', displayName: 'Aminata Kamara') : null,
   );
@@ -343,6 +343,6 @@ List<Override> previewOverrides({bool signedIn = true, UserProfile? profile}) {
     jobsRepositoryProvider.overrideWithValue(const FakeJobsRepository()),
     documentsRepositoryProvider.overrideWithValue(FakeDocumentsRepository(docs: sampleDocuments)),
     changeRequestRepositoryProvider.overrideWithValue(FakeChangeRequestRepository(pending: sampleChangeRequests)),
-    coachServiceProvider.overrideWithValue(const FakeCoachService()),
+    coachServiceProvider.overrideWithValue(coach ?? const FakeCoachService()),
   ];
 }

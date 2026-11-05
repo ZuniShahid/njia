@@ -1,7 +1,7 @@
 // Prototype `coach()`: Path coach (topic = whole plan / phase / step / pool, context chips,
 // suggested questions, chat) and Study coach (modes, chat, draft box with "Check paragraph").
-// Answers come from the `coach` Cloud Function only (handover task 7); until it exists the chat
-// says so. The study coach never writes text: the paragraph check is a local heuristic.
+// Answers come from the `coach` Cloud Function only (10 questions a day); if it is not deployed the
+// chat says so. The study coach never writes text: the paragraph check is a local heuristic.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,6 +82,10 @@ class _CoachViewState extends ConsumerState<CoachView> {
       } else {
         reply = await ref.read(coachServiceProvider).ask(goalId: goalId, context: context, history: List.of(history), question: question.trim());
       }
+    } on CoachLimitReached {
+      reply = "You've used today's 10 questions. Ask again tomorrow.";
+    } on CoachUnavailable {
+      reply = 'The coach is busy. Try again in a moment.';
     } on CoachNotConnected {
       reply = 'The coach is not connected yet. Open the step on the roadmap for what it needs and its source, or ask a mentor under Next milestone.';
     } catch (e) {

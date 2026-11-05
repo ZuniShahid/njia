@@ -20,13 +20,14 @@ each fact with its source, fetch date and trust level. Operator: Revana EOOD (Bu
 ## Stack and layout
 Flutter (web + Android + iOS, one codebase) · Firebase project `njia-prod`, region europe-west1 (Auth, Firestore,
 Cloud Functions v2 Node 22 ESM, Storage, Hosting) · n8n at n8n.keevana.com for the editorial pipeline · Claude API
-for extraction (Sonnet) and coach chat (Haiku), always called from Cloud Functions, never from the client.
+for extraction (Sonnet) and coach chat (Sonnet, `COACH_MODEL`), always called from Cloud Functions, never from the client.
 
 ```
 schema/njia.schema.json       canonical data model (JSON Schema) – generate Dart models from it
 seed/*.json                   135 start docs (SL → DE GB IE NL FR IT HU FI AT NO) – npm run validate
 functions/src/engine.mjs      planning engine (pure JS, tested) – Dart port in app/lib/core/engine (parity test), keep in sync
-functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalWritten · computePlan · setRole · deleteAccount
+functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalWritten · computePlan · setRole · coach · deleteAccount
+functions/src/coach.mjs       coach prompt, context with provenance, daily limit (10/day) – tested in functions/test/coach.test.mjs
 firestore.rules/indexes       public read content, owner-only users, editor-only queue, TTL on jobs.expireAt
 n8n/*.js                      the 3 workflows as n8n SDK code (already created in n8n, inactive)
 app/prototype/njia.html       the approved UI prototype (v8) – the visual and behavioural reference for the Flutter app

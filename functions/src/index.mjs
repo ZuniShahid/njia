@@ -6,6 +6,7 @@
 //  onGoalWritten           trigger computes users/{uid}/plans/{goalId}
 //  computePlan             callable recompute on demand (profile changed, content version changed)
 //  setRole                 callable admin grants editor/admin role (custom claims)
+//  coach                   callable path/study coach (Claude), 10 questions per user per day
 //  deleteAccount           callable user deletes their account: Firestore users/{uid} (all subcollections),
 //                          Storage users/{uid}/…, and the Auth user
 //
@@ -17,8 +18,10 @@ import { onRequest, onCall, HttpsError } from "firebase-functions/v2/https";
 import { onDocumentWritten } from "firebase-functions/v2/firestore";
 import { timingSafeEqual } from "node:crypto";
 import { setGlobalOptions } from "firebase-functions/v2";
+import { defineSecret, defineString } from "firebase-functions/params";
 import { buildPlan, factsFromProfile } from "./engine.mjs";
 import { applyChange } from "./changes.mjs";
+import { DAILY_LIMIT, dayKey, sanitizeRequest, referencedIds, buildContext, buildMessages, replyText } from "./coach.mjs";
 
 initializeApp();
 setGlobalOptions({ region: "europe-west1", maxInstances: 10 });
@@ -164,4 +167,77 @@ export const deleteAccount = onCall(async (req) => {
   await getStorage().bucket().deleteFiles({ prefix: `users/${uid}/` });
   await getAuth().deleteUser(uid);
   return { ok: true };
+});
+
+// ---------- Coach ----------
+// Set once in Cloud Shell: firebase functions:secrets:set ANTHROPIC_API_KEY
+// Model: Sonnet by default; switch with COACH_MODEL in functions/.env (e.g. claude-haiku-5-5).
+const ANTHROPIC_API_KEY = defineSecret("ANTHROPIC_API_KEY");
+const COACH_MODEL = defineString("COACH_MODEL", { default: "claude-sonnet-5-5" });
+
+async function loadDocs(ids) {
+  const out = {};
+  for (const [collection, list] of Object.entries(ids)) {
+    if (!list.length) continue;
+    const snaps = await db.getAll(...list.slice(0, 40).map((id) => db.collection(collection).doc(id)));
+    out[collection] = snaps.filter((s) => s.exists).map((s) => ({ id: s.id, ...s.data() }));
+  }
+  return out;
+}
+
+async function loadSources(docs) {
+  const ids = new Set();
+  for (const list of Object.values(docs)) for (const d of list) if (d.provenance?.sourceId) ids.add(d.provenance.sourceId);
+  if (!ids.size) return {};
+  const snaps = await db.getAll(...[...ids].map((id) => db.collection("sources").doc(id)));
+  return Object.fromEntries(snaps.filter((s) => s.exists).map((s) => [s.id, { name: s.data().name, url: s.data().url }]));
+}
+
+export const coach = onCall({ secrets: [ANTHROPIC_API_KEY], timeoutSeconds: 60, memory: "512MiB" }, async (req) => {
+  if (!req.auth) throw new HttpsError("unauthenticated", "sign in");
+  let input;
+  try { input = sanitizeRequest(req.data); } catch (e) { throw new HttpsError("invalid-argument", e.message); }
+  const uid = req.auth.uid;
+  const userRef = db.collection("users").doc(uid);
+  const usageRef = userRef.collection("usage").doc(`coach-${dayKey()}`);
+
+  // Reserve one of today's questions; given back if the model call fails.
+  const used = await db.runTransaction(async (tx) => {
+    const snap = await tx.get(usageRef);
+    const n = snap.exists ? snap.data().count || 0 : 0;
+    if (n >= DAILY_LIMIT) return null;
+    tx.set(usageRef, { count: n + 1, day: dayKey(), updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+    return n + 1;
+  });
+  if (used === null) throw new HttpsError("resource-exhausted", `Daily limit of ${DAILY_LIMIT} questions reached.`);
+
+  try {
+    const [userSnap, goalSnap, planSnap] = await Promise.all([
+      userRef.get(), userRef.collection("goals").doc(input.goalId).get(), userRef.collection("plans").doc(input.goalId).get(),
+    ]);
+    if (!goalSnap.exists) throw new HttpsError("not-found", "goal not found");
+    const plan = planSnap.exists ? planSnap.data() : null;
+    const docs = plan ? await loadDocs(referencedIds(plan)) : {};
+    const sources = await loadSources(docs);
+    const contextText = buildContext({ goal: goalSnap.data(), plan, profile: userSnap.data() || {}, docs, sources, ctx: input.context });
+    const body = buildMessages({ model: COACH_MODEL.value(), ctx: input.context, contextText, history: input.history, question: input.question });
+
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-api-key": ANTHROPIC_API_KEY.value(), "anthropic-version": "2023-06-01" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      console.error("coach: Anthropic API", res.status, (await res.text()).slice(0, 500));
+      throw new HttpsError("unavailable", "coach unavailable");
+    }
+    const text = replyText(await res.json());
+    if (!text) throw new HttpsError("unavailable", "empty reply");
+    return { text, remaining: DAILY_LIMIT - used };
+  } catch (e) {
+    await usageRef.set({ count: FieldValue.increment(-1) }, { merge: true }).catch(() => {});
+    if (e instanceof HttpsError) throw e;
+    console.error("coach failed", e);
+    throw new HttpsError("unavailable", "coach unavailable");
+  }
 });
