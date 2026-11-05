@@ -51,15 +51,14 @@ final currentUidProvider = Provider<String?>((ref) => ref.watch(authUserProvider
 /// Signed in but no users/{uid} document (a sign-up that failed half-way): create it once, so the
 /// account works instead of staying empty.
 final profileProvider = StreamProvider<UserProfile?>((ref) {
-  final uid = ref.watch(currentUidProvider);
-  if (uid == null) return Stream.value(null);
+  final user = ref.watch(authUserProvider).value;
+  if (user == null) return Stream.value(null);
   final repo = ref.watch(userRepositoryProvider);
   var healed = false;
-  return repo.profile(uid).map((p) {
+  return repo.profile(user.uid).map((p) {
     if (p == null && !healed) {
       healed = true;
-      final u = ref.read(authUserProvider).value;
-      repo.ensureProfile(AuthLike(uid: uid, email: u?.email, displayName: u?.displayName)).catchError((Object e) => debugPrint('ensureProfile: $e'));
+      repo.ensureProfile(AuthLike(uid: user.uid, email: user.email, displayName: user.displayName)).catchError((Object e) => debugPrint('ensureProfile: $e'));
     }
     return p;
   });
