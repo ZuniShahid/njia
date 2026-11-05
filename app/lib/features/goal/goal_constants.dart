@@ -26,6 +26,38 @@ const goalTemplates = [
   Goal(title: 'Software engineer', employer: 'a mobile money company', area: 'Payments', city: 'Amsterdam', countryId: 'NL', occupationId: 'isco-2512', field: GoalField.tech, targetYear: 2035, salaryTarget: Money(amount: 30000, currency: 'EUR', period: MoneyPeriod.year), priorities: ['Remote work', 'Salary'], alternatives: ['Remote', 'Fintech'], relocate: true, why: 'Build payment tools for small traders.'),
 ];
 
+/// First-goal starters: three different routes the engine can plan end to end with the seed data
+/// (a master, a paid apprenticeship, a bachelor straight from school). No numbers in the copy:
+/// fees and durations come from the plan with their sources.
+class StarterGoal {
+  const StarterGoal({required this.goal, required this.route, required this.pitch, required this.yearsAhead});
+  final Goal goal;
+  final String route;
+  final String pitch;
+  final int yearsAhead;
+}
+
+const starterGoals = [
+  StarterGoal(
+    route: 'Master route',
+    pitch: 'After your bachelor: a master in finance at UCD, then Dublin’s fintech scene.',
+    yearsAhead: 6,
+    goal: Goal(title: 'Fintech analyst', employer: 'a payments fintech', area: 'Risk & data', city: 'Dublin', countryId: 'IE', occupationId: 'isco-2413', pathwayIds: ['ie-msc-finance-ucd'], field: GoalField.finance, priorities: ['Salary', 'Impact'], alternatives: ['Fintech', 'Other EU countries'], relocate: true, why: 'Build financial tools that reach people like my family.'),
+  ),
+  StarterGoal(
+    route: 'Apprenticeship route',
+    pitch: 'No degree needed: a dual bank apprenticeship in German at a savings bank.',
+    yearsAhead: 6,
+    goal: Goal(title: 'Credit analyst', employer: 'a German savings bank', area: 'Loans for small firms', countryId: 'DE', occupationId: 'isco-3312', pathwayIds: ['de-ausbildung-bankkaufmann'], field: GoalField.finance, priorities: ['Stability'], alternatives: ['Other EU countries'], relocate: true, why: 'Learn how small businesses get credit, then bring it home.'),
+  ),
+  StarterGoal(
+    route: 'Bachelor route',
+    pitch: 'Straight from school: an English-taught bachelor at Corvinus, then a job in Central Europe.',
+    yearsAhead: 7,
+    goal: Goal(title: 'Business analyst', employer: 'an international company', area: 'Strategy & operations', city: 'Budapest', countryId: 'HU', occupationId: 'isco-2413', pathwayIds: ['hu-ba-business-corvinus'], field: GoalField.business, priorities: ['Salary', 'Work-life balance'], alternatives: ['Other EU countries', 'Start my own business'], relocate: true, why: 'Understand how companies grow, to start my own one day.'),
+  ),
+];
+
 const emptyGoal = Goal(countryId: 'DE', field: GoalField.finance, targetYear: 2038, salaryTarget: Money(amount: 50000, currency: 'EUR', period: MoneyPeriod.year), relocate: true);
 
 /// Earliest realistic target year: after graduation, plus time for the move and a master's abroad.

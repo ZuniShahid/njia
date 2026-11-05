@@ -55,12 +55,31 @@ export function referencedIds(plan) {
   return Object.fromEntries(Object.entries(ids).map(([k, v]) => [k, [...v]]));
 }
 
+/** Firestore Timestamps (admin SDK objects or their JSON form), Dates and ISO strings → ISO string. */
+export function toIso(v) {
+  if (!v) return null;
+  if (typeof v === "string") return v;
+  if (v instanceof Date) return v.toISOString();
+  if (typeof v.toDate === "function") return v.toDate().toISOString();
+  const secs = v._seconds ?? v.seconds;
+  if (typeof secs === "number") return new Date(secs * 1000).toISOString();
+  return null;
+}
+
+/** Deep copy with every Timestamp turned into an ISO string, so the context is plain JSON. */
+export function plain(v) {
+  if (v === null || v === undefined || typeof v !== "object") return v;
+  if (Array.isArray(v)) return v.map(plain);
+  if (v instanceof Date || typeof v.toDate === "function" || (typeof v._seconds === "number" && typeof v._nanoseconds === "number")) return toIso(v);
+  return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, plain(x)]));
+}
+
 function provenanceLine(p, sources) {
   if (!p) return "no source · Estimate, to verify";
   const src = sources[p.sourceId];
   const name = src?.name || p.sourceId || "unknown source";
   const url = p.sourceUrl || src?.url || "";
-  const date = (p.verifiedAt || p.fetchedAt || "").slice(0, 10);
+  const date = (toIso(p.verifiedAt) || toIso(p.fetchedAt) || "").slice(0, 10);
   const label = p.trust === "estimate" || !p.verifiedAt ? "Estimate, to verify" : `Checked ${date}`;
   return `${label} · ${name}${url ? ` (${url})` : ""}${p.verifiedAt ? "" : date ? ` · fetched ${date}` : ""}`;
 }
@@ -74,7 +93,8 @@ function strip(doc) {
  * The text block the model reads: the plan, then every referenced content doc with its provenance.
  * Profile data is limited to what the plan needs; no e-mail, phone or documents.
  */
-export function buildContext({ goal, plan, profile, docs, sources, ctx, maxChars = 24000 }) {
+export function buildContext({ goal: goalIn, plan: planIn, profile: profileIn, docs: docsIn, sources, ctx, maxChars = 24000 }) {
+  const goal = plain(goalIn), plan = plain(planIn), profile = plain(profileIn), docs = plain(docsIn);
   const lines = [];
   lines.push("## Student");
   lines.push(JSON.stringify({

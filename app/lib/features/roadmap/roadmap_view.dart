@@ -27,6 +27,7 @@ class RoadmapView extends ConsumerStatefulWidget {
 
 class _RoadmapViewState extends ConsumerState<RoadmapView> {
   String? _open;
+  bool _seen = false;
 
   @override
   void initState() {
@@ -45,6 +46,12 @@ class _RoadmapViewState extends ConsumerState<RoadmapView> {
       );
     }
     final roadmap = ref.watch(roadmapProvider);
+    final rm = roadmap.value;
+    // Getting started step 4 ("Walk through your roadmap") is done once the roadmap was opened.
+    if (!_seen && rm != null && rm.goal.id != null && (rm.progress['guide'] as Map?)?['roadmap'] != true) {
+      _seen = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) => saveProgress(ref, goalId: rm.goal.id!, section: 'guide', key: 'roadmap', value: true));
+    }
     return roadmap.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => ViewScaffold(
@@ -471,6 +478,12 @@ class _StepDetail extends ConsumerWidget {
       bigBody =
           '${pw.durationMonths ?? ''} months${pw.languageOfInstruction == null ? '' : ' · taught in ${pw.languageOfInstruction}'}${pw.mode == null ? '' : ' · ${pw.mode!.value.replaceAll('_', ' ')}'}';
       bigProv = pw.provenance;
+    } else if (s.kind == 'grow') {
+      big = s.barLabel.split(' · ').last;
+      bigCap = '${formatYear(s.start)}–${formatYear(s.end)}';
+      bigBody = s.key == 'grow:first-job'
+          ? 'Your first role after the move. Use the Jobs tab and your job-search permit.'
+          : 'The years that turn your first job into ${m.goal.title ?? 'your goal'}. Ask the coach which roles and skills lead there.';
     } else if (s.kind == 'goal') {
       big = 'Your goal';
       bigCap = formatYear(s.start);
@@ -500,6 +513,8 @@ class _StepDetail extends ConsumerWidget {
       if (ps?.kind == PlanStepKind.apply) ...['Applications submitted', 'Offer accepted'],
       if (pw != null && s.kind == PlanStepKind.study) ...['Enrolled', 'Degree certificate issued'],
       if (pw != null && s.kind == PlanStepKind.work) ...['Contract signed'],
+      if (s.key == 'grow:first-job') 'Contract signed',
+      if (s.key == 'grow:experience') ...['Next role reached', 'Skills for the goal role'],
       if (s.kind == 'goal') 'Goal reached',
     ];
     final checks = Map<String, dynamic>.from(m.progress['checks'] as Map? ?? const {});
