@@ -1,6 +1,7 @@
 // users/{uid} and its subcollections (owner-only, see firestore.rules). Interface + Firestore
 // implementation; lib/preview/fakes.dart has an in-memory version for tests and previews.
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 import '../core/models/models.dart';
 import 'firestore_codec.dart';
@@ -29,7 +30,10 @@ abstract class UserRepository {
   Future<void> saveOutcome(String uid, Outcome outcome);
 
   /// Deletes the profile and all subcollections (account deletion).
-  Future<void> deleteAllUserData(String uid);
+  /// Deletes everything stored about the user and the login itself. Returns true when the
+  /// server removed the Auth user too (Cloud Function `deleteAccount`); false when only the
+  /// client-side fallback ran and the caller still has to delete the Auth user.
+  Future<bool> deleteAllUserData(String uid);
 }
 
 /// The few auth fields the repository needs to create a profile (avoids a firebase_auth import here).
@@ -41,9 +45,10 @@ class AuthLike {
 }
 
 class FirestoreUserRepository implements UserRepository {
-  FirestoreUserRepository(this._db);
+  FirestoreUserRepository(this._db, [this._functions]);
 
   final FirebaseFirestore _db;
+  final FirebaseFunctions? _functions;
 
   DocumentReference<Map<String, dynamic>> _user(String uid) => _db.collection('users').doc(uid);
 
@@ -107,7 +112,17 @@ class FirestoreUserRepository implements UserRepository {
       _user(uid).collection('outcomes').add(jsonToDoc(outcome.toJson()));
 
   @override
-  Future<void> deleteAllUserData(String uid) async {
+  Future<bool> deleteAllUserData(String uid) async {
+    final functions = _functions;
+    if (functions != null) {
+      try {
+        await functions.httpsCallable('deleteAccount').call<dynamic>();
+        return true;
+      } on FirebaseFunctionsException catch (e) {
+        // not-found: function not deployed yet → client-side fallback below.
+        if (e.code != 'not-found') rethrow;
+      }
+    }
     for (final sub in ['goals', 'documents', 'outcomes']) {
       final q = await _user(uid).collection(sub).get();
       for (final d in q.docs) {
@@ -115,5 +130,6 @@ class FirestoreUserRepository implements UserRepository {
       }
     }
     await _user(uid).delete();
+    return false;
   }
 }

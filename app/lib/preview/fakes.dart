@@ -179,11 +179,12 @@ class FakeUserRepository implements UserRepository {
   Future<void> saveOutcome(String uid, Outcome outcome) async {}
 
   @override
-  Future<void> deleteAllUserData(String uid) async {
+  Future<bool> deleteAllUserData(String uid) async {
     _profiles.remove(uid);
     _goals.remove(uid);
     _profileCtrl.add(null);
     _goalsCtrl.add(null);
+    return false;
   }
 }
 

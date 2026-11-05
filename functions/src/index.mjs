@@ -6,10 +6,13 @@
 //  onGoalWritten           trigger computes users/{uid}/plans/{goalId}
 //  computePlan             callable recompute on demand (profile changed, content version changed)
 //  setRole                 callable admin grants editor/admin role (custom claims)
+//  deleteAccount           callable user deletes their account: Firestore users/{uid} (all subcollections),
+//                          Storage users/{uid}/…, and the Auth user
 //
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
 import { getAuth } from "firebase-admin/auth";
+import { getStorage } from "firebase-admin/storage";
 import { onRequest, onCall, HttpsError } from "firebase-functions/v2/https";
 import { onDocumentWritten } from "firebase-functions/v2/firestore";
 import { timingSafeEqual } from "node:crypto";
@@ -147,5 +150,18 @@ export const setRole = onCall(async (req) => {
   if (!uid || !["editor", "admin", null].includes(role)) throw new HttpsError("invalid-argument", "uid and role (editor|admin|null)");
   await getAuth().setCustomUserClaims(uid, role ? { role } : {});
   await db.collection("users").doc(uid).set({ roles: role ? [role] : [] }, { merge: true });
+  return { ok: true };
+});
+
+// ---------- Account deletion ----------
+// Deletes everything stored about the caller: users/{uid} with all subcollections (goals, plans,
+// documents, outcomes), uploaded files under users/{uid}/ in Storage, then the Auth user.
+// Admin SDK, so no recent-login requirement. Play policy + GDPR Art. 17.
+export const deleteAccount = onCall(async (req) => {
+  if (!req.auth) throw new HttpsError("unauthenticated", "sign in");
+  const uid = req.auth.uid;
+  await db.recursiveDelete(db.collection("users").doc(uid));
+  await getStorage().bucket().deleteFiles({ prefix: `users/${uid}/` });
+  await getAuth().deleteUser(uid);
   return { ok: true };
 });

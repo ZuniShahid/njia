@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/links.dart';
 import '../../app/providers.dart';
 import '../../app/shell.dart';
 import '../../app/theme.dart';
@@ -174,6 +175,7 @@ class _AuthViewState extends ConsumerState<AuthView> {
                     children: [
                       Checkbox(value: _terms, onChanged: (v) => setState(() => _terms = v ?? false), visualDensity: VisualDensity.compact),
                       const Expanded(child: Text('I agree to the terms and privacy notice', style: TextStyle(fontSize: 12))),
+                      TextButton(onPressed: openPrivacyPolicy, child: const Text('Read', style: TextStyle(fontSize: 12))),
                     ],
                   ),
                 ),

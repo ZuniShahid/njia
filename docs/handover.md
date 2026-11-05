@@ -74,6 +74,8 @@ Everything decided so far is here or in the linked files. German planning doc: `
 6. **Go live** (was 10): deploy the web build to production Hosting when Philipp decides; Android/iOS store builds; trademark/domain decision (candidates njia.africa, njia.app, getnjia.com).
 7. **Known product gaps to decide**: ticking "IELTS 6.5" on Readiness sets the fact to 6.5, so a stricter "IELTS 7.0" on the same key becomes a gap (engine behaviour, covered by a test); scores are estimates until outcomes exist (`users/{uid}/outcomes`); the study coach keeps sessions in memory only.
 
+**Play Store release prep (5 Nov 2026, PR "Play Store release kit")**: `docs/release/play-store.md` (listing texts, data safety, content rating, release steps, who does what) and `docs/release/android-signing.md`; release builds sign with `app/android/key.properties` when present; privacy policy and account-deletion pages in `app/web/`; new callable `deleteAccount` deletes users/{uid} recursively, Storage `users/{uid}/` and the Auth user (the app falls back to the old client-side delete while the function is not deployed). Still needed: placeholders in the two pages (`grep -rn "TODO(Philipp)" app/web docs/release`), app icon, upload key, deploy functions + hosting, njia.keevana.com on Hosting, then the Play Console forms. Play account is an organisation account (no 12-tester closed test).
+
 Open inputs needed from Philipp: Adzuna developer account (app_id/app_key); WhatsApp template approval; trademark/domain decision; go-live decision.
 
 ## 4. How the pieces fit
