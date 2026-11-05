@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# Deploy from Cloud Shell on the web-build branch: functions, hosting, Firestore indexes, then
-# import only the seed docs listed in $1 (default: today's list). Runs detached; log in ~/deploy-prod.log.
+# Deploy from Cloud Shell on the web-build branch: functions, hosting, Firestore indexes.
+# Optional: import only the seed docs whose ids are listed in the file $1 (e.g. docs/seed-imports/<date>.txt).
+# Runs detached; log in ~/deploy-prod.log.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-LIST="${1:-docs/seed-imports/2026-11-05-new-routes.txt}"
+LIST="${1:-}"
 setsid nohup bash -c "
   set -e
   git log --oneline -1
   npm ci --silent
   (cd functions && npm ci --silent)
-  IDS=\$(cat '$LIST')
-  node scripts/seed-firestore.mjs --ids \"\$IDS\" --dry
+  if [ -n '$LIST' ]; then node scripts/seed-firestore.mjs --ids \"\$(cat '$LIST')\" --dry; fi
   firebase deploy --only functions,hosting,firestore:indexes --project njia-prod --non-interactive
-  node scripts/seed-firestore.mjs --ids \"\$IDS\"
+  if [ -n '$LIST' ]; then node scripts/seed-firestore.mjs --ids \"\$(cat '$LIST')\"; fi
   echo ALLDONE
 " > ~/deploy-prod.log 2>&1 < /dev/null &
 echo "started, log: ~/deploy-prod.log"
