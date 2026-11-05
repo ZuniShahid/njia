@@ -26,7 +26,7 @@ final firebaseReadyProvider = Provider<bool>((_) => false);
 final firestoreProvider = Provider<FirebaseFirestore>((_) => FirebaseFirestore.instance);
 
 final authServiceProvider = Provider<AuthService>((ref) => FirebaseAuthService(FirebaseAuth.instance));
-final userRepositoryProvider = Provider<UserRepository>((ref) => FirestoreUserRepository(ref.watch(firestoreProvider)));
+final userRepositoryProvider = Provider<UserRepository>((ref) => FirestoreUserRepository(ref.watch(firestoreProvider), FirebaseFunctions.instanceFor(region: 'europe-west1')));
 final contentRepositoryProvider = Provider<ContentRepository>((ref) => FirestoreContentRepository(ref.watch(firestoreProvider)));
 final jobsRepositoryProvider = Provider<JobsRepository>((ref) => FirestoreJobsRepository(ref.watch(firestoreProvider)));
 final documentsRepositoryProvider = Provider<DocumentsRepository>((ref) => FirebaseDocumentsRepository(ref.watch(firestoreProvider), FirebaseStorage.instance));

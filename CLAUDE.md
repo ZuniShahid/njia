@@ -26,13 +26,15 @@ for extraction (Sonnet) and coach chat (Haiku), always called from Cloud Functio
 schema/njia.schema.json       canonical data model (JSON Schema) – generate Dart models from it
 seed/*.json                   135 start docs (SL → DE GB IE NL FR IT HU FI AT NO) – npm run validate
 functions/src/engine.mjs      planning engine (pure JS, tested) – Dart port in app/lib/core/engine (parity test), keep in sync
-functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalWritten · computePlan · setRole
+functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalWritten · computePlan · setRole · deleteAccount
 firestore.rules/indexes       public read content, owner-only users, editor-only queue, TTL on jobs.expireAt
 n8n/*.js                      the 3 workflows as n8n SDK code (already created in n8n, inactive)
 app/prototype/njia.html       the approved UI prototype (v8) – the visual and behavioural reference for the Flutter app
 app/                          Flutter app, all prototype views built (app/README.md) – models generated via npm run gen:models
 app/lib/main_preview.dart     app with sample data and no Firebase (flutter run -t lib/main_preview.dart -d chrome)
 docs/                         architecture · setup · data-model · plan (full planning doc, German) · handover · prototype-notes
+docs/release/                 Play Store kit (play-store.md) and Android signing (android-signing.md)
+app/web/privacy, delete-account  public pages for the stores, served by Hosting (njia.keevana.com/privacy/, /delete-account/)
 ```
 
 ## Commands
