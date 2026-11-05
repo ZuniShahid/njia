@@ -1,22 +1,16 @@
 # Njia Careers – Google Play release kit
 
-Everything Play Console asks for, ready to paste. Placeholders marked **TODO(Philipp)** need a decision or a fact only
-Philipp has. Account: organisation account (Revana EOOD), so the 12-tester / 14-day closed test does not apply;
+Everything Play Console asks for, ready to paste. Account: organisation account (Revana EOOD), so the 12-tester / 14-day closed test does not apply;
 an internal test first is still recommended.
 
 Public pages (served from `app/web/` by Firebase Hosting, live once njia.keevana.com points at Hosting):
 - Privacy policy: https://njia.keevana.com/privacy/
 - Account deletion: https://njia.keevana.com/delete-account/
 
-## 0. Placeholders to fill before the first upload
+## 0. Company details used
 
-| Where | What |
-| --- | --- |
-| `app/web/privacy/index.html`, `app/web/delete-account/index.html` | Revana EOOD registered address, EIK, privacy contact e-mail |
-| `app/web/privacy/index.html` §7 and Target audience below | minimum age (proposal: 16) |
-| Store listing → contact e-mail | public support e-mail (can be the same as the privacy e-mail) |
-
-`grep -rn "TODO(Philipp)" app/web docs/release` lists all of them.
+Revana EOOD (Revana Ltd), 99 Vitosha Blvd, Ivan Vazov, 1408 Sofia, Bulgaria · UIC/EIK 208396137 (as on keevana.com) ·
+contact and privacy e-mail `info@keevana.com` · minimum age 16. Decided by Philipp on 5 Nov 2026.
 
 ## 1. Main store listing
 
@@ -59,7 +53,7 @@ Njia is an independent planning tool. It is not a government service and does no
 
 **App category**: Education · **Tags** (pick up to 5 in Console): Education, Career, Study abroad (whatever Console offers closest).
 
-**Contact details**: e-mail **TODO(Philipp)** · website `https://njia.keevana.com` · phone optional.
+**Contact details**: e-mail `info@keevana.com` · website `https://njia.keevana.com` · phone optional.
 
 **Graphics** (see §8 for who makes what):
 | Asset | Spec |
@@ -77,7 +71,7 @@ Njia is an independent planning tool. It is not a government service and does no
 | App access | All or some functionality is restricted → provide a test login (e-mail + password of a reviewer account we create together; sign-in with e-mail, not Google) |
 | Ads | No, the app does not contain ads |
 | Content rating | questionnaire, see §4 |
-| Target audience | **TODO(Philipp)**: proposal 16–17 and 18+ (not under 13, so the Families policy does not apply). "Could appeal to children": No |
+| Target audience | 16–17 and 18+ (decided 5 Nov 2026) (not under 13, so the Families policy does not apply). "Could appeal to children": No |
 | News app | No |
 | COVID-19 contact tracing | No |
 | Data safety | see §3 |

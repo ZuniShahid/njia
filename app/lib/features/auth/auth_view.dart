@@ -63,7 +63,7 @@ class _AuthViewState extends ConsumerState<AuthView> {
   void _submit() {
     if (!_form.currentState!.validate()) return;
     if (_tab == _Tab.create && !_terms) {
-      setState(() => _error = 'Please agree to the terms and privacy notice.');
+      setState(() => _error = 'Please agree to the privacy policy.');
       return;
     }
     final auth = ref.read(authServiceProvider);
@@ -174,7 +174,7 @@ class _AuthViewState extends ConsumerState<AuthView> {
                   child: Row(
                     children: [
                       Checkbox(value: _terms, onChanged: (v) => setState(() => _terms = v ?? false), visualDensity: VisualDensity.compact),
-                      const Expanded(child: Text('I agree to the terms and privacy notice', style: TextStyle(fontSize: 12))),
+                      const Expanded(child: Text('I agree to the privacy policy', style: TextStyle(fontSize: 12))),
                       TextButton(onPressed: openPrivacyPolicy, child: const Text('Read', style: TextStyle(fontSize: 12))),
                     ],
                   ),
