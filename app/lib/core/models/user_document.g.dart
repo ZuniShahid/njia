@@ -19,6 +19,14 @@ _UserDocument _$UserDocumentFromJson(Map<String, dynamic> json) =>
         json['status'],
         unknownValue: JsonKey.nullForUndefinedEnumValue,
       ),
+      category: $enumDecodeNullable(
+        _$UserDocumentCategoryEnumMap,
+        json['category'],
+        unknownValue: JsonKey.nullForUndefinedEnumValue,
+      ),
+      fileName: json['fileName'] as String?,
+      sizeBytes: (json['sizeBytes'] as num?)?.toInt(),
+      uploadedAt: json['uploadedAt'] as String?,
     );
 
 Map<String, dynamic> _$UserDocumentToJson(_UserDocument instance) =>
@@ -30,10 +38,24 @@ Map<String, dynamic> _$UserDocumentToJson(_UserDocument instance) =>
       'issuedAt': instance.issuedAt,
       'expiresAt': instance.expiresAt,
       'status': _$UserDocumentStatusEnumMap[instance.status],
+      'category': _$UserDocumentCategoryEnumMap[instance.category],
+      'fileName': instance.fileName,
+      'sizeBytes': instance.sizeBytes,
+      'uploadedAt': instance.uploadedAt,
     };
 
 const _$UserDocumentStatusEnumMap = {
   UserDocumentStatus.uploaded: 'uploaded',
   UserDocumentStatus.checked: 'checked',
   UserDocumentStatus.expired: 'expired',
+};
+
+const _$UserDocumentCategoryEnumMap = {
+  UserDocumentCategory.identity: 'identity',
+  UserDocumentCategory.education: 'education',
+  UserDocumentCategory.language: 'language',
+  UserDocumentCategory.finance: 'finance',
+  UserDocumentCategory.visa: 'visa',
+  UserDocumentCategory.career: 'career',
+  UserDocumentCategory.other: 'other',
 };

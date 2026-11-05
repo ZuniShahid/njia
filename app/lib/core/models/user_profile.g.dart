@@ -127,6 +127,58 @@ Map<String, dynamic> _$UserExperienceToJson(_UserExperience instance) =>
       'months': instance.months,
     };
 
+_HelpPreferences _$HelpPreferencesFromJson(
+  Map<String, dynamic> json,
+) => _HelpPreferences(
+  channel: $enumDecodeNullable(
+    _$HelpPreferencesChannelEnumMap,
+    json['channel'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+  frequency: $enumDecodeNullable(
+    _$HelpPreferencesFrequencyEnumMap,
+    json['frequency'],
+    unknownValue: JsonKey.nullForUndefinedEnumValue,
+  ),
+  styles:
+      (json['styles'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  subjects:
+      (json['subjects'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const [],
+  availability:
+      (json['availability'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList() ??
+      const [],
+  budgetPerSession: (json['budgetPerSession'] as num?)?.toInt(),
+  language: json['language'] as String?,
+);
+
+Map<String, dynamic> _$HelpPreferencesToJson(_HelpPreferences instance) =>
+    <String, dynamic>{
+      'channel': _$HelpPreferencesChannelEnumMap[instance.channel],
+      'frequency': _$HelpPreferencesFrequencyEnumMap[instance.frequency],
+      'styles': instance.styles,
+      'subjects': instance.subjects,
+      'availability': instance.availability,
+      'budgetPerSession': instance.budgetPerSession,
+      'language': instance.language,
+    };
+
+const _$HelpPreferencesChannelEnumMap = {
+  HelpPreferencesChannel.whatsapp: 'whatsapp',
+  HelpPreferencesChannel.sms: 'sms',
+  HelpPreferencesChannel.email: 'email',
+  HelpPreferencesChannel.app: 'app',
+};
+
+const _$HelpPreferencesFrequencyEnumMap = {
+  HelpPreferencesFrequency.weekly: 'weekly',
+  HelpPreferencesFrequency.biweekly: 'biweekly',
+  HelpPreferencesFrequency.monthly: 'monthly',
+};
+
 _UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => _UserProfile(
   id: json['id'] as String?,
   displayName: json['displayName'] as String?,
@@ -201,6 +253,11 @@ _UserProfile _$UserProfileFromJson(Map<String, dynamic> json) => _UserProfile(
           .toList() ??
       const [],
   progress: json['progress'] as Map<String, dynamic>?,
+  helpPreferences: json['helpPreferences'] == null
+      ? null
+      : HelpPreferences.fromJson(
+          json['helpPreferences'] as Map<String, dynamic>,
+        ),
 );
 
 Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) =>
@@ -236,6 +293,7 @@ Map<String, dynamic> _$UserProfileToJson(_UserProfile instance) =>
       'activeGoalId': instance.activeGoalId,
       'experience': instance.experience.map((e) => e.toJson()).toList(),
       'progress': instance.progress,
+      'helpPreferences': instance.helpPreferences?.toJson(),
     };
 
 const _$UserRoleEnumMap = {UserRole.editor: 'editor', UserRole.admin: 'admin'};

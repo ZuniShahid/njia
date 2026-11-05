@@ -1619,6 +1619,52 @@
         "progress": {
           "type": "object",
           "description": "Per-goal progress kept by the client, keyed by goalId: { steps: {stepKey: 0|1|2}, tasks: {stepKey: true}, decisions: {decisionId: optionIndex}, where: {stepKey: optionIndex} }. Not read by the engine."
+        },
+        "helpPreferences": {
+          "type": "object",
+          "description": "How the student wants help (milestone screen)",
+          "properties": {
+            "channel": {
+              "enum": [
+                "whatsapp",
+                "sms",
+                "email",
+                "app"
+              ]
+            },
+            "frequency": {
+              "enum": [
+                "weekly",
+                "biweekly",
+                "monthly"
+              ]
+            },
+            "styles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "subjects": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "availability": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "budgetPerSession": {
+              "type": "integer",
+              "description": "EUR, 0 = free only"
+            },
+            "language": {
+              "type": "string"
+            }
+          }
         }
       },
       "subcollections": {
@@ -1756,6 +1802,26 @@
                 "checked",
                 "expired"
               ]
+            },
+            "category": {
+              "enum": [
+                "identity",
+                "education",
+                "language",
+                "finance",
+                "visa",
+                "career",
+                "other"
+              ]
+            },
+            "fileName": {
+              "type": "string"
+            },
+            "sizeBytes": {
+              "type": "integer"
+            },
+            "uploadedAt": {
+              "type": "string"
             }
           }
         },

@@ -1,6 +1,7 @@
 // In-memory implementations of the services for previews (main_preview.dart) and widget tests.
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -10,7 +11,11 @@ import '../app/providers.dart';
 import '../core/engine/content_bundle.dart';
 import '../core/models/models.dart';
 import '../data/auth_service.dart';
+import '../data/change_request_repository.dart';
+import '../data/coach_service.dart';
 import '../data/content_repository.dart';
+import '../data/documents_repository.dart';
+import '../data/jobs_repository.dart';
 import '../data/plan_service.dart';
 import '../data/user_repository.dart';
 import 'sample_data.dart';
@@ -193,7 +198,7 @@ class FakeContentRepository implements ContentRepository {
   static Future<Map<String, List<dynamic>>> seed() async {
     if (_seed != null) return _seed!;
     final out = <String, List<dynamic>>{};
-    for (final c in ['countries', 'corridors', 'pathways', 'requirements', 'residencePermits', 'funding', 'occupations', 'trustAlerts', 'sources']) {
+    for (final c in ['countries', 'corridors', 'pathways', 'requirements', 'residencePermits', 'funding', 'occupations', 'trustAlerts', 'sources', 'providers']) {
       out[c] = jsonDecode(await rootBundle.loadString('assets/seed/$c.json')) as List<dynamic>;
     }
     return _seed = out;
@@ -213,6 +218,10 @@ class FakeContentRepository implements ContentRepository {
       .where((a) => a.countryIds.contains(countryId))
       .toList();
   @override
+  Future<List<ServiceProvider>> providers() async =>
+      (await seed())['providers']!.map((e) => ServiceProvider.fromJson(Map<String, dynamic>.from(e as Map))).toList();
+
+  @override
   Future<List<ContentSource>> sources() async =>
       (await seed())['sources']!.map((e) => ContentSource.fromJson(Map<String, dynamic>.from(e as Map))).toList();
   @override
@@ -230,6 +239,88 @@ class FakeContentRepository implements ContentRepository {
   }
 }
 
+/// Clearly marked sample postings (source "preview-sample") so the jobs screen has something to show.
+class FakeJobsRepository implements JobsRepository {
+  const FakeJobsRepository();
+  @override
+  Future<List<Job>> recent({String? countryId, int limit = 200}) async =>
+      sampleJobs.where((j) => countryId == null || j.countryId == countryId).take(limit).toList();
+}
+
+class FakeDocumentsRepository implements DocumentsRepository {
+  FakeDocumentsRepository({List<UserDocument> docs = const []}) : _docs = [...docs];
+  final List<UserDocument> _docs;
+  final _ctrl = StreamController<void>.broadcast();
+  int _seq = 0;
+  List<UserDocument> get docs => List.unmodifiable(_docs);
+
+  @override
+  Stream<List<UserDocument>> documents(String uid) async* {
+    yield docs;
+    yield* _ctrl.stream.map((_) => docs);
+  }
+
+  @override
+  Future<String> upload(String uid, {required String type, required UserDocumentCategory category, required String fileName, required Uint8List bytes, String? expiresAt}) async {
+    final id = 'doc${++_seq}';
+    _docs.insert(0, UserDocument(id: id, type: type, name: fileName, fileName: fileName, category: category, storagePath: 'preview/$fileName', sizeBytes: bytes.length, status: UserDocumentStatus.uploaded, expiresAt: expiresAt, uploadedAt: DateTime.now().toUtc().toIso8601String()));
+    _ctrl.add(null);
+    return id;
+  }
+
+  @override
+  Future<void> update(String uid, String docId, Map<String, Object?> patch) async {
+    final i = _docs.indexWhere((d) => d.id == docId);
+    if (i < 0) return;
+    final json = Map<String, dynamic>.from(_docs[i].toJson());
+    for (final e in patch.entries) {
+      if (e.value == null) {
+        json.remove(e.key);
+      } else {
+        json[e.key] = e.value;
+      }
+    }
+    _docs[i] = UserDocument.fromJson(json);
+    _ctrl.add(null);
+  }
+
+  @override
+  Future<void> delete(String uid, String docId) async {
+    _docs.removeWhere((d) => d.id == docId);
+    _ctrl.add(null);
+  }
+}
+
+class FakeChangeRequestRepository implements ChangeRequestRepository {
+  FakeChangeRequestRepository({List<ChangeRequest> pending = const []}) : _items = [...pending];
+  final List<ChangeRequest> _items;
+  final _ctrl = StreamController<void>.broadcast();
+  final decisions = <String, (bool, String?)>{};
+
+  @override
+  Stream<List<ChangeRequest>> pending() async* {
+    yield List.unmodifiable(_items);
+    yield* _ctrl.stream.map((_) => List.unmodifiable(_items));
+  }
+
+  @override
+  Future<void> decide(String id, {required bool approve, required String reviewerUid, String? note}) async {
+    decisions[id] = (approve, note);
+    _items.removeWhere((c) => c.id == id);
+    _ctrl.add(null);
+  }
+}
+
+/// No model behind it: answers only from the plan data handed over in [context], clearly labelled.
+class FakeCoachService implements CoachService {
+  const FakeCoachService();
+  @override
+  Future<String> ask({required String goalId, required Map<String, Object?> context, required List<CoachMessage> history, required String question}) async {
+    final about = context['about'] ?? 'your plan';
+    return 'Preview answer (no AI behind it yet): I can see you are asking about $about. Once the coach function is deployed, answers will cite the source of every number. Until then, open the step on the roadmap for what it needs.';
+  }
+}
+
 class FakePlanService implements PlanService {
   int calls = 0;
   @override
@@ -237,16 +328,20 @@ class FakePlanService implements PlanService {
 }
 
 /// Provider overrides for a signed-in (or signed-out) preview with sample data.
-List<Override> previewOverrides({bool signedIn = true}) {
+List<Override> previewOverrides({bool signedIn = true, UserProfile? profile}) {
   final auth = FakeAuthService(
     user: signedIn ? const AuthUser(uid: sampleUid, email: 'aminata.kamara@example.com', displayName: 'Aminata Kamara') : null,
   );
-  final users = FakeUserRepository(profile: sampleProfile, goals: sampleGoals);
+  final users = FakeUserRepository(profile: profile ?? sampleProfile, goals: sampleGoals);
   return [
     firebaseReadyProvider.overrideWithValue(true),
     authServiceProvider.overrideWithValue(auth),
     userRepositoryProvider.overrideWithValue(users),
     contentRepositoryProvider.overrideWithValue(const FakeContentRepository()),
     planServiceProvider.overrideWithValue(FakePlanService()),
+    jobsRepositoryProvider.overrideWithValue(const FakeJobsRepository()),
+    documentsRepositoryProvider.overrideWithValue(FakeDocumentsRepository(docs: sampleDocuments)),
+    changeRequestRepositoryProvider.overrideWithValue(FakeChangeRequestRepository(pending: sampleChangeRequests)),
+    coachServiceProvider.overrideWithValue(const FakeCoachService()),
   ];
 }

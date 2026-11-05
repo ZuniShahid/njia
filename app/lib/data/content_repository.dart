@@ -14,6 +14,9 @@ abstract class ContentRepository {
   Future<List<TrustAlert>> trustAlerts(String countryId);
   Future<List<ContentSource>> sources();
 
+  /// Tutors, language schools, test centres… (`services` = requirement ids they help with).
+  Future<List<ServiceProvider>> providers();
+
   /// Everything the engine needs for one corridor (origin → destination), ≈ < 200 KB.
   Future<ContentBundle> corridorBundle({String origin = 'SL', required String destination});
 }
@@ -49,6 +52,9 @@ class FirestoreContentRepository implements ContentRepository {
 
   @override
   Future<List<ContentSource>> sources() async => (await _c('sources').get()).parse(ContentSource.fromJson);
+
+  @override
+  Future<List<ServiceProvider>> providers() async => (await _c('providers').get()).parse(ServiceProvider.fromJson);
 
   @override
   Future<ContentBundle> corridorBundle({String origin = 'SL', required String destination}) async {
