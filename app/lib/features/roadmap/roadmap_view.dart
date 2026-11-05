@@ -3,10 +3,8 @@
 // on every content number, then "Decision points" and "Watch out" below. No right panel.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../app/providers.dart';
-import '../../app/router.dart';
 import '../../app/theme.dart';
 import '../../core/engine/roadmap_model.dart';
 import '../../core/models/models.dart';
@@ -15,6 +13,7 @@ import '../../shared/widgets/gantt.dart';
 import '../../shared/widgets/provenance_chip.dart';
 import '../../shared/widgets/ui.dart';
 import '../../shared/widgets/view_scaffold.dart';
+import '../assistant/assistant.dart';
 import '../goal/goal_title.dart';
 
 class RoadmapView extends ConsumerStatefulWidget {
@@ -599,8 +598,9 @@ class _StepDetail extends ConsumerWidget {
                 spacing: 8,
                 children: [
                   OutlinedButton.icon(
-                    onPressed: () => context.go(Routes.coach),
-                    icon: const Icon(Icons.menu_book_outlined, size: 14),
+                    key: const Key('step-ask-coach'),
+                    onPressed: () => ref.read(assistantProvider.notifier).openAbout('Step ${s.number}: ${s.title}', {'stepKey': s.key, 'phase': phase.name}),
+                    icon: const Icon(Icons.chat_bubble_outline_rounded, size: 14),
                     label: const Text('Ask coach'),
                   ),
                   TextButton.icon(
