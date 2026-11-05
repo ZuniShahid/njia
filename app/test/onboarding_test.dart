@@ -64,4 +64,31 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byKey(const Key('getting-started')), findsNothing);
   });
+
+  testWidgets('"Start with step 1" leads through the steps with a Next button on each page', (tester) async {
+    final c = await pumpNewUser(tester);
+    c.read(routerProvider).go(Routes.goalNew);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Start with this').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('welcome-start')));
+    await tester.pumpAndSettle();
+    final router = c.read(routerProvider);
+    String path() => router.routeInformationProvider.value.uri.path;
+    expect(path(), Routes.profile);
+    expect(find.byKey(const Key('guide-bar')), findsOneWidget);
+    expect(find.textContaining('Step 1 of 5'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('guide-next')));
+    await tester.pumpAndSettle();
+    expect(path(), Routes.documents);
+    expect(find.textContaining('Step 2 of 5'), findsOneWidget);
+    await tester.tap(find.byKey(const Key('guide-back')));
+    await tester.pumpAndSettle();
+    expect(path(), Routes.profile);
+
+    router.go(Routes.jobs);
+    await tester.pumpAndSettle();
+    expect(find.byKey(const Key('guide-bar')), findsNothing, reason: 'only on the five step pages');
+  });
 }
