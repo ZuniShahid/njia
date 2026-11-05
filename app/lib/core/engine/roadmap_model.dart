@@ -33,7 +33,7 @@ class RoadmapStep {
   final double start;
   final double end;
   final String kind;
-  final PlanStep? step; // null for the synthetic goal step
+  final PlanStep? step; // null for the synthetic grow and goal steps
   final bool optional;
 }
 
@@ -151,6 +151,20 @@ class RoadmapModel {
     final lastEnd = all.isEmpty ? y0 : all.map((s) => s.end).reduce(math.max);
     final target = (goal.targetYear ?? lastEnd.ceil()).toDouble();
     final goalStart = math.max(lastEnd, target - 0.6);
+    // Grow phase: the engine plans the route into the country; the years between the last planned
+    // step and the goal become career steps the student fills in (no facts, no numbers).
+    if (goalStart - lastEnd >= 1) {
+      final idx = phases.length + 1;
+      final hasWork = plan.steps.any((s) => s.kind == PlanStepKind.work);
+      final firstEnd = hasWork ? lastEnd : math.min(lastEnd + 3, lastEnd + (goalStart - lastEnd) / 2);
+      final grow = <RoadmapStep>[
+        if (!hasWork)
+          RoadmapStep(key: 'grow:first-job', number: ++n, phaseIndex: idx, title: 'First job in $countryName', subtitle: 'Entry role in your field', barLabel: 'Work · ${_years(firstEnd - lastEnd)}', start: lastEnd, end: firstEnd, kind: 'grow'),
+        RoadmapStep(key: 'grow:experience', number: ++n, phaseIndex: idx, title: 'Grow towards ${goal.title ?? 'your goal'}', subtitle: 'More responsibility, step by step', barLabel: 'Experience · ${_years(goalStart - firstEnd)}', start: firstEnd, end: goalStart, kind: 'grow'),
+      ];
+      all.addAll(grow);
+      phases.add(RoadmapPhase(index: idx, name: 'Grow · $countryName', start: lastEnd, end: goalStart, steps: grow));
+    }
     n++;
     final goalStep = RoadmapStep(key: 'goal', number: n, phaseIndex: phases.length + 1, title: goal.title ?? 'Your goal', subtitle: [goal.employer, goal.area].where((x) => x != null && x.isNotEmpty).join(' · '), barLabel: 'Goal', start: goalStart, end: math.max(goalStart + 0.5, target + 0.95), kind: 'goal');
     all.add(goalStep);
@@ -186,6 +200,8 @@ class RoadmapModel {
     }
     return '';
   }
+
+  static String _years(double y) => y >= 1.95 ? '${y.round()} years' : y >= 0.95 ? '${y.toStringAsFixed(1)} yr' : '${(y * 12).round()} mo';
 
   static String _bar(PlanStep s) {
     final d = s.durationMonths ?? 0;

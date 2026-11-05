@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dayKey, sanitizeRequest, referencedIds, buildContext, buildMessages, systemPrompt, replyText, MAX_HISTORY_MESSAGES } from "../src/coach.mjs";
+import { dayKey, toIso, plain, sanitizeRequest, referencedIds, buildContext, buildMessages, systemPrompt, replyText, MAX_HISTORY_MESSAGES } from "../src/coach.mjs";
 
 const plan = JSON.parse(readFileSync(new URL("../../app/test/fixtures/engine_plans.json", import.meta.url), "utf8"))[0].plan;
 
@@ -76,4 +76,14 @@ test("system prompt keeps the guard rails", () => {
 test("replyText joins text blocks", () => {
   assert.equal(replyText({ content: [{ type: "text", text: "A" }, { type: "tool_use" }, { type: "text", text: "B" }] }), "A\nB");
   assert.equal(replyText({}), "");
+});
+
+test("Firestore Timestamps in provenance are handled (regression: coach failed on live data)", () => {
+  const ts = (iso) => ({ toDate: () => new Date(iso) });
+  assert.equal(toIso(ts("2026-11-02T00:00:00Z")), "2026-11-02T00:00:00.000Z");
+  assert.equal(toIso({ _seconds: 0, _nanoseconds: 0 }), "1970-01-01T00:00:00.000Z");
+  assert.deepEqual(plain({ a: [ts("2026-01-01T00:00:00Z")], b: "x" }), { a: ["2026-01-01T00:00:00.000Z"], b: "x" });
+  const docs = { residencePermits: [{ id: "de-16b", fee: { amount: 75 }, provenance: { sourceId: "s", trust: "official", fetchedAt: ts("2026-11-02T00:00:00Z"), verifiedAt: ts("2026-11-03T00:00:00Z") } }] };
+  const text = buildContext({ goal: {}, plan, profile: { createdAt: ts("2026-11-01T00:00:00Z") }, docs, sources: { s: { name: "Src" } } });
+  assert.match(text, /Checked 2026-11-03 · Src/);
 });

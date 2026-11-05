@@ -16,6 +16,7 @@ import '../../core/engine/engine.dart';
 import '../../core/models/models.dart';
 import '../../shared/widgets/ui.dart';
 import '../../shared/widgets/view_scaffold.dart';
+import '../assistant/assistant.dart';
 import '../profile/profile_view.dart';
 
 class Pool {
@@ -505,7 +506,7 @@ class _BigPictureViewState extends ConsumerState<BigPictureView> with SingleTick
             status: status[sel.id] ?? (0, ''),
             near: _near,
             onLink: (id) => setState(() => _near = id),
-            onAsk: () => context.go('${Routes.coach}?pool=${sel.id}'),
+            onAsk: () => ref.read(assistantProvider.notifier).openAbout(sel.name, {'pool': sel.id}),
           )
         else ...[
           NjiaCard(

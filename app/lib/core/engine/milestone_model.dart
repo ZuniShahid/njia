@@ -61,7 +61,8 @@ class MilestoneModel {
       final ps = s.step;
       final status = roadmap.statusOf(s);
       if (ps == null) {
-        add('goal', 'Goal', MilestoneItem(key: s.key, section: 'steps', title: s.title, due: s.end, status: status, stepKey: s.key, help: const ['coach']));
+        final grow = s.kind == 'grow';
+        add(grow ? 'career' : 'goal', grow ? 'Career' : 'Goal', MilestoneItem(key: s.key, section: 'steps', title: s.title, due: s.end, status: status, stepKey: s.key, how: grow ? 'Set your own milestones here: role, skills, certificates.' : null, help: const ['coach']));
         continue;
       }
       switch (ps.kind) {

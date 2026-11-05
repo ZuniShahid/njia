@@ -329,11 +329,11 @@ class FakePlanService implements PlanService {
 }
 
 /// Provider overrides for a signed-in (or signed-out) preview with sample data.
-List<Override> previewOverrides({bool signedIn = true, UserProfile? profile, CoachService? coach}) {
+List<Override> previewOverrides({bool signedIn = true, UserProfile? profile, List<Goal>? goals, CoachService? coach}) {
   final auth = FakeAuthService(
     user: signedIn ? const AuthUser(uid: sampleUid, email: 'aminata.kamara@example.com', displayName: 'Aminata Kamara') : null,
   );
-  final users = FakeUserRepository(profile: profile ?? sampleProfile, goals: sampleGoals);
+  final users = FakeUserRepository(profile: profile ?? sampleProfile, goals: goals ?? sampleGoals);
   return [
     firebaseReadyProvider.overrideWithValue(true),
     authServiceProvider.overrideWithValue(auth),

@@ -16,6 +16,7 @@ import '../../shared/format.dart';
 import '../../shared/widgets/provenance_chip.dart';
 import '../../shared/widgets/ui.dart';
 import '../../shared/widgets/view_scaffold.dart';
+import '../assistant/assistant.dart';
 
 enum _Filter { all, open, soon, done }
 
@@ -154,7 +155,7 @@ class _MilestoneViewState extends ConsumerState<MilestoneView> {
   }
 }
 
-class _Item extends StatelessWidget {
+class _Item extends ConsumerWidget {
   const _Item({required this.item, required this.today, required this.first, required this.open, required this.onToggleOpen, required this.onStatus});
   final MilestoneItem item;
   final double today;
@@ -164,7 +165,7 @@ class _Item extends StatelessWidget {
   final ValueChanged<int> onStatus;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final t = context.tokens;
     final text = Theme.of(context).textTheme;
     final it = item;
@@ -237,7 +238,7 @@ class _Item extends StatelessWidget {
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      if (it.help.contains('coach')) OutlinedButton.icon(onPressed: () => context.go('${Routes.coach}?step=${Uri.encodeComponent(it.stepKey ?? '')}'), icon: const Icon(Icons.menu_book_outlined, size: 14), label: const Text('Ask coach')),
+                      if (it.help.contains('coach')) OutlinedButton.icon(onPressed: () => ref.read(assistantProvider.notifier).openAbout(it.title, {if (it.stepKey != null) 'stepKey': it.stepKey}), icon: const Icon(Icons.chat_bubble_outline_rounded, size: 14), label: const Text('Ask coach')),
                       if (it.help.contains('tutor')) OutlinedButton.icon(onPressed: () => Scrollable.ensureVisible(context), icon: const Icon(Icons.people_outline_rounded, size: 14), label: const Text('Find a tutor')),
                       if (it.help.contains('guide')) OutlinedButton.icon(onPressed: () => context.go(it.section == 'checks' || it.key.startsWith('visa') ? Routes.visa : '${Routes.roadmap}?step=${Uri.encodeComponent(it.stepKey ?? '')}'), icon: const Icon(Icons.info_outline_rounded, size: 14), label: const Text('Read guide')),
                     ],

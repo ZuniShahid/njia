@@ -15,6 +15,7 @@ import '../../shared/widgets/ui.dart';
 import '../../shared/widgets/view_scaffold.dart';
 import '../goal/goal_drawer.dart';
 import '../goal/goal_title.dart';
+import 'getting_started.dart';
 
 class CockpitView extends ConsumerWidget {
   const CockpitView({super.key});
@@ -48,6 +49,9 @@ class CockpitView extends ConsumerWidget {
   }
 }
 
+/// Goals whose welcome dialog was already opened in this session (the saved flag arrives a moment later).
+final _welcomed = <String>{};
+
 class _Cockpit extends ConsumerWidget {
   const _Cockpit({required this.model, required this.goalIndex, required this.goalCount, required this.firstName});
   final RoadmapModel model;
@@ -69,6 +73,14 @@ class _Cockpit extends ConsumerWidget {
     final greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
     final chances = m.chances;
     final nba = m.nextBestAction;
+    // Getting started: for a student with one goal (new users), or wherever the welcome was shown.
+    final guide = Map<String, dynamic>.from(m.progress['guide'] as Map? ?? const {});
+    final showGuide = goalCount == 1 || guide['welcomed'] == true;
+    if (goalCount == 1 && guide['welcomed'] != true && guide['hidden'] != true && goal.id != null && _welcomed.add(goal.id!)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) showWelcomeGuide(context, ref, m);
+      });
+    }
 
     return ViewScaffold(
       center: [
@@ -77,6 +89,7 @@ class _Cockpit extends ConsumerWidget {
           title: '$greeting${firstName.isEmpty ? '' : ', $firstName'}',
           caption: '$open open task${open == 1 ? '' : 's'} this week · next milestone ${formatYear(ms.due)}',
         ),
+        if (showGuide) GettingStartedCard(model: m),
         // hero
         Container(
           padding: const EdgeInsets.all(24),

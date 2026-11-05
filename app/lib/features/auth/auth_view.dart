@@ -28,6 +28,7 @@ class _AuthViewState extends ConsumerState<AuthView> {
   final _email = TextEditingController();
   final _password = TextEditingController();
   bool _terms = false;
+  bool _showPassword = false;
   bool _busy = false;
   String? _error;
   String? _info;
@@ -161,7 +162,15 @@ class _AuthViewState extends ConsumerState<AuthView> {
                 label: 'Password',
                 child: TextFormField(
                   controller: _password,
-                  obscureText: true,
+                  obscureText: !_showPassword,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      key: const Key('toggle-password'),
+                      tooltip: _showPassword ? 'Hide password' : 'Show password',
+                      icon: Icon(_showPassword ? Icons.visibility_off_outlined : Icons.visibility_outlined, size: 20),
+                      onPressed: () => setState(() => _showPassword = !_showPassword),
+                    ),
+                  ),
                   autofillHints: [create ? AutofillHints.newPassword : AutofillHints.password],
                   onFieldSubmitted: (_) => _submit(),
                   validator: (v) => (v == null || v.length < (create ? 8 : 1)) ? (create ? 'Use at least 8 characters.' : 'Enter your password.') : null,

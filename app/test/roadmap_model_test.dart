@@ -37,7 +37,22 @@ void main() {
     }
     expect(m.steps.map((s) => s.number).toList(), List.generate(m.steps.length, (i) => i + 1));
     expect(m.steps.where((s) => s.kind == 'goal').length, 1);
-    expect(m.stepsTotal, plan.steps.length);
+    expect(m.stepsTotal, plan.steps.length + m.steps.where((s) => s.kind == 'grow').length);
+  });
+
+  test('grow phase fills the years between the last planned step and the goal', () {
+    final far = goal.copyWith(targetYear: 2045);
+    final m = RoadmapModel.build(goal: far, plan: plan, content: content, now: now);
+    final grow = m.phases.where((p) => p.name.startsWith('Grow · ')).toList();
+    expect(grow, hasLength(1));
+    final goalPhase = m.phases.last;
+    expect(grow.single.end, closeTo(goalPhase.start, 0.001), reason: 'no empty years before the goal');
+    expect(grow.single.steps.every((s) => s.kind == 'grow' && s.step == null), isTrue);
+    final planned = m.steps.where((s) => s.step != null).map((s) => s.end).reduce((a, b) => a > b ? a : b);
+    expect(grow.single.start, closeTo(planned, 0.001));
+    // A target right after the plan needs no grow phase.
+    final near = goal.copyWith(targetYear: planned.ceil());
+    expect(RoadmapModel.build(goal: near, plan: plan, content: content, now: now).phases.any((p) => p.name.startsWith('Grow')), isFalse);
   });
 
   test('axis spans today → goal and places today at the left edge', () {

@@ -53,6 +53,12 @@ class _GoalFormState extends ConsumerState<GoalForm> {
     });
   }
 
+  Future<void> _useStarter(StarterGoal st) async {
+    final year = [DateTime.now().year + st.yearsAhead, _minYear].reduce((a, b) => a > b ? a : b);
+    _applyTemplate(st.goal.copyWith(targetYear: year));
+    await _submit();
+  }
+
   int get _minYear => earliestTargetYear(graduationYear: ref.read(profileProvider).value?.graduationYear, countryId: _g.countryId ?? 'DE');
 
   Goal _read() {
@@ -99,13 +105,31 @@ class _GoalFormState extends ConsumerState<GoalForm> {
       if (!countries.any((c) => c.id == 'SL')) ('SL', 'Sierra Leone'),
     ];
     if (_g.countryId != null && !countryItems.any((c) => c.$1 == _g.countryId)) countryItems.add((_g.countryId!, _g.countryId!));
+    final firstGoal = (ref.watch(goalsProvider).value ?? const <Goal>[]).isEmpty;
     final occItems = <(String?, String)>[(null, 'Not sure yet'), for (final o in occupations) (o.id, o.title.en)];
     if (_g.occupationId != null && !occItems.any((o) => o.$1 == _g.occupationId)) occItems.add((_g.occupationId, _g.occupationId!));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (widget.isNew) ...[
+        if (widget.isNew && firstGoal) ...[
+          const OverLabel('Pick a starting point'),
+          const SizedBox(height: 8),
+          LayoutBuilder(
+            builder: (context, c) {
+              final cards = [for (final st in starterGoals) _StarterCard(starter: st, busy: _busy, onUse: () => _useStarter(st))];
+              if (c.maxWidth < 620) return Column(children: [for (final w in cards) Padding(padding: const EdgeInsets.only(bottom: 10), child: w)]);
+              return IntrinsicHeight(
+                child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  for (final (i, w) in cards.indexed) ...[if (i > 0) const SizedBox(width: 10), Expanded(child: w)],
+                ]),
+              );
+            },
+          ),
+          const SizedBox(height: 6),
+          Text('Or describe your own goal below.', style: text.bodySmall),
+          const SizedBox(height: 14),
+        ] else if (widget.isNew) ...[
           const OverLabel('Start from an example'),
           const SizedBox(height: 8),
           Wrap(
@@ -194,4 +218,36 @@ class _GoalFormState extends ConsumerState<GoalForm> {
   }
 
   static List<String> _toggle(List<String> list, String v) => list.contains(v) ? ([...list]..remove(v)) : [...list, v];
+}
+
+class _StarterCard extends StatelessWidget {
+  const _StarterCard({required this.starter, required this.busy, required this.onUse});
+  final StarterGoal starter;
+  final bool busy;
+  final VoidCallback onUse;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final text = Theme.of(context).textTheme;
+    final g = starter.goal;
+    final place = g.city ?? defaultCity[g.countryId] ?? '';
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(color: t.surface, border: Border.all(color: t.line), borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          OverLabel(starter.route, color: t.brand),
+          const SizedBox(height: 6),
+          Text(g.title ?? '', style: text.titleMedium),
+          Text([place, g.employer].where((x) => x != null && x.isNotEmpty).join(' · '), style: text.bodySmall),
+          const SizedBox(height: 8),
+          Text(starter.pitch, style: const TextStyle(fontSize: 13)),
+          const SizedBox(height: 12),
+          SizedBox(width: double.infinity, child: OutlinedButton(onPressed: busy ? null : onUse, child: const Text('Start with this'))),
+        ],
+      ),
+    );
+  }
 }
