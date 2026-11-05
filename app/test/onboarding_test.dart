@@ -25,6 +25,7 @@ void main() {
     expect(starterGoals, hasLength(3));
     expect(starterGoals.map((s) => s.goal.countryId).toSet(), hasLength(3));
     expect(starterGoals.map((s) => s.route).toSet(), hasLength(3));
+    expect(starterGoals.map((s) => s.goal.field).toSet(), hasLength(3), reason: 'three different fields');
     for (final s in starterGoals) {
       expect(s.goal.pathwayIds, isNotEmpty);
       expect(s.goal.occupationId, isNotNull);
@@ -38,17 +39,17 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('PICK A STARTING POINT'), findsOneWidget);
     expect(find.text('Start with this'), findsNWidgets(3));
-    expect(find.text('Fintech analyst'), findsOneWidget);
+    expect(find.text('AI engineer'), findsOneWidget);
 
     await tester.tap(find.text('Start with this').first);
     await tester.pumpAndSettle();
     final repo = c.read(userRepositoryProvider) as FakeUserRepository;
     final goals = repo.goalsOf(sampleUid);
     expect(goals, hasLength(1));
-    expect(goals.single.title, 'Fintech analyst');
-    expect(goals.single.countryId, 'IE');
-    expect(goals.single.pathwayIds, ['ie-msc-finance-ucd']);
-    expect(goals.single.targetYear, greaterThanOrEqualTo(DateTime.now().year + 6));
+    expect(goals.single.title, 'AI engineer');
+    expect(goals.single.countryId, 'FI');
+    expect(goals.single.pathwayIds, ['fi-msc-ml-aalto']);
+    expect(goals.single.targetYear, greaterThanOrEqualTo(DateTime.now().year + 5));
 
     expect(find.byKey(const Key('welcome-guide')), findsOneWidget);
     expect(find.text('Your roadmap is ready'), findsOneWidget);

@@ -26,9 +26,9 @@ const goalTemplates = [
   Goal(title: 'Software engineer', employer: 'a mobile money company', area: 'Payments', city: 'Amsterdam', countryId: 'NL', occupationId: 'isco-2512', field: GoalField.tech, targetYear: 2035, salaryTarget: Money(amount: 30000, currency: 'EUR', period: MoneyPeriod.year), priorities: ['Remote work', 'Salary'], alternatives: ['Remote', 'Fintech'], relocate: true, why: 'Build payment tools for small traders.'),
 ];
 
-/// First-goal starters: three different routes the engine can plan end to end with the seed data
-/// (a master, a paid apprenticeship, a bachelor straight from school). No numbers in the copy:
-/// fees and durations come from the plan with their sources.
+/// First-goal starters: three ambitious goals in different fields, each plannable end to end with
+/// the seed (Aalto ML master, German route for doctors, NTNU power engineering). No numbers in the
+/// copy: fees, durations and rules come from the plan with their sources.
 class StarterGoal {
   const StarterGoal({required this.goal, required this.route, required this.pitch, required this.yearsAhead});
   final Goal goal;
@@ -39,22 +39,22 @@ class StarterGoal {
 
 const starterGoals = [
   StarterGoal(
-    route: 'Master route',
-    pitch: 'After your bachelor: a master in finance at UCD, then Dublin’s fintech scene.',
-    yearsAhead: 6,
-    goal: Goal(title: 'Fintech analyst', employer: 'a payments fintech', area: 'Risk & data', city: 'Dublin', countryId: 'IE', occupationId: 'isco-2413', pathwayIds: ['ie-msc-finance-ucd'], field: GoalField.finance, priorities: ['Salary', 'Impact'], alternatives: ['Fintech', 'Other EU countries'], relocate: true, why: 'Build financial tools that reach people like my family.'),
+    route: 'Tech · Finland',
+    pitch: 'After a bachelor in computing or maths: Aalto’s master in machine learning and AI.',
+    yearsAhead: 5,
+    goal: Goal(title: 'AI engineer', employer: 'an AI lab', area: 'Machine learning', city: 'Helsinki', countryId: 'FI', occupationId: 'isco-2512', pathwayIds: ['fi-msc-ml-aalto'], field: GoalField.tech, priorities: ['Impact', 'Salary'], alternatives: ['Remote', 'Start my own business'], relocate: true, why: 'Build AI that works for African languages and markets.'),
   ),
   StarterGoal(
-    route: 'Apprenticeship route',
-    pitch: 'No degree needed: a dual bank apprenticeship in German at a savings bank.',
+    route: 'Medicine · Germany',
+    pitch: 'With your medical degree: German, the knowledge exam, then your licence to practise.',
     yearsAhead: 6,
-    goal: Goal(title: 'Credit analyst', employer: 'a German savings bank', area: 'Loans for small firms', countryId: 'DE', occupationId: 'isco-3312', pathwayIds: ['de-ausbildung-bankkaufmann'], field: GoalField.finance, priorities: ['Stability'], alternatives: ['Other EU countries'], relocate: true, why: 'Learn how small businesses get credit, then bring it home.'),
+    goal: Goal(title: 'Doctor at a university hospital', employer: 'a university hospital', area: 'Internal medicine', city: 'Berlin', countryId: 'DE', occupationId: 'isco-2211', pathwayIds: ['de-german-b2-c1-medical', 'de-kenntnispruefung-approbation', 'de-doctor-licensed-employment'], field: GoalField.health, priorities: ['Impact', 'Stability'], alternatives: ['Stay in Africa', 'International orgs'], relocate: true, why: 'Specialise, then help build care at home.'),
   ),
   StarterGoal(
-    route: 'Bachelor route',
-    pitch: 'Straight from school: an English-taught bachelor at Corvinus, then a job in Central Europe.',
-    yearsAhead: 7,
-    goal: Goal(title: 'Business analyst', employer: 'an international company', area: 'Strategy & operations', city: 'Budapest', countryId: 'HU', occupationId: 'isco-2413', pathwayIds: ['hu-ba-business-corvinus'], field: GoalField.business, priorities: ['Salary', 'Work-life balance'], alternatives: ['Other EU countries', 'Start my own business'], relocate: true, why: 'Understand how companies grow, to start my own one day.'),
+    route: 'Energy · Norway',
+    pitch: 'After an engineering bachelor: NTNU’s master in electric power engineering.',
+    yearsAhead: 5,
+    goal: Goal(title: 'Power-grid engineer', employer: 'a grid operator', area: 'Renewable power systems', city: 'Trondheim', countryId: 'NO', occupationId: 'isco-2151', pathwayIds: ['no-msc-elpower-ntnu'], field: GoalField.engineering, priorities: ['Impact', 'Salary'], alternatives: ['Stay in Africa', 'Other EU countries'], relocate: true, why: 'Bring reliable power to every home in Sierra Leone.'),
   ),
 ];
 
