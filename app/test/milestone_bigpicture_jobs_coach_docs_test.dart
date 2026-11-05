@@ -14,6 +14,7 @@ import 'package:njia_careers/core/engine/engine.dart';
 import 'package:njia_careers/core/engine/milestone_model.dart';
 import 'package:njia_careers/core/engine/roadmap_model.dart';
 import 'package:njia_careers/core/models/models.dart';
+import 'package:njia_careers/data/coach_service.dart';
 import 'package:njia_careers/features/coach/coach_view.dart';
 import 'package:njia_careers/features/documents/documents_view.dart';
 import 'package:njia_careers/features/jobs/jobs_view.dart';
@@ -181,6 +182,19 @@ void main() {
       expect(find.textContaining("I won't write it for you"), findsOneWidget);
     });
 
+    testWidgets('path coach: says when the daily limit is reached', (tester) async {
+      tester.view.physicalSize = const Size(1400, 1100);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(ProviderScope(overrides: previewOverrides(coach: const _LimitCoach()), child: const NjiaApp()));
+      await tester.pumpAndSettle();
+      ProviderScope.containerOf(tester.element(find.byType(AppShell))).read(routerProvider).go(Routes.coach);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Is my target year realistic?'));
+      await tester.pumpAndSettle();
+      expect(find.text("You've used today's 10 questions. Ask again tomorrow."), findsOneWidget);
+    });
+
     testWidgets('study coach: modes, draft check and transparency log', (tester) async {
       await pumpAt(tester, Routes.coach);
       await tester.tap(find.text('Study coach'));
@@ -221,4 +235,10 @@ void main() {
       expect(find.textContaining('ielts.pdf'), findsWidgets);
     });
   });
+}
+
+class _LimitCoach implements CoachService {
+  const _LimitCoach();
+  @override
+  Future<String> ask({required String goalId, required Map<String, Object?> context, required List<CoachMessage> history, required String question}) async => throw const CoachLimitReached();
 }
