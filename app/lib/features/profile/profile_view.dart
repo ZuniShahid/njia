@@ -210,11 +210,17 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
     final uid = ref.read(currentUidProvider);
     if (uid == null) return;
     try {
-      await ref.read(userRepositoryProvider).deleteAllUserData(uid);
-      await ref.read(authServiceProvider).deleteAccount();
+      final serverDeleted = await ref.read(userRepositoryProvider).deleteAllUserData(uid);
+      if (serverDeleted) {
+        await ref.read(authServiceProvider).signOut();
+      } else {
+        await ref.read(authServiceProvider).deleteAccount();
+      }
       if (mounted) context.go(Routes.auth);
     } on AuthFailure catch (e) {
       if (mounted) toast(context, e.message);
+    } catch (_) {
+      if (mounted) toast(context, 'Could not delete. Check your connection and try again.');
     }
   }
 }

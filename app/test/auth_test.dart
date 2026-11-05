@@ -59,7 +59,7 @@ void main() {
     await tester.enterText(find.byType(TextFormField).at(2), 'longpassword');
     await tester.tap(find.widgetWithText(FilledButton, 'Create account'));
     await tester.pumpAndSettle();
-    expect(find.text('Please agree to the terms and privacy notice.'), findsOneWidget);
+    expect(find.text('Please agree to the privacy policy.'), findsOneWidget);
     await tester.tap(find.byType(Checkbox));
     await tester.tap(find.widgetWithText(FilledButton, 'Create account'));
     await tester.pumpAndSettle();

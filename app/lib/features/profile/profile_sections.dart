@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../app/links.dart';
 import '../../app/theme.dart';
 import '../../core/models/models.dart';
 import '../../shared/widgets/ui.dart';
@@ -636,6 +637,7 @@ class _DataSectionState extends State<DataSection> {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             OutlinedButton(onPressed: () => _export(context), child: const Text('Export my data')),
+            TextButton(onPressed: openPrivacyPolicy, child: const Text('Privacy policy')),
             if (_confirm) ...[
               Text('Delete everything?', style: TextStyle(fontSize: 12, color: t.bad)),
               FilledButton(style: FilledButton.styleFrom(backgroundColor: t.bad), onPressed: widget.onDelete, child: const Text('Yes, delete')),

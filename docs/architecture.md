@@ -50,7 +50,7 @@ Rules of thumb
 - **Offline first**: `FirebaseFirestore.instance.settings = Settings(persistenceEnabled: true)`; content bundles are small (a corridor is < 200 KB), so the app works on poor connections in Freetown.
 - **Provenance everywhere**: any widget that shows a number from content renders `ProvenanceChip(doc.provenance)`.
 - **Admin in the same app**: `/admin/changes` lists `changeRequests` where status == pending; visible only with custom claim `role in [editor, admin]`.
-- **Study coach**: keep the guard rails from the prototype (no ghostwriting); when it becomes a real model call, do it through a Cloud Function (keys stay server-side), Haiku 5.5 for chat, Sonnet 5.5 for extraction.
+- **Coach** (path + study): callable `coach` (`functions/src/coach.mjs`). Loads goal, plan and the referenced content docs with provenance itself (never trusts the client for facts), calls Claude Sonnet 5.5 (`COACH_MODEL`, switchable to Haiku), guard rails in the system prompt (no ghostwriting, every number with its source or marked as estimate, no promises). 10 questions per user per day in `users/{uid}/usage/coach-YYYY-MM-DD` (server-only; given back if the call fails). API key in Secret Manager (`ANTHROPIC_API_KEY`). Sonnet 5.5 for extraction too.
 
 ## Scores
 - Readiness = met / (met + gap + ½·unknown) over the requirements of the chosen pathways + entry permit.
