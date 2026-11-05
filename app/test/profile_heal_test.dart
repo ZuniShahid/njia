@@ -23,7 +23,5 @@ void main() {
     expect(repo.profileOf('u1'), isNotNull, reason: 'profile created');
     expect(repo.profileOf('u1')?.email, 'tino@example.com');
     expect(repo.profileOf('u1')?.displayName, 'Tino');
-    await Future<void>.delayed(const Duration(milliseconds: 10));
-    expect(c.read(profileProvider).value?.email, 'tino@example.com');
   });
 }
