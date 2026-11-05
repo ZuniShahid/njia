@@ -30,7 +30,8 @@ functions/src/index.mjs       api · review · onChangeRequestWritten · onGoalW
 firestore.rules/indexes       public read content, owner-only users, editor-only queue, TTL on jobs.expireAt
 n8n/*.js                      the 3 workflows as n8n SDK code (already created in n8n, inactive)
 app/prototype/njia.html       the approved UI prototype (v8) – the visual and behavioural reference for the Flutter app
-app/                          Flutter project (app/README.md) – models generated from the schema via npm run gen:models
+app/                          Flutter app, all prototype views built (app/README.md) – models generated via npm run gen:models
+app/lib/main_preview.dart     app with sample data and no Firebase (flutter run -t lib/main_preview.dart -d chrome)
 docs/                         architecture · setup · data-model · plan (full planning doc, German) · handover · prototype-notes
 ```
 
@@ -46,4 +47,6 @@ firebase emulators:start                         # local Firestore/Functions/Aut
 - Server plan (`users/{uid}/plans/{goalId}`) is canonical; the Dart engine port is for offline/instant preview only.
 - UI tokens, spacing, copy and screen structure come from `app/prototype/njia.html` (see `docs/prototype-notes.md`); do not redesign, port.
 - Commit messages: short imperative English. Don't commit `sa.json`, keys, or `node_modules`.
+- Work on a feature branch and open a PR to `main`. Branch `web-build` only carries the release web build (`app/build/web`, force-added) on top of `main`; never merge it into `main`.
+- After `schema/njia.schema.json` changes: `npm run validate && npm run gen:models && (cd app && dart run build_runner build --delete-conflicting-outputs)`. After `functions/src/engine.mjs` changes: port to Dart and `npm run engine:fixture`.
 - When unsure about a fact (fee, deadline, rule): keep it, mark `trust: "estimate"`, add it to the review queue – don't delete and don't guess.
