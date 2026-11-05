@@ -48,7 +48,7 @@ const starterGoals = [
     route: 'Medicine · Germany',
     pitch: 'With your medical degree: German, the knowledge exam, then your licence to practise.',
     yearsAhead: 6,
-    goal: Goal(title: 'Doctor at a university hospital', employer: 'a university hospital', area: 'Internal medicine', city: 'Berlin', countryId: 'DE', occupationId: 'isco-2211', pathwayIds: ['de-german-b2-c1-medical', 'de-kenntnispruefung-approbation', 'de-doctor-licensed-employment'], field: GoalField.health, priorities: ['Impact', 'Stability'], alternatives: ['Stay in Africa', 'International orgs'], relocate: true, why: 'Specialise, then help build care at home.'),
+    goal: Goal(title: 'Hospital doctor', employer: 'a university hospital', area: 'Internal medicine', city: 'Berlin', countryId: 'DE', occupationId: 'isco-2211', pathwayIds: ['de-german-b2-c1-medical', 'de-kenntnispruefung-approbation', 'de-doctor-licensed-employment'], field: GoalField.health, priorities: ['Impact', 'Stability'], alternatives: ['Stay in Africa', 'International orgs'], relocate: true, why: 'Specialise, then help build care at home.'),
   ),
   StarterGoal(
     route: 'Energy · Norway',

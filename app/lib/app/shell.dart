@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/assistant/assistant.dart';
+import '../features/cockpit/getting_started.dart';
 import '../features/goal/goal_drawer.dart';
 import '../features/goal/goal_title.dart';
 import '../shared/widgets/ui.dart';
@@ -26,7 +27,7 @@ class AppShell extends ConsumerWidget {
         final narrow = constraints.maxWidth <= NjiaTokens.narrow;
         if (narrow) {
           return Scaffold(
-            body: SafeArea(child: Column(children: [const _TopBar(narrow: true), Expanded(child: AssistantLayer(location: location, narrow: true, child: child))])),
+            body: SafeArea(child: Column(children: [const _TopBar(narrow: true), GuideBar(location: location), Expanded(child: AssistantLayer(location: location, narrow: true, child: child))])),
             bottomNavigationBar: _BottomNav(location: location),
           );
         }
@@ -34,7 +35,7 @@ class AppShell extends ConsumerWidget {
           body: Row(
             children: [
               _LeftNav(location: location),
-              Expanded(child: SafeArea(child: Column(children: [const _TopBar(narrow: false), Expanded(child: AssistantLayer(location: location, narrow: false, child: child))]))),
+              Expanded(child: SafeArea(child: Column(children: [const _TopBar(narrow: false), GuideBar(location: location), Expanded(child: AssistantLayer(location: location, narrow: false, child: child))]))),
             ],
           ),
         );
