@@ -58,8 +58,8 @@ Njia is an independent planning tool. It is not a government service and does no
 **Graphics** (see §8 for who makes what):
 | Asset | Spec |
 | --- | --- |
-| App icon | 512 × 512 PNG, 32-bit, max 1 MB |
-| Feature graphic | 1024 × 500 PNG or JPG |
+| App icon | 512 × 512 PNG, 32-bit, max 1 MB → `branding/play-store-icon-512.png` |
+| Feature graphic | 1024 × 500 PNG or JPG → `branding/play-feature-graphic-1024x500.png` |
 | Phone screenshots | 2–8, PNG/JPG, 16:9 or 9:16, each side 320–3840 px |
 | 7" / 10" tablet screenshots | optional; needed only to be featured on tablets |
 
@@ -137,7 +137,6 @@ These are not Play requirements, but the store listing promises them:
 - Jobs: empty until Njia 3 (Adzuna) runs daily.
 - Facts: the first review round of `trust: "estimate"` facts is still open. The app labels them "Estimate", which is honest, but many estimates at launch weaken the "facts you can check" promise.
 - Deploy the `deleteAccount` Cloud Function (5 Nov 2026) and the web build with `app/web/privacy` and `app/web/delete-account` before the first upload; the deletion URL must work when Google reviews the app.
-- App icon: still the default Flutter icon.
 
 ## 7. iOS (later)
 
@@ -148,7 +147,7 @@ Same privacy and deletion URLs. App Store Connect needs its own privacy "nutriti
 | Step | Who |
 | --- | --- |
 | Fill placeholders (address, EIK, e-mail, minimum age) | Philipp |
-| App icon + feature graphic | Philipp's designer (Claude can draft) |
+| App icon + feature graphic | done (`branding/`, Soft Ni) |
 | Screenshots | Claude + Philipp (emulator in Android Studio) |
 | Upload key and `key.properties` | Philipp, with Claude |
 | SHA-1 into Firebase | Philipp (Firebase Console), with Claude |

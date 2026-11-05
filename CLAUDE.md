@@ -34,6 +34,7 @@ app/                          Flutter app, all prototype views built (app/README
 app/lib/main_preview.dart     app with sample data and no Firebase (flutter run -t lib/main_preview.dart -d chrome)
 docs/                         architecture · setup · data-model · plan (full planning doc, German) · handover · prototype-notes
 docs/release/                 Play Store kit (play-store.md) and Android signing (android-signing.md)
+branding/                     logo "Soft Ni" (SVG sources, Play icon + feature graphic); app icons are rendered from it
 app/web/privacy, delete-account  public pages for the stores, served by Hosting (njia.keevana.com/privacy/, /delete-account/)
 ```
 
