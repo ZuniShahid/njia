@@ -1,5 +1,6 @@
 // App-wide Riverpod providers: Firebase handles, auth state, repositories, current user data.
 // Previews and tests override the service/repository providers (lib/preview/fakes.dart).
+import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -47,10 +48,21 @@ final isSignedInProvider = Provider<bool?>((ref) {
 
 final currentUidProvider = Provider<String?>((ref) => ref.watch(authUserProvider).value?.uid);
 
+/// Signed in but no users/{uid} document (a sign-up that failed half-way): create it once, so the
+/// account works instead of staying empty.
 final profileProvider = StreamProvider<UserProfile?>((ref) {
   final uid = ref.watch(currentUidProvider);
   if (uid == null) return Stream.value(null);
-  return ref.watch(userRepositoryProvider).profile(uid);
+  final repo = ref.watch(userRepositoryProvider);
+  var healed = false;
+  return repo.profile(uid).map((p) {
+    if (p == null && !healed) {
+      healed = true;
+      final u = ref.read(authUserProvider).value;
+      repo.ensureProfile(AuthLike(uid: uid, email: u?.email, displayName: u?.displayName)).catchError((Object e) => debugPrint('ensureProfile: $e'));
+    }
+    return p;
+  });
 });
 
 final goalsProvider = StreamProvider<List<Goal>>((ref) {

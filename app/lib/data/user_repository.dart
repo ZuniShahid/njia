@@ -61,13 +61,15 @@ class FirestoreUserRepository implements UserRepository {
     final ref = _user(user.uid);
     final snap = await ref.get();
     if (snap.exists) return;
+    // merge: the sign-in screen and the self-heal in profileProvider may both get here; neither may
+    // blank a name the other already wrote.
     await ref.set({
-      'displayName': user.displayName ?? '',
+      if ((user.displayName ?? '').isNotEmpty) 'displayName': user.displayName,
       'email': user.email ?? '',
       'nationality': 'SL',
       'residenceCountry': 'SL',
       'createdAt': FieldValue.serverTimestamp(),
-    });
+    }, SetOptions(merge: true));
   }
 
   @override
