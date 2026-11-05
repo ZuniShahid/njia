@@ -17,12 +17,13 @@ void main() {
     addTearDown(c.dispose);
     final sub = c.listen(profileProvider, (_, _) {});
     addTearDown(sub.close);
-    for (var i = 0; i < 5 && repo.profileOf('u1') == null; i++) {
-      await Future<void>.delayed(Duration.zero);
+    for (var i = 0; i < 200 && repo.profileOf('u1') == null; i++) {
+      await Future<void>.delayed(const Duration(milliseconds: 1));
     }
+    expect(repo.profileOf('u1'), isNotNull, reason: 'profile created');
     expect(repo.profileOf('u1')?.email, 'tino@example.com');
     expect(repo.profileOf('u1')?.displayName, 'Tino');
-    await Future<void>.delayed(Duration.zero);
+    await Future<void>.delayed(const Duration(milliseconds: 10));
     expect(c.read(profileProvider).value?.email, 'tino@example.com');
   });
 }
